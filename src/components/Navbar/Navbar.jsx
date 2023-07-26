@@ -10,9 +10,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between px-4 py-2 bg-gray-300 text-white h-[70px]">
+    <nav className="flex items-center justify-between px-4 py-2 bg-slate-200 text-white h-[60px] ">
       <div className="flex items-center">
-        <img className="w-[260px]" src={Logo} alt="" />
+        <img className="w-[260px]" src={Logo} alt="logo" />
       </div>
       <div className="flex items-center">
         <div
@@ -25,7 +25,7 @@ const Navbar = () => {
             alt="Profile"
           />
           {showOptions && (
-            <ul className="absolute right-1 w-36 mt-36 bg-blue-900 shadow-lg rounded-md text-center">
+            <ul className="absolute right-1 w-36 mt-36 bg-blue-950 shadow-lg rounded-md text-center">
               <li className="px-4 py-2 border-b">My Account</li>
               <li className="px-4 py-2 border-b">Log Out</li>
             </ul>
