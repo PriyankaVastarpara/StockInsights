@@ -3,6 +3,8 @@ import Sidebar from './components/Sidebar/Sidebar.jsx';
 import AddCategory from './components/AddCategory/AddCategory.jsx';
 import AddCustomers from './components/AddCustomers/AddCustomers.jsx';
 import AddVendors from './components/AddVendors/AddVendors.jsx';
+import AddItems from './components/AddItems/AddItems.jsx';
+import SubNavbar from './components/SubNavbar/SubNavbar.jsx';
 import { SharedContextProvider } from "./contexts/SharedContext.jsx";
 function App() {
   return (
@@ -13,8 +15,10 @@ function App() {
       <Trial />
      <FormComponent/>  
      <AddCategory/>
-     <AddCustomers/>*/}
+     <AddCustomers/>
      <AddVendors/>
+     <AddItems/>*/}
+     <SubNavbar/>
    </SharedContextProvider >
    </>
       )
