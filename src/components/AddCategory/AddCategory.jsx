@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import SharedContext from "../../contexts/SharedContext";
-
 const AddCategory = () => {
   const { formData, setCategoryData } = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
@@ -29,8 +28,8 @@ const AddCategory = () => {
           Add New Category
         </h2>
         <div className="text-sm">
-          {formData.category.fields.map((field) => (
-            <div key={field.name} className="mb-4 flex">
+          {formData.category.fields.map((field,index) => (
+            <div key={index} className="mb-4 flex">
               <label
                 htmlFor={field.name}
                 className=" text-gray-700 font-semibold w-1/2 mb-2"
@@ -56,10 +55,15 @@ const AddCategory = () => {
                   onChange={handleChange}
                   className="w-full h-8 border rounded-lg py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500"
                 />
-              )}
+                
+              )
+              }
             </div>
+           
           ))}
+         
         </div>
+        
         <div>
           <button
             type="submit"

@@ -25,7 +25,7 @@ const VendorData = () => {
             <tr
               key={row.id}
               className={`${
-                rowIndex % 2 === 0 ? "bg-blue-100" : "bg-gray-50"
+                rowIndex % 2 === 0 ? "bg-gray-50" : "bg-blue-100"
               } border border-gray-400`}
             >
               {tableData.VendorFields.map((VendorField, index) => (

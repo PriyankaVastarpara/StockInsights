@@ -10,8 +10,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between px-4 py-2 bg-slate-200 text-white h-[60px] ">
-      <div className="flex items-center">
+    <nav className="flex items-center justify-between px-4 py-2 bg-blue-950 text-white h-[60px] ">
+      <div className="flex items-center ml-0">
         <img className="w-[260px]" src={Logo} alt="logo" />
       </div>
       <div className="flex items-center">

@@ -3,7 +3,8 @@ import { AiOutlineSearch, AiOutlinePlus } from 'react-icons/ai';
 
 const SubNavbar = () => {
   return (
-    <nav className="flex items-center justify-between bg-slate-100 px-4 py-2">
+    <>  
+    <nav className="flex items-center justify-between bg-slate-100 px-4 py-1">
     {/* Title */}
       <div className="flex items-center">
         <span className="text-gray-700 font-bold text-lg">Customers</span>
@@ -12,7 +13,7 @@ const SubNavbar = () => {
       {/* Search Bar */}
       <div className="flex items-center justify-center">
         <div className="relative">
-          <AiOutlineSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-600" />
+          <AiOutlineSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-slate-300" />
           <input
             type="text"
             placeholder="Search..."
@@ -31,6 +32,8 @@ const SubNavbar = () => {
     </button>
       </div>
     </nav>
+    <hr className="h-px bg-slate-200 border-0"/>
+    </>
   );
 };
 

@@ -161,6 +161,7 @@ export function SharedContextProvider({ children }) {
           name: "description",
           required: true,
         },
+        { label: "Stock Unit", type: "text", name: "stockunit", required: true },
         { label: "Quantity", type: "text", name: "quantity", required: true },
         {
           label: "Vendor",
@@ -223,6 +224,61 @@ export function SharedContextProvider({ children }) {
     },
   };
   const tableData = {
+    CategoryFields: [
+      "SrNo",
+      "Category",
+      "Code",
+      "Action",
+    ],
+    categoryTableData: [
+      {
+        srno:1,
+        category:"Medicine",
+        code:"M01",
+        action:<ActionBtn />,
+      },
+      {
+        srno:2,
+        category:"Syrup",
+        code:"S01",
+        action:<ActionBtn />,
+      },
+    ],
+    ItemFields: [
+      "SrNo",
+      "Product",
+      "Code",
+      "Category",
+      "Qty",
+      "Price",
+      "Reorder",
+      "Amount",
+      "Action",
+    ],
+    itemTableData: [
+      {
+        srno:1,
+        product:"Paracetamol",
+        code:"001",
+        category:"Medicine",
+        qty:12,
+        price:20,
+        reorder:10,
+        amount:240,
+        action:<ActionBtn />,
+      },
+      {
+        srno:2,
+        product:"Dolo",
+        code:"002",
+        category:"Medicine",
+        qty:12,
+        price:20,
+        reorder:10,
+        amount:240,
+        action:<ActionBtn />,
+      },
+    ],
     customerTableData: [
       {
         id: 1,

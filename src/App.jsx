@@ -5,23 +5,26 @@ import AddCustomers from "./components/AddCustomers/AddCustomers.jsx";
 import AddVendors from "./components/AddVendors/AddVendors.jsx";
 import AddItems from "./components/AddItems/AddItems.jsx";
 import SubNavbar from "./components/SubNavbar/SubNavbar.jsx";
+import CategoryData from "./components/TableData/CategoryData.jsx";
+import ItemData from "./components/TableData/ItemData.jsx";
 import CustomerData from "./components/TableData/CustomerData.jsx";
 import VendorData from "./components/TableData/VendorData.jsx";
+import Drag from "./components/Drag.jsx";
 import { SharedContextProvider } from "./contexts/SharedContext.jsx";
 function App() {
   return (
     <>
       <SharedContextProvider>
-        {/* <Navbar />
-   
-      <AddCategory/>
-    <AddCustomers/> 
-    <AddVendors/>
-        <AddItems/>  
-        <CustomerData/>  
-        <SubNavbar/>   
-        < VendorData/> */}
-        <Sidebar />
+         <Navbar />
+        {/* <Sidebar /> */}
+        {/* <AddCategory />
+        <AddItems />
+        <AddCustomers />
+        <AddVendors />
+        <ItemData />
+        <CustomerData />
+        <VendorData />  */}
+        <CategoryData/>
       </SharedContextProvider>
     </>
   );
