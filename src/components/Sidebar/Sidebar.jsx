@@ -1,6 +1,9 @@
 import React from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useState, useContext } from "react";
+import CustomerData from "../TableData/CustomerData";
+import VendorData from "../TableData/VendorData";
+import SubNavbar from "../SubNavbar/SubNavbar";
 import SharedContext from "../../contexts/SharedContext";
 
 const Sidebar = () => {
@@ -53,9 +56,10 @@ const Sidebar = () => {
             ))}
           </div>
         </div>
-        {/* <div className='w-screen'>
-                    <Navbar />
-                </div> */}
+        <div className="w-screen">
+          <SubNavbar />
+          <CustomerData />
+        </div>
       </section>
     </>
   );
