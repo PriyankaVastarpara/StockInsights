@@ -6,7 +6,7 @@ const VendorData = () => {
   const { tableData } = useContext(SharedContext);
 
   return (
-    <div className="overflow-x-auto mx-5 mt-3">
+    <div className="overflow-x-auto mx-10 mt-3">
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>
           <tr className="bg-blue-900 ">

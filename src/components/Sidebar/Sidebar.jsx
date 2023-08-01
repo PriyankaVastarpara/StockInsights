@@ -1,66 +1,94 @@
-import React from "react";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { useState, useContext } from "react";
-import CustomerData from "../TableData/CustomerData";
-import VendorData from "../TableData/VendorData";
-import SubNavbar from "../SubNavbar/SubNavbar";
+import React, { useState, useContext } from "react";
 import SharedContext from "../../contexts/SharedContext";
+import { AiOutlineDown } from "react-icons/ai";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const { menus } = useContext(SharedContext);
+  const { sidebarMenus } = useContext(SharedContext);
   const [open, setOpen] = useState(true);
+  const [openSubMenu, setOpenSubMenu] = useState(null);
+
+  const toggleSubMenu = (index) => {
+    if (openSubMenu === index) {
+      setOpenSubMenu(null);
+    } else {
+      setOpenSubMenu(index);
+    }
+  };
+
   return (
     <>
-      <section className="flex ">
-        <div
-          className={`bg-blue-950 min-h-screen ${
-            open ? "w-60" : "w-14"
-          } duration-500 text-gray-100 px-4`}
-        >
-          <div className="py-3 flex justify-end">
-            <HiMenuAlt3
-              className="cursor-pointer text-2xl"
-              onClick={() => setOpen(!open)}
-            />
-          </div>
-          <div className="mt-4 flex flex-col gap-2 ">
-            {menus.map((menu, index) => (
-              <ul
-                key={index}
-                className="group flex items-center text-sm gap-3.5 font-medium p-1 hover:bg-blue-900 rounded-md"
+      <div
+        className={`bg-blue-950 h-full ${
+          open ? "w-60" : "w-14"
+        } duration-500 text-gray-100 px-4`}
+      >
+        <div className="py-2 flex justify-end">
+          <HiMenuAlt3
+            className="cursor-pointer text-2xl"
+            onClick={() => setOpen(!open)}
+          />
+        </div>
+        {sidebarMenus.map((menu, index) => (
+          <div
+            key={index}
+            className="border-b bg-blue-950 border-[#154056] py-1"
+          >
+            {menu.menuName == "Dashboard" ||
+            menu.menuName == "Vendors" ||
+            menu.menuName == "Customers" ||
+            menu.menuName == "Reports" ? (
+              <Link
+                to={menu.link}
+                className="flex items-center w-full focus:outline-none hover:bg-[#207dac] text-gray-600 border-l-4 border-transparent hover:border-white pr-6 py-1 flex-row"
               >
-                <span>{menu.icon}</span>
+                <span className=" text-white inline-flex justify-center items-center">
+                  {menu.icon}
+                </span>
                 <span
-                  style={{ transitionDelay: `${index + 3}00ms` }}
-                  className={`whitespace-pre duration-500 ${
-                    !open && "opacity-0 translate-x-28"
+                  className={`text-sm hidden sm:block tracking-wide truncate mx-2 text-white ${
+                    !open && "opacity-0 translate-x-28 "
                   }`}
                 >
-                  {menu.name}
-                  {/* 
-                   <ul>
-                    {menus.subMenu.map((sub) => (
-                      <li>{sub}</li>
-                    ))}
-                  
-                  </ul>  */}
+                  {menu.menuName}
                 </span>
-                <div
-                  className={`${
-                    open && "hidden"
-                  } absolute left-48 bg-white font-semibold whitespace-pre text-blue-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+              </Link>
+            ) : (
+              <>
+                <button
+                  onClick={() => toggleSubMenu(index)}
+                  className="flex items-center w-full focus:outline-none hover:bg-[#207dac] text-gray-600 border-l-4 border-transparent hover:border-white pr-6 py-1 flex-row"
                 >
-                  {menu.name}
-                </div>
-              </ul>
-            ))}
+                  <span className=" inline-flex text-white justify-center items-center">
+                    {menu.icon}
+                  </span>
+                  <span
+                    className="text-sm hidden sm:block tracking-wide truncate mx-2 text-white
+                 "
+                  >
+                    {menu.menuName}
+                  </span>
+                  <AiOutlineDown className=" text-white ms-auto " />
+                </button>
+
+                {openSubMenu === index &&
+                  menu.subMenus.map((subMenu, subIndex) => (
+                    <Link
+                      to={subMenu.link}
+                      key={subIndex}
+                      className={`flex flex-col text-white text-sm pl-8 pr-2 hover:bg-[#267399] w-full py-1 ${
+                        !open && "hidden"
+                      }`}
+                    >
+                      {subMenu.name}
+                    </Link>
+                  ))}
+              </>
+            )}
           </div>
-        </div>
-        <div className="w-screen">
-          <SubNavbar />
-          <CustomerData />
-        </div>
-      </section>
+        ))}
+      </div>
     </>
   );
 };

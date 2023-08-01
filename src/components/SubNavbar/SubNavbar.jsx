@@ -1,13 +1,13 @@
 import React from 'react';
 import { AiOutlineSearch, AiOutlinePlus } from 'react-icons/ai';
 
-const SubNavbar = () => {
+const SubNavbar = ({title}) => {
   return (
     <>  
     <nav className="flex items-center justify-between bg-slate-100 px-4 py-1">
     {/* Title */}
       <div className="flex items-center">
-        <span className="text-gray-700 font-bold text-lg">Customers</span>
+        <span className="text-gray-700 font-bold text-lg">{title}</span>
       </div>
 
       {/* Search Bar */}

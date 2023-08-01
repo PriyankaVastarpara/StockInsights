@@ -21,7 +21,7 @@ const AddCategory = () => {
   return (
     <div className="p-4  flex justify-center">
       <form
-        className="w-full max-w-lg rounded-md shadow-md p-6"
+        className="w-full  max-w-screen-sm rounded-md shadow-md p-6"
         onSubmit={handleSubmit}
       >
         <h2 className="text-xl font-sans font-semibold mb-4 bg-slate-100">
