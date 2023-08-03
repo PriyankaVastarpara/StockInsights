@@ -10,8 +10,6 @@ const CustomerData = () => {
     <>
     <SubNavbar title="Customers"/>
     <div className="overflow-x-auto mx-10 mt-3">
-  
-
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>
           <tr className="bg-blue-900 ">

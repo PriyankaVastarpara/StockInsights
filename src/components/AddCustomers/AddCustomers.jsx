@@ -22,14 +22,16 @@ const AddCustomers = () => {
     setFormValues({});
   };
   return (
+    <>
+    <h2 className="text-xl max-w-screen-sm m-auto p-1 text-white text-center font-sans font-semibold mb-3 bg-blue-900">
+    Add New Customer
+  </h2>
     <div className="p-4  flex justify-center">
       <form
         className="w-full max-w-screen-sm rounded-md shadow-md p-6 "
         onSubmit={handleSubmit}
       >
-        <h2 className="text-xl font-sans font-semibold mb-4 bg-slate-100">
-          Add New Customer
-        </h2>
+       
         <div className="text-sm">
           {formData.customer.fields.map((field) => (
             <div key={field.name} className="mb-4 flex">
@@ -95,6 +97,7 @@ const AddCustomers = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

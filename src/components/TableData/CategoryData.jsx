@@ -1,11 +1,14 @@
 import React from "react";
 import { useContext } from "react";
+import SubNavbar from "../SubNavbar/SubNavbar";
 import SharedContext from "../../contexts/SharedContext";
 
 const CategoryData = () => {
   const { tableData } = useContext(SharedContext);
 
   return (
+    <>
+        <SubNavbar title="Categories"/>
     <div className="overflow-x-auto mx-10 mt-3">
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>
@@ -41,7 +44,11 @@ const CategoryData = () => {
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 
 export default CategoryData;
+
+
+

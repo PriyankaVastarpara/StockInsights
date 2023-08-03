@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import { BiRupee } from "react-icons/bi";
+import { MdOutlineDelete, MdEdit } from "react-icons/md";
+import SubNavbar from "../SubNavbar/SubNavbar";
 import SharedContext from "../../contexts/SharedContext";
 const PurchaseInvoice = () => {
   const { tableData } = useContext(SharedContext);
+  const [rows, setRows] = useState([{}]);
   const [formData, setFormData] = useState({
     vendor: "",
     invoiceno: "",
@@ -27,8 +30,13 @@ const PurchaseInvoice = () => {
   const handleCancel = () => {
     setFormValues({});
   };
+  
+  const addRow = () => {
+    setRows([...rows, {}]);
+  };
   return (
     <>
+    <SubNavbar title="Purchase Bills"/>
       <div className="flex items-center justify-center bg-gray-100">
         <form
           onSubmit={handleSubmit}
@@ -157,7 +165,7 @@ const PurchaseInvoice = () => {
               ))}
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {tableData.purchaseInvoiceTableData.map((row, rowIndex) => (
               <tr
                 key={row.srno}
@@ -177,8 +185,82 @@ const PurchaseInvoice = () => {
                 )}
               </tr>
             ))}
+          </tbody> */}
+          <tbody className="text-right ">
+            {rows.map((item, index) => (
+              <tr key={index} className="bg-transparent hover:bg-gray-50">
+                <td className="text-center">{index + 1}</td>
+                <td className="text-red-400 text-sm  flex justify-center gap-3">
+                  <MdOutlineDelete />
+                  <span className="text-blue-400 text-sm text-center">
+                    <MdEdit />
+                  </span>
+                </td>
+
+                <td className="text-left">
+                  <input
+                    type="text"
+                    name="product"
+                    id="product"
+                    autoComplete="given-name"
+                    className="border border-gray-300 ms-auto w-full"
+                  />
+                </td>
+                <td className="text-left">
+                  <input
+                    type="text"
+                    name="description"
+                    id="description"
+                    autoComplete="given-name"
+                    className="border border-gray-300 ms-auto w-full"
+                  />
+                </td>
+                <td className="">
+                  <input
+                    type="number"
+                    name="qty"
+                    id="qty"
+                    autoComplete="given-name"
+                    className="border border-gray-300 ms-auto w-full"
+                  />
+                </td>
+                <td className="">
+                  <input
+                    type="number"
+                    name="rate"
+                    id="rate"
+                    autoComplete="given-name"
+                    className="border border-gray-300 ms-auto w-full"
+                  />
+                </td>
+                <td className="">
+                  <input
+                    type="number"
+                    name="discount"
+                    id="discount"
+                    autoComplete="given-name"
+                    className="border border-gray-300 ms-auto w-full"
+                  />
+                </td>
+                <td className="">
+                  <input
+                    type="number"
+                    name="total"
+                    id="item_total"
+                    autoComplete="given-name"
+                    className="border border-gray-300 ms-auto w-full"
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <button
+          className="bg-blue-900 mt-1 text-sm rounded-md text-white px-3 py-1"
+          onClick={addRow}
+        >
+          + Add Item
+        </button>
       </div>
       <div className="flex">
         <form action="" className="w-1/2 ">

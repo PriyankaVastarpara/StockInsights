@@ -12,38 +12,92 @@ export function SharedContextProvider({ children }) {
   const [customerData, setCustomerData] = useState({});
   const [vendorData, setVendorData] = useState({});
   const [itemData, setItemData] = useState({});
- 
+
   const sidebarMenus = [
-    { menuName: "Dashboard",link:"/", icon: <AiOutlineDashboard className="text-xl" /> },
+    {
+      menuName: "Dashboard",
+      link: "/",
+      icon: <AiOutlineDashboard className="text-xl" />,
+    },
     {
       menuName: "Items",
       icon: <CgShoppingCart className="text-xl" />,
-      subMenus: [{name :"Categories",link:"/categories"},{name : "Products",link:"/products"}],
+      subMenus: [
+        { name: "Categories", link: "/categories" },
+        { name: "Products", link: "/products" },
+      ],
     },
     {
       menuName: "Vendors",
-      link:"/vendors" ,
-      icon: <BiUserCircle className="text-xl"/>,
+      link: "/vendors",
+      icon: <BiUserCircle className="text-xl" />,
     },
     {
       menuName: "Customers",
-      link:"/customers",
+      link: "/customers",
       icon: <BiUser className="text-xl" />,
     },
     {
       menuName: "Purchases",
       icon: <HiOutlineShoppingBag className="text-xl" />,
-      subMenus: [{name :"Purchase-Orders",link:"/purchase-orders"},{name : "Purchase-Bills",link:"purchase-bills"}],
+      subMenus: [
+        { name: "Purchase-Orders", link: "/purchase-orders" },
+        { name: "Purchase-Bills", link: "purchase-bills" },
+      ],
     },
     {
       menuName: "Sales",
       icon: <CgShoppingCart className="text-xl" />,
-      subMenus: [{name : "Sales-Orders",link:"/sales-orders"}, {name :"Sales-Invoices",link:"/sales-invoices"}],
+      subMenus: [
+        { name: "Sales-Orders", link: "/sales-orders" },
+        { name: "Sales-Invoices", link: "/sales-invoices" },
+      ],
     },
-    { menuName: "Reports",link:"/reports", icon: <SlGraph className="text-xl" /> },
+    {
+      menuName: "Reports",
+      link: "/reports",
+      icon: <SlGraph className="text-xl" />,
+    },
   ];
 
- 
+  const dashboardData = [
+    {
+      name: "Low Stock Items",
+      columns: ["Code", "Product","Category", "Qty"],
+      data: [
+        ["IO-01", "Product_1", "Category_1",12],
+        ["IO-02", "Product_2", "Category_2",8],
+        ["IO-03", "Product_3", "Category_3",5],
+      ],
+    },
+    {
+      name: "Out Of Stock Items",
+      columns: ["Code", "Product","Category"],
+      data: [
+        ["OS-01", "Product_1", "Category_1"],
+        ["OS-02", "Product_2", "Category_2"],
+        ["OS-03", "Product_3", "Category_3"],
+      ],
+    },
+    {
+      name: "Recent Sales Orders",
+      columns: ["Invoice No", "Customer Name", "Amount", "Status"],
+      data: [
+        ["IO-01", "Priyanka vts", "₹ 80,000", "Paid"],
+        ["IO-02", "Kriyanshi Kamani", "₹ 70,000", "Paid"],
+        ["IO-03", "Priyansi Jadeja", "₹ 75,000", "UnPaid"],
+      ],
+    },
+    {
+      name: "Recent Purchase Orders",
+      columns: ["Bill No", "Vendor Name", "Amount", "Status"],
+      data: [
+        ["BAO-01", "Priyanka vts", "₹ 80,000", "Paid"],
+        ["BAO-02", "Kriyanshi Kamani", "₹ 70,000", "Paid"],
+        ["BAO-03", "Priyansi Jadeja", "₹ 75,000", "UnPaid"],
+      ],
+    },
+  ];
   const formData = {
     category: {
       fields: [
@@ -166,7 +220,12 @@ export function SharedContextProvider({ children }) {
           name: "description",
           required: true,
         },
-        { label: "Stock Unit", type: "text", name: "stockunit", required: true },
+        {
+          label: "Stock Unit",
+          type: "text",
+          name: "stockunit",
+          required: true,
+        },
         { label: "Quantity", type: "text", name: "quantity", required: true },
         {
           label: "Vendor",
@@ -229,24 +288,19 @@ export function SharedContextProvider({ children }) {
     },
   };
   const tableData = {
-    CategoryFields: [
-      "SrNo",
-      "Category",
-      "Code",
-      "Action",
-    ],
+    CategoryFields: ["SrNo", "Category", "Code", "Action"],
     categoryTableData: [
       {
-        srno:1,
-        category:"Medicine",
-        code:"M01",
-        action:<ActionBtn />,
+        srno: 1,
+        category: "Medicine",
+        code: "M01",
+        action: <ActionBtn />,
       },
       {
-        srno:2,
-        category:"Syrup",
-        code:"S01",
-        action:<ActionBtn />,
+        srno: 2,
+        category: "Syrup",
+        code: "S01",
+        action: <ActionBtn />,
       },
     ],
     ItemFields: [
@@ -263,28 +317,28 @@ export function SharedContextProvider({ children }) {
     ],
     itemTableData: [
       {
-        srno:1,
-        product:"Paracetamol",
-        code:"001",
-        category:"Medicine",
-        qty:12,
-        stockunit:"box",
-        price:20,
-        reorder:10,
-        amount:240,
-        action:<ActionBtn />,
+        srno: 1,
+        product: "Paracetamol",
+        code: "001",
+        category: "Medicine",
+        qty: 12,
+        stockunit: "box",
+        price: 20,
+        reorder: 10,
+        amount: 240,
+        action: <ActionBtn />,
       },
       {
-        srno:2,
-        product:"Dolo",
-        code:"002",
-        category:"Medicine",
-        qty:12,
-        stockunit:"pcs",
-        price:20,
-        reorder:10,
-        amount:240,
-        action:<ActionBtn />,
+        srno: 2,
+        product: "Dolo",
+        code: "002",
+        category: "Medicine",
+        qty: 12,
+        stockunit: "pcs",
+        price: 20,
+        reorder: 10,
+        amount: 240,
+        action: <ActionBtn />,
       },
     ],
     CustomerFields: [
@@ -300,10 +354,10 @@ export function SharedContextProvider({ children }) {
     customerTableData: [
       {
         id: 1,
-        name:"Priyanka Vts",
+        name: "Priyanka Vts",
         code: "v1",
         invoiceno: 111,
-        email:"priyankna@gmail.com",
+        email: "priyankna@gmail.com",
         city: "Rajkot",
         phone: "1234567890",
         action: <ActionBtn />,
@@ -329,7 +383,7 @@ export function SharedContextProvider({ children }) {
         action: <ActionBtn />,
       },
     ],
- 
+
     VendorFields: [
       "ID",
       "Name",
@@ -376,7 +430,7 @@ export function SharedContextProvider({ children }) {
         action: <ActionBtn />,
       },
     ],
-    PurchaseOrderFields:[
+    PurchaseOrderFields: [
       "SrNo",
       "Vendor",
       "OrderNo",
@@ -387,54 +441,56 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
       "Status",
-      "Action"
+      "Action",
     ],
-    purchaseOrderTableData:[
+    purchaseOrderTableData: [
       {
-        srno:1,
-        vendor:"Priyanka Vts",
-        orderno:"S-11",
-        date:"30/07/2023",
-        qty:5,
-        rate:100,
-        amount:500,
-        discount:100,
-        total:400,
-        status:"pending",
-        action:<ActionBtn />,
+        srno: 1,
+        vendor: "Priyanka Vts",
+        orderno: "S-11",
+        date: "30/07/2023",
+        qty: 5,
+        rate: 100,
+        amount: 500,
+        discount: 100,
+        total: 400,
+        status: "pending",
+        action: <ActionBtn />,
       },
       {
-        srno:2,
-        vendor:"Isha Dave",
-        orderno:"S-12",
-        date:"30/07/2023",
-        qty:8,
-        rate:100,
-        amount:800,
-        discount:200,
-        total:600,
-        status:"completed",
-        action:<ActionBtn />,
+        srno: 2,
+        vendor: "Isha Dave",
+        orderno: "S-12",
+        date: "30/07/2023",
+        qty: 8,
+        rate: 100,
+        amount: 800,
+        discount: 200,
+        total: 600,
+        status: "completed",
+        action: <ActionBtn />,
       },
     ],
     PurchaseInvoiceFields: [
       "SrNo",
-      "ItemDetails",
+      "Action",
+      "Item",
+      "Description",
       "Quantity",
       "Rate",
       "Discount",
-      "Amount",
+      "Total",
     ],
-    purchaseInvoiceTableData: [
-      {
-        srno:1,
-        itemdetails:"Medicine",
-        quantity:10,
-        rate:100,
-        discount:100,
-        amount:900
-      },
-    ],
+    // purchaseInvoiceTableData: [
+    //   {
+    //     srno:1,
+    //     itemdetails:"Medicine",
+    //     quantity:10,
+    //     rate:100,
+    //     discount:100,
+    //     amount:900
+    //   },
+    // ],
     SalesOrderFields: [
       "SrNo",
       "Customer",
@@ -446,35 +502,35 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
       "Status",
-      "Action"
+      "Action",
     ],
-    
+
     salesOrderTableData: [
       {
-        srno:1,
-        customer:"Priyanka Vts",
-        orderno:101,
-        date:"30/07/2023",
-        qty:10,
-        rate:500,
-        amount:5000,
-        discount:1000,
-        total:4000,
-        status:"pending",
-        action:<ActionBtn />,
+        srno: 1,
+        customer: "Priyanka Vts",
+        orderno: 101,
+        date: "30/07/2023",
+        qty: 10,
+        rate: 500,
+        amount: 5000,
+        discount: 1000,
+        total: 4000,
+        status: "pending",
+        action: <ActionBtn />,
       },
       {
-        srno:1,
-        customer:"Isha Dave",
-        orderno:102,
-        date:"30/07/2023",
-        qty:10,
-        rate:500,
-        amount:5000,
-        discount:1000,
-        total:4000,
-        status:"pending",
-        action:<ActionBtn />,
+        srno: 1,
+        customer: "Isha Dave",
+        orderno: 102,
+        date: "30/07/2023",
+        qty: 10,
+        rate: 500,
+        amount: 5000,
+        discount: 1000,
+        total: 4000,
+        status: "pending",
+        action: <ActionBtn />,
       },
     ],
     SalesInvoiceFields: [
@@ -501,6 +557,7 @@ export function SharedContextProvider({ children }) {
 
   const value = {
     sidebarMenus,
+    dashboardData,
     formData,
     categoryData,
     setCategoryData,
