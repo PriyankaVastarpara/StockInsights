@@ -1,14 +1,28 @@
-import React from "react";
-import { useContext } from "react";
+import React,{ useState,useContext } from "react";
 import SubNavbar from "../SubNavbar/SubNavbar";
+import SearchBar from "../SearchBar/SearchBar";
 import SharedContext from "../../contexts/SharedContext";
 
 const CategoryData = () => {
   const { tableData } = useContext(SharedContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCategoryData, setFilteredCategoryData] = useState(
+    tableData.categoryTableData
+  );
 
+  const handleSearch = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filteredData = tableData.categoryTableData.filter((category) =>
+    category.category.toLowerCase().includes(query)
+    );
+
+    setFilteredCategoryData(filteredData);
+  }
   return (
     <>
-        <SubNavbar title="Categories"/>
+        <SubNavbar title="Categories" link="/addcategory" search={<SearchBar value={searchQuery} onChange={handleSearch} />}/>
     <div className="overflow-x-auto mx-10 mt-3">
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>
@@ -24,7 +38,7 @@ const CategoryData = () => {
           </tr>
         </thead>
         <tbody>
-          {tableData.categoryTableData.map((row, rowIndex) => (
+          {filteredCategoryData.map((row, rowIndex) => (
             <tr
               key={row.srno}
               className={`${

@@ -1,5 +1,5 @@
-
 import React, { useContext, useState } from "react";
+import Drag from "../Drag";
 import SharedContext from "../../contexts/SharedContext";
 
 const AddCustomers = () => {
@@ -23,83 +23,88 @@ const AddCustomers = () => {
   };
   return (
     <>
-    <h2 className="text-xl max-w-screen-sm m-auto p-1 text-white text-center font-sans font-semibold mb-3 bg-blue-900">
-    Add New Customer
-  </h2>
-    <div className="p-4  flex justify-center">
-      <form
-        className="w-full max-w-screen-sm rounded-md shadow-md p-6 "
-        onSubmit={handleSubmit}
-      >
-       
-        <div className="text-sm">
-          {formData.customer.fields.map((field) => (
-            <div key={field.name} className="mb-4 flex">
-              <label
-                htmlFor={field.name}
-                className=" text-gray-700 font-semibold w-1/2 mb-2"
-              >
-                {field.label}
-              </label>
-              {field.type === "textarea" ? (
-                <textarea
-                  id={field.name}
-                  name={field.name}
-                  required={field.required}
-                  value={formValues[field.name] || ""}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500"
-                />
-              ) : field.type === 'select' ? (
-                <select
-                  id={field.name}
-                  name={field.name}
-                  required={field.required}
-                  value={formValues[field.name] || ''}
-                  onChange={handleChange}
-                  className="w-full h-9 border rounded-lg py-2 px-2 text-gray-700 focus:outline-none focus:border-gray-500"
+      <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1">
+        Add New Customer
+      </h1>
+      <div className="grid grid-cols-3 gap-6 border rounded-md p-3 pl-9 my-2 text-sm shadow-md">
+        <form
+          className="flex flex-col col-span-2 gap-y-4"
+          onSubmit={handleSubmit}
+        >
+          <div className="text-sm">
+            {formData.customer.fields.map((field) => (
+              <div key={field.name} className="mb-4 flex">
+                <label
+                  htmlFor={field.name}
+                  className=" text-gray-700 font-semibold w-1/4 mb-2"
                 >
-                  <option value="">--Select--</option>
-                  {field.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              ): (
-                <input
-                  type={field.type}
-                  id={field.name}
-                  name={field.name}
-                  required={field.required}
-                  value={formValues[field.name] || ""}
-                  onChange={handleChange}
-                  className="w-full h-8 border rounded-lg py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500"
-                />
-              )}
-            </div>
-          ))}
+                  {field.label}
+                </label>
+                {field.type === "textarea" ? (
+                  <textarea
+                    id={field.name}
+                    name={field.name}
+                    required={field.required}
+                    value={formValues[field.name] || ""}
+                    onChange={handleChange}
+                    className="w-full border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500 resize-none"
+                  />
+                ) :
+                 field.type === "select" ? (
+                  <select
+                    id={field.name}
+                    name={field.name}
+                    required={field.required}
+                    value={formValues[field.name] || ""}
+                    onChange={handleChange}
+                    className="w-full h-8 border rounded-md py-1 px-2 text-gray-700 focus:outline-none focus:border-gray-500"
+                  >
+                    <option value="">--Select--</option>
+                    {field.options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={field.type}
+                    id={field.name}
+                    name={field.name}
+                    required={field.required}
+                    value={formValues[field.name] || ""}
+                    onChange={handleChange}
+                    className="w-full h-8 border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </form>
+        <div className="flex flex-col gap-y-2">
+          <div className="flex flex-row">
+            <Drag />
+          </div>
         </div>
-        <div>
-          <button
-            type="submit"
-            className="bg-blue-500 mx-2 font-normal text-white text-md py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none border focus:border-blue-300"
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={handleCancel} // Call the cancel function on button click
-            className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
+        <button
+          type="submit"
+          className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300"
+          onClick={handleSubmit}
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          onClick={handleCancel} // Call the cancel function on button click
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+        >
+          Cancel
+        </button>
+      </div>
     </>
   );
 };
 
 export default AddCustomers;
-

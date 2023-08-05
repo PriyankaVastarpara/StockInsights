@@ -37,13 +37,13 @@ const PurchaseInvoice = () => {
   return (
     <>
     <SubNavbar title="Purchase Bills"/>
-      <div className="flex items-center justify-center bg-gray-100">
+      <div className="w-full h-full">
         <form
           onSubmit={handleSubmit}
-          className="w-full  p-8 bg-white shadow-md rounded-md"
+          className="w-full  mt-3 px-8 py-4 bg-gray-100 shadow-md rounded-md"
         >
           <h2 className="text-xl font-sans font-semibold mb-4 bg-slate-100">
-            New Purchase Invoice
+            New Purchase Bill
           </h2>
           <div className="flex gap-12">
             <div className="text-sm text-gray-700 font-semibold w-1/2 ">
@@ -127,7 +127,7 @@ const PurchaseInvoice = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 resize-none"
                   placeholder="Enter Address"
                   rows="4"
                 />
@@ -149,10 +149,9 @@ const PurchaseInvoice = () => {
             </div>
           </div>
         </form>
-      </div>
-      {/* Table for products */}
-      <div className="overflow-x-auto mx-5 mt-3 mb-8">
-        <table className="w-full table-auto border-collapse border border-gray-400">
+       <div className="overflow-x-auto  mt-3 mb-8">
+        {/* Table for products */}
+        <table className="w-full table-auto border-collapse border bg-gray-100 border-gray-400">
           <thead>
             <tr className="bg-blue-900 ">
               {tableData.PurchaseInvoiceFields.map((PurchaseInvoiceField, index) => (
@@ -262,29 +261,30 @@ const PurchaseInvoice = () => {
           + Add Item
         </button>
       </div>
-      <div className="flex">
-        <form action="" className="w-1/2 ">
+      <div>
+        <form action="" className="w-full ">
           <div className="text-sm text-gray-700 font-semibold w-1/2 ">
-            <div className="mb-4 mx-8">
+            <div className="mb-4 flex items-center gap-5">
               <label htmlFor="notes" className="w-1/3 p-2">
-                Vendor Notes
+                Customer Notes
               </label>
               <textarea
                 name="notes"
                 id="notes"
-                cols="3"
+                cols="40"
                 rows="3"
                 className="w-full mt-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
               />
             </div>
-            <div className="mb-4 mx-8">
+
+            <div className="mb-4 flex items-center gap-5">
               <label htmlFor="notes" className="w-1/3 p-2">
                 Terms & Conditions
               </label>
               <textarea
                 name="notes"
                 id="notes"
-                cols="3"
+                cols="40"
                 rows="3"
                 className="w-full mt-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
               />
@@ -292,31 +292,34 @@ const PurchaseInvoice = () => {
           </div>
           <div></div>
         </form>
-        <div className=" h-40 m-auto">
-          <div className="flex text-center w-60 ">
+        <div className=" h-40 grid grid-cols gap-3 place-content-end">
+          <div className="grid grid-cols-2 gap-4  w-fit ">
             <div className="w-40 font-sans font-semibold">Sub Total</div>
             <span className="flex items-center">
-              <BiRupee size={18} className="text-center" />
+              <BiRupee size={18} />
               0.00
             </span>
           </div>
-          <div className="flex text-center w-60 ">
+          <div className="grid grid-cols-2 gap-4 w-fit">
             <div className="w-40 font-sans font-semibold">Total Discount</div>
             <span className="flex items-center">
-              <BiRupee size={18} className="text-center" />
+              <BiRupee size={18} />
               0.00
             </span>
           </div>
-          <hr className="h-px bg-slate-100 m-2 w-38 mx-8 border-0" />
-          <div className="flex text-center w-60 ">
+          <hr className="h-px bg-slate-100 m-2 w-2/3 border-0" />
+          <div className="grid grid-cols-2 gap-4 w-fit">
             <div className="w-40 font-sans font-bold">Total Amount</div>
             <span className="flex items-center">
-              <BiRupee size={18} className="text-center" />
+              <BiRupee size={18} />
               <span className="text-center font-bold">0.00</span>
             </span>
           </div>
         </div>
       </div>
+      </div>
+     
+    
       <div>
           <button
             type="submit"

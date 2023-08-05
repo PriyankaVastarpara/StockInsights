@@ -8,7 +8,7 @@ const SalesOrderData = () => {
 
   return (
     <>
-    <SubNavbar title="Sales Orders"/>
+    <SubNavbar title="Sales Orders" link="/newsale"/>
     <div className="overflow-x-auto mx-10 mt-3">
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>

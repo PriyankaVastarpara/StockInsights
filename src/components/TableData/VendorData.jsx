@@ -1,14 +1,28 @@
-import React from "react";
-import { useContext } from "react";
+import React , { useState,useContext } from "react";
 import SubNavbar from "../SubNavbar/SubNavbar";
+import SearchBar from "../SearchBar/SearchBar";
 import SharedContext from "../../contexts/SharedContext";
 
 const VendorData = () => {
   const { tableData } = useContext(SharedContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredVendorData, setFilteredVendorData] = useState(
+    tableData.vendorTableData
+  );
 
+  const handleSearch = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filteredData = tableData.vendorTableData.filter((vendor) =>
+    vendor.name.toLowerCase().includes(query)
+    );
+
+    setFilteredVendorData(filteredData);
+  }
   return (
     <>
-    <SubNavbar title="Vendors"/>
+    <SubNavbar title="Vendors" link="/addvendor" search={<SearchBar value={searchQuery} onChange={handleSearch} />}/>
     <div className="overflow-x-auto mx-10 mt-3">
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>
@@ -24,7 +38,7 @@ const VendorData = () => {
           </tr>
         </thead>
         <tbody>
-          {tableData.vendorTableData.map((row, rowIndex) => (
+          {filteredVendorData.map((row, rowIndex) => (
             <tr
               key={row.id}
               className={`${

@@ -8,7 +8,7 @@ const PurchaseOrderData = () => {
 
   return (
     <>
-    <SubNavbar title="Purchase Orders"/>
+    <SubNavbar title="Purchase Orders" link="/newpurchase"/>
     <div className="overflow-x-auto mx-10 mt-3">
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>

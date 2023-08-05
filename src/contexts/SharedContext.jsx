@@ -12,7 +12,9 @@ export function SharedContextProvider({ children }) {
   const [customerData, setCustomerData] = useState({});
   const [vendorData, setVendorData] = useState({});
   const [itemData, setItemData] = useState({});
-
+  const [newSalesOrderData, setNewSalesOrderData] = useState({});
+  const [newPurchaseOrderData, setNewPurchaseOrderData] = useState({});
+  
   const sidebarMenus = [
     {
       menuName: "Dashboard",
@@ -116,9 +118,9 @@ export function SharedContextProvider({ children }) {
         { label: "Customer Name", type: "text", name: "name", required: true },
         { label: "Code", type: "text", name: "code", required: true },
         {
-          label: "Invoice No",
+          label: "Order No",
           type: "text",
-          name: "invoiceno",
+          name: "orderno",
           required: true,
         },
         {
@@ -160,9 +162,9 @@ export function SharedContextProvider({ children }) {
         { label: "Vendor Name", type: "text", name: "name", required: true },
         { label: "Code", type: "text", name: "code", required: true },
         {
-          label: "Invoice No",
+          label: "Order No",
           type: "text",
-          name: "invoiceno",
+          name: "orderno",
           required: true,
         },
         {
@@ -286,6 +288,67 @@ export function SharedContextProvider({ children }) {
         },
       ],
     },
+    newsalesorder: {
+      fields: [
+        {
+          label: "Customer Name",
+          type: "select",
+          name: "customer",
+          id: "customer",
+          required: true,
+          options: [
+            { label: "Customer1", value: "Customer1" },
+            { label: "Customer2", value: "Customer2" },
+            { label: "Customer3", value: "Customer3" },
+          ],
+        },
+        {
+          label: "Sales Order No",
+          type: "text",
+          name: "salesorderno",
+          id:"salesorderno",
+          required: true,
+        },
+        {
+          label: "Order Date",
+          type: "date",
+          name: "date",
+          id:"date",
+          required: true,
+        },
+      ],
+    },
+    newpurchaseorder: {
+      fields: [
+        {
+          label: "Vendor Name",
+          type: "select",
+          name: "vendor",
+          id: "vendor",
+          required: true,
+          options: [
+            { label: "Vendor1", value: "Vendor1" },
+            { label: "Vendor2", value: "Vendor2" },
+            { label: "Vendor3", value: "Vendor3" },
+          ]
+        },
+        { label: "Deliver to", type: "textarea", name: "deliverto", id:"deliverto",required: true },
+        {
+          label: "Purchase Order No",
+          type: "text",
+          name: "purchaseorderno",
+          id:"purchaseorderno",
+          required: true,
+        },
+        {
+          label: "Order Date",
+          type: "date",
+          name: "date",
+          id:"date",
+          required: true,
+        },
+      ],
+    },
   };
   const tableData = {
     CategoryFields: ["SrNo", "Category", "Code", "Action"],
@@ -345,7 +408,7 @@ export function SharedContextProvider({ children }) {
       "ID",
       "Name",
       "Code",
-      "InvoiceNo",
+      "OrderNo",
       "Email",
       "City",
       "Phone",
@@ -356,7 +419,7 @@ export function SharedContextProvider({ children }) {
         id: 1,
         name: "Priyanka Vts",
         code: "v1",
-        invoiceno: 111,
+        orderno: "SO-112",
         email: "priyankna@gmail.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -366,7 +429,7 @@ export function SharedContextProvider({ children }) {
         id: 2,
         name: "Kriyanshi Kamani",
         code: "v2",
-        invoiceno: 112,
+        orderno: "SO-113",
         email: "kriyanshi@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -376,7 +439,7 @@ export function SharedContextProvider({ children }) {
         id: 3,
         name: "Priyansi Jadeja ",
         code: "v3",
-        invoiceno: 113,
+        orderno: "SO-114",
         email: "priyansi@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -389,7 +452,7 @@ export function SharedContextProvider({ children }) {
       "Name",
       "Code",
       "Company",
-      "InvoiceNo",
+      "OrderNo",
       "Email",
       "City",
       "Phone",
@@ -401,7 +464,7 @@ export function SharedContextProvider({ children }) {
         name: "John Doe",
         code: "v1",
         company: "aaa",
-        invoiceno: 111,
+        orderno:"VN-201",
         email: "john@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -412,7 +475,7 @@ export function SharedContextProvider({ children }) {
         name: "Jane Smith",
         code: "v2",
         company: "aaa",
-        invoiceno: 112,
+        orderno:"VN-202",
         email: "jane@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -423,12 +486,30 @@ export function SharedContextProvider({ children }) {
         name: "Peter Doe ",
         code: "v3",
         company: "aaa",
-        invoiceno: 113,
+        orderno:"VN-203",
         email: "peter@example.com",
         city: "Rajkot",
         phone: "1234567890",
         action: <ActionBtn />,
       },
+    ],
+    NewPurchaseOrderFields: [
+      "SrNo",
+      "Action",
+      "ProductDetails",
+      "Quantity",
+      "Rate",
+      "Discount",
+      "Amount",
+    ],
+    NewSalesOrderFields: [
+      "SrNo",
+      "Action",
+      "ProductDetails",
+      "Quantity",
+      "Rate",
+      "Discount",
+      "Amount",
     ],
     PurchaseOrderFields: [
       "SrNo",
@@ -481,16 +562,7 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
     ],
-    // purchaseInvoiceTableData: [
-    //   {
-    //     srno:1,
-    //     itemdetails:"Medicine",
-    //     quantity:10,
-    //     rate:100,
-    //     discount:100,
-    //     amount:900
-    //   },
-    // ],
+   
     SalesOrderFields: [
       "SrNo",
       "Customer",
@@ -520,7 +592,7 @@ export function SharedContextProvider({ children }) {
         action: <ActionBtn />,
       },
       {
-        srno: 1,
+        srno: 2,
         customer: "Isha Dave",
         orderno: 102,
         date: "30/07/2023",
@@ -543,16 +615,7 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
     ],
-    // salesInvoiceTableData: [
-    //   {
-    //     srno:1,
-    //     itemdetails:"Medicine",
-    //     quantity:10,
-    //     rate:100,
-    //     discount:100,
-    //     amount:900
-    //   },
-    // ]
+   
   };
 
   const value = {
@@ -567,6 +630,10 @@ export function SharedContextProvider({ children }) {
     setVendorData,
     itemData,
     setItemData,
+    newSalesOrderData,
+    setNewSalesOrderData,
+    newPurchaseOrderData,
+    setNewPurchaseOrderData,
     tableData,
   };
 

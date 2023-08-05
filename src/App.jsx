@@ -9,11 +9,10 @@ export default function App() {
     <>
       <SharedContextProvider>
         <BrowserRouter>
-        <StockInsights/>
+          <StockInsights />
         </BrowserRouter>
+      
       </SharedContextProvider>
     </>
   );
 }
-
-
