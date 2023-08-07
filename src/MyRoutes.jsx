@@ -8,6 +8,7 @@ import AddVendors from "./components/AddVendors/AddVendors.jsx";
 import AddItems from "./components/AddItems/AddItems.jsx";
 import SubNavbar from "./components/SubNavbar/SubNavbar.jsx";
 import CategoryData from "./components/TableData/CategoryData.jsx";
+import UpdateCategory from './components/UpdateCategory/UpdateCategory.jsx';
 import ItemData from "./components/TableData/ItemData.jsx";
 import CustomerData from "./components/TableData/CustomerData.jsx";
 import VendorData from "./components/TableData/VendorData.jsx";
@@ -29,6 +30,7 @@ const MyRoutes = () => {
         <Route path="/" element={<DashBoard/>}/>
         <Route path="/addcategory" element={<AddCategory/>}/>
         <Route path="/categories" element={<CategoryData/>}/>
+        <Route path="/updatecategory" element={<UpdateCategory/>}/>
         <Route path="/additem" element={<AddItems/>}/>
         <Route path="/products" element={<ItemData/>}/>
         <Route path="/addvendor" element={<AddVendors/>}/>

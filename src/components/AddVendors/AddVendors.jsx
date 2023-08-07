@@ -1,6 +1,7 @@
 
 import React, { useContext, useState } from "react";
 import Drag from "../Drag";
+import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
 const AddVendors = () => {
@@ -19,13 +20,13 @@ const AddVendors = () => {
   };
 
   //Handle cancel button
-  const handleCancel = () => {
+  const handleClear = () => {
     setFormValues({});
   };
   return (
     <>
           <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1">Add New Vendor</h1>
-          <div className="grid grid-cols-3 gap-6 border rounded-md p-3 pl-9 my-2 text-sm shadow-md">
+          <div className="grid grid-cols-3 gap-6 border rounded-md p-3 pl-9 my-2 text-sm shadow-md ">
       <form
         className="flex flex-col col-span-2 gap-y-4"
         onSubmit={handleSubmit}
@@ -87,17 +88,27 @@ const AddVendors = () => {
     </div>
     <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
         <button
-            type="submit"
-            className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300" onClick={handleSubmit}>
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={handleCancel} // Call the cancel function on button click
-            className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-          >
-            Cancel
-          </button>
+          type="submit"
+          className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300"
+          onClick={handleSubmit}
+        >
+          Save
+        </button>
+        <Link to="/vendors">
+        <button
+          type="button"
+          className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
+        >
+          Cancel
+        </button>
+        </Link>
+        <button
+          type="button"
+          onClick={handleClear} // Call the clear function on button click
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+        >
+          Clear
+        </button>
       </div>
     </>
   );

@@ -4,7 +4,6 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { CgShoppingCart } from "react-icons/cg";
 import { BiUserCircle, BiUser } from "react-icons/bi";
 import { SlGraph } from "react-icons/sl";
-import ActionBtn from "../components/TableData/ActionBtn.jsx";
 
 const SharedContext = createContext();
 export function SharedContextProvider({ children }) {
@@ -100,6 +99,7 @@ export function SharedContextProvider({ children }) {
       ],
     },
   ];
+  
   const formData = {
     category: {
       fields: [
@@ -148,7 +148,7 @@ export function SharedContextProvider({ children }) {
           name: "state",
           required: true,
           options: [
-            { label: "Gujrat", value: "Gujrat" },
+            { label: "Gujarat", value: "Gujarat" },
             { label: "MH", value: "MH" },
             { label: "MP", value: "MP" },
           ],
@@ -193,7 +193,7 @@ export function SharedContextProvider({ children }) {
           name: "state",
           required: true,
           options: [
-            { label: "Gujrat", value: "Gujrat" },
+            { label: "Gujarat", value: "Gujarat" },
             { label: "MH", value: "MH" },
             { label: "MP", value: "MP" },
           ],
@@ -316,6 +316,13 @@ export function SharedContextProvider({ children }) {
           id:"date",
           required: true,
         },
+        {
+          label: "Expected Shipment Date",
+          type: "date",
+          name: "shipmentdate",
+          id:"shipmentdate",
+          required: true,
+        },
       ],
     },
     newpurchaseorder: {
@@ -351,19 +358,17 @@ export function SharedContextProvider({ children }) {
     },
   };
   const tableData = {
-    CategoryFields: ["SrNo", "Category", "Code", "Action"],
+    CategoryFields: ["SrNo", "Category", "Code"],
     categoryTableData: [
       {
         srno: 1,
         category: "Medicine",
         code: "M01",
-        action: <ActionBtn />,
       },
       {
         srno: 2,
         category: "Syrup",
         code: "S01",
-        action: <ActionBtn />,
       },
     ],
     ItemFields: [
@@ -376,7 +381,6 @@ export function SharedContextProvider({ children }) {
       "Price",
       "Reorder",
       "Amount",
-      "Action",
     ],
     itemTableData: [
       {
@@ -389,7 +393,6 @@ export function SharedContextProvider({ children }) {
         price: 20,
         reorder: 10,
         amount: 240,
-        action: <ActionBtn />,
       },
       {
         srno: 2,
@@ -401,7 +404,6 @@ export function SharedContextProvider({ children }) {
         price: 20,
         reorder: 10,
         amount: 240,
-        action: <ActionBtn />,
       },
     ],
     CustomerFields: [
@@ -412,7 +414,6 @@ export function SharedContextProvider({ children }) {
       "Email",
       "City",
       "Phone",
-      "Action",
     ],
     customerTableData: [
       {
@@ -423,7 +424,6 @@ export function SharedContextProvider({ children }) {
         email: "priyankna@gmail.com",
         city: "Rajkot",
         phone: "1234567890",
-        action: <ActionBtn />,
       },
       {
         id: 2,
@@ -433,7 +433,7 @@ export function SharedContextProvider({ children }) {
         email: "kriyanshi@example.com",
         city: "Rajkot",
         phone: "1234567890",
-        action: <ActionBtn />,
+
       },
       {
         id: 3,
@@ -443,7 +443,6 @@ export function SharedContextProvider({ children }) {
         email: "priyansi@example.com",
         city: "Rajkot",
         phone: "1234567890",
-        action: <ActionBtn />,
       },
     ],
 
@@ -456,7 +455,6 @@ export function SharedContextProvider({ children }) {
       "Email",
       "City",
       "Phone",
-      "Action",
     ],
     vendorTableData: [
       {
@@ -468,7 +466,6 @@ export function SharedContextProvider({ children }) {
         email: "john@example.com",
         city: "Rajkot",
         phone: "1234567890",
-        action: <ActionBtn />,
       },
       {
         id: 2,
@@ -479,7 +476,6 @@ export function SharedContextProvider({ children }) {
         email: "jane@example.com",
         city: "Rajkot",
         phone: "1234567890",
-        action: <ActionBtn />,
       },
       {
         id: 3,
@@ -490,7 +486,6 @@ export function SharedContextProvider({ children }) {
         email: "peter@example.com",
         city: "Rajkot",
         phone: "1234567890",
-        action: <ActionBtn />,
       },
     ],
     NewPurchaseOrderFields: [
@@ -498,6 +493,7 @@ export function SharedContextProvider({ children }) {
       "Action",
       "ProductDetails",
       "Quantity",
+      "ReorderPoint",
       "Rate",
       "Discount",
       "Amount",
@@ -522,7 +518,6 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
       "Status",
-      "Action",
     ],
     purchaseOrderTableData: [
       {
@@ -536,7 +531,6 @@ export function SharedContextProvider({ children }) {
         discount: 100,
         total: 400,
         status: "pending",
-        action: <ActionBtn />,
       },
       {
         srno: 2,
@@ -549,7 +543,6 @@ export function SharedContextProvider({ children }) {
         discount: 200,
         total: 600,
         status: "completed",
-        action: <ActionBtn />,
       },
     ],
     PurchaseInvoiceFields: [
@@ -574,7 +567,6 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
       "Status",
-      "Action",
     ],
 
     salesOrderTableData: [
@@ -589,7 +581,6 @@ export function SharedContextProvider({ children }) {
         discount: 1000,
         total: 4000,
         status: "pending",
-        action: <ActionBtn />,
       },
       {
         srno: 2,
@@ -602,7 +593,6 @@ export function SharedContextProvider({ children }) {
         discount: 1000,
         total: 4000,
         status: "pending",
-        action: <ActionBtn />,
       },
     ],
     SalesInvoiceFields: [

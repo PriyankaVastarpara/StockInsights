@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import Drag from "../Drag";
 import SharedContext from "../../contexts/SharedContext";
+import { Link } from "react-router-dom";
 const AddCategory = () => {
   const { formData, setCategoryData } = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
@@ -15,7 +16,7 @@ const AddCategory = () => {
     setCategoryData(formValues);
     console.log(formValues);
   };
-  const handleCancel = () => {
+  const handleClear = () => {
     setFormValues({});
   };
 
@@ -24,7 +25,7 @@ const AddCategory = () => {
       <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1">
         Add New Category
       </h1>
-      <div className="grid grid-cols-3 gap-6 border rounded-md p-3 pl-9 my-2 text-sm shadow-md">
+      <div className="grid grid-cols-3 gap-6 border rounded-md p-3 pl-9 my-2 text-sm shadow-md items-center">
         <form
           className="flex flex-col col-span-2 gap-y-4"
           onSubmit={handleSubmit}
@@ -92,12 +93,20 @@ const AddCategory = () => {
         >
           Save
         </button>
+        <Link to="/categories">
         <button
           type="button"
-          onClick={handleCancel} // Call the cancel function on button click
-          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+          className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
         >
           Cancel
+        </button>
+        </Link>
+        <button
+          type="button"
+          onClick={handleClear} // Call the clear function on button click
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+        >
+          Clear
         </button>
       </div>
     </>

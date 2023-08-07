@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Drag from "../Drag";
+import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
 const AddCustomers = () => {
@@ -17,8 +18,7 @@ const AddCustomers = () => {
     console.log(formValues);
   };
 
-  //Handle cancel button
-  const handleCancel = () => {
+  const handleClear = () => {
     setFormValues({});
   };
   return (
@@ -49,8 +49,7 @@ const AddCustomers = () => {
                     onChange={handleChange}
                     className="w-full border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500 resize-none"
                   />
-                ) :
-                 field.type === "select" ? (
+                ) : field.type === "select" ? (
                   <select
                     id={field.name}
                     name={field.name}
@@ -95,12 +94,21 @@ const AddCustomers = () => {
         >
           Save
         </button>
+
+        <Link to="/customers">
+          <button
+            type="button"
+            className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
+          >
+            Cancel
+          </button>
+        </Link>
         <button
           type="button"
-          onClick={handleCancel} // Call the cancel function on button click
+          onClick={handleClear} // Call the clear function on button click
           className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
         >
-          Cancel
+          Clear
         </button>
       </div>
     </>

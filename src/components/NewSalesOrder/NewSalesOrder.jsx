@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useContext } from "react";
+import React, { useState,useContext } from "react";
 import { BiRupee } from "react-icons/bi";
 import { MdOutlineDelete, MdEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const NewSalesOrder = () => {
   const { formData, setNewSalesOrderData ,tableData} = useContext(SharedContext);
@@ -18,8 +18,8 @@ const NewSalesOrder = () => {
     console.log(formValues);
   };
 
-  //Handle cancel button
-  const handleCancel = () => {
+  //Handle clear button
+  const handleClear = () => {
     setFormValues({});
   };
   const addRow = () => {
@@ -227,27 +227,35 @@ const NewSalesOrder = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
         <button
           type="submit"
+          className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300"
           onClick={handleSubmit}
-          className="bg-blue-500 mx-2 font-normal text-white text-md py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none border focus:border-blue-300"
         >
           Save
         </button>
         <button
           type="button"
-          onClick={handleCancel} // Call the cancel function on button click
-          className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+          onClick={handleClear} // Call the clear function on button click
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+        >
+          Clear
+        </button>
+        <Link to="/sales-orders">
+        <button
+          type="button"
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
         >
           Cancel
         </button>
+        </Link>
         <button
           type="button"
           className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
         >
           Print
-        </button> 
+        </button>
       </div>
       
     </>

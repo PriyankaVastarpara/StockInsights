@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useContext } from "react";
+import React, { useState,useContext } from "react";
 import { BiRupee } from "react-icons/bi";
 import { MdOutlineDelete, MdEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const NewPurchaseOrder = () => {
   const { formData, setNewPurchaseOrderData, tableData } =
@@ -19,8 +19,8 @@ const NewPurchaseOrder = () => {
     console.log(formValues);
   };
 
-  //Handle cancel button
-  const handleCancel = () => {
+  //Handle clear button
+  const handleClear = () => {
     setFormValues({});
   };
   const addRow = () => {
@@ -32,7 +32,7 @@ const NewPurchaseOrder = () => {
         <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1">
           New Purchase Order
         </h1>
-        <div className="w-fit h-full m-2">
+        <div className="w-fit h-full">
           <div className="grid grid-cols-3 gap-6 border bg-white rounded-md p-3 pl-9 my-2 text-sm shadow-md  ">
             <form
               className="flex flex-col col-span-2 gap-y-4"
@@ -136,6 +136,15 @@ const NewPurchaseOrder = () => {
                     <td className="">
                       <input
                         type="number"
+                        name="reorder"
+                        id="reorder"
+                        autoComplete="given-name"
+                        className="border border-gray-300 ms-auto w-full"
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="number"
                         name="rate"
                         id="rate"
                         autoComplete="given-name"
@@ -231,21 +240,29 @@ const NewPurchaseOrder = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
         <button
           type="submit"
+          className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300"
           onClick={handleSubmit}
-          className="bg-blue-500 mx-2 font-normal text-white text-md py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none border focus:border-blue-300"
         >
           Save
         </button>
         <button
           type="button"
-          onClick={handleCancel} // Call the cancel function on button click
-          className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+          onClick={handleClear} // Call the clear function on button click
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+        >
+          Clear
+        </button>
+        <Link to="/purchase-orders">
+        <button
+          type="button"
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
         >
           Cancel
         </button>
+        </Link>
         <button
           type="button"
           className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"

@@ -1,7 +1,10 @@
 import React, { useState, useContext } from "react";
+import { BiSolidPencil } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
 import SharedContext from "../../contexts/SharedContext";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
+import UpdateCustomer from "../UpdateCustomer/UpdateCustomer";
 
 const CustomerData = () => {
   const { tableData } = useContext(SharedContext);
@@ -21,6 +24,17 @@ const CustomerData = () => {
     setFilteredCustomerData(filteredData);
   };
 
+  // Handle update customer page
+
+  const [isUpdateCustomerOpen, setIsUpdateCustomerOpen] = useState(false);
+
+  const handleOpenUpdateCustomer = () => {
+    setIsUpdateCustomerOpen(true);
+  };
+
+  const handleCloseUpdateCustomer = () => {
+    setIsUpdateCustomerOpen(false);
+  };
   return (
     <>
       <SubNavbar title="Customers" link="/addcustomer" search={<SearchBar value={searchQuery} onChange={handleSearch} />}
@@ -37,6 +51,9 @@ const CustomerData = () => {
                   {CustomerField}
                 </th>
               ))}
+               <th className="border border-gray-400 px-4 py-2 font-semibold text-white">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +72,15 @@ const CustomerData = () => {
                     {row[CustomerField.toLowerCase()]}
                   </td>
                 ))}
+                  <td className="flex justify-center gap-2">
+                  <button onClick={handleOpenUpdateCustomer} className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                    <BiSolidPencil icon="pencil-alt" size={18} />
+                  </button>
+                  {isUpdateCustomerOpen && <UpdateCustomer onClose={handleCloseUpdateCustomer} />}
+                  <button className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                    <MdDelete icon="delete-alt" size={18} />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

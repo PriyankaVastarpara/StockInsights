@@ -1,6 +1,6 @@
-import React from "react";
+import React,{ useContext }  from "react";
 import User from "../../assets/user.jpg";
-import { useContext } from "react";
+import Image from "../../assets/Image.png";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const DashBoard = () => {
@@ -56,7 +56,7 @@ const DashBoard = () => {
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
             <div className=" flex-shrink-0 border-r border-gray-300">
               <img
-                src={User}
+                src={Image}
                 alt="sales"
                 className="w-fit h-28 p-2 object-cover rounded-l-lg"
               />

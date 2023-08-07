@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Drag from "../Drag";
+import { Link } from "react-router-dom";
 
 const AddItems = () => {
   
@@ -37,7 +38,7 @@ const AddItems = () => {
     console.log(item);
   };
 
-    const handleCancel = () => {
+    const handleClear = () => {
       setItem({
         ItemName: "",
         ItemCode: "",
@@ -100,7 +101,7 @@ const AddItems = () => {
         <div className="flex flex-col col-span-2 gap-y-4">
           <div className="flex flex-row ">
             <label className="text-gray-700 font-medium">Item Name</label>
-            <input onChange={handleChange} value={item.ItemName} type="text" name="ItemName" id="ItemName" autoComplete="given-name" className="border ms-auto pl-1 w-10/12 h-7  focus:outline-none  focus:border-gray-500 rounded-md"/>
+            <input onChange={handleChange} value={item.ItemName} type="text" name="ItemName" id="ItemName" autoComplete="given-name" className="border ms-auto pl-1 w-10/12 h-7  focus:outline-none  focus:  border-gray-500 rounded-md"/>
           </div>
 
           <div className="flex flex-row">
@@ -148,8 +149,6 @@ const AddItems = () => {
 
           <div className="flex flex-row mt-10 justify-between">
             <div className="flex flex-col gap-y-2">
-              
-
               <div className="flex flex-row">
                 <label className="text-gray-700 font-medium">Quantity</label>
                 <input onChange={handleChange} value={item.Quantity} type="number" name="Quantity" id="Quantity" autoComplete="given-name" className="border ms-auto pl-1 w-6/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md" />
@@ -217,17 +216,27 @@ const AddItems = () => {
 
       <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
         <button
-            type="submit"
-            className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300" onClick={handleSubmit}>
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={handleCancel} // Call the cancel function on button click
-            className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-          >
-            Cancel
-          </button>
+          type="submit"
+          className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300"
+          onClick={handleSubmit}
+        >
+          Save
+        </button>
+        <Link to="/products">
+        <button
+          type="button"
+          className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
+        >
+          Cancel
+        </button>
+        </Link>
+        <button
+          type="button"
+          onClick={handleClear} // Call the clear function on button click
+          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+        >
+          Clear
+        </button>
       </div>
     </>
   );

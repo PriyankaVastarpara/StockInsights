@@ -14,7 +14,7 @@ const StockInsights = () => {
         <aside className="flex flex-col w-auto bg-blue-900 border-r min-h-screen">
           <Sidebar />
         </aside>
-        <div className="flex-auto p-6 overflow-y-scroll">
+        <div className="flex-auto p-6 overflow-y-scroll bg-gray-100">
           <MyRoutes />
         </div>
       </div>
