@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import {Link} from "react-router-dom"
 import Logo from "../../assets/logo.png";
 import User from "../../assets/user.jpg";
 const Navbar = () => {
@@ -26,8 +27,8 @@ const Navbar = () => {
           />
           {showOptions && (
             <ul className="absolute right-1 w-36 mt-36 bg-blue-950 shadow-lg rounded-md text-center">
-              <li className="px-4 py-2 border-b">My Account</li>
-              <li className="px-4 py-2 border-b">Log Out</li>
+              <li className="px-4 py-2 border-b">Priyanka Vts</li>
+             <Link to=""> <li className="px-4 py-2 border-b">Log Out</li></Link>
             </ul>
           )}
         </div>

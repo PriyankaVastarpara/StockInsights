@@ -12,7 +12,7 @@ const Footer = () => {
         </span>
         {/* Email input */}
 
-        <div className="flex gap-3 items-center">
+        {/* <div className="flex gap-3 items-center">
           <span className="text-white">Enter Email</span>
           <span>
             <input
@@ -30,7 +30,7 @@ const Footer = () => {
               Subscribe
             </button>
           </span>
-        </div>
+        </div> */}
 
         <div className="flex mt-4 space-x-5 sm:justify-center md:mt-0">
           <div className="flex items-center justify-center">

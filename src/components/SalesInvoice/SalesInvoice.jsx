@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { BiRupee, BiSolidPencil } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
 const SalesInvoice = () => {
@@ -351,12 +352,14 @@ const SalesInvoice = () => {
         >
           Clear
         </button>
-        <button
-          type="button"
-          className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-        >
-          Print
-        </button>
+        <Link to="/print-invoice">
+          <button
+            type="button"
+            className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+          >
+            Print
+          </button>
+        </Link>
       </div>
     </>
   );

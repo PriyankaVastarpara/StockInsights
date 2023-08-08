@@ -62,16 +62,16 @@ const CategoryData = () => {
       <div className="overflow-x-auto mx-10 mt-3">
         <table className="w-full table-auto border-collapse border border-gray-400">
           <thead>
-            <tr className="bg-blue-900">
+            <tr className="bg-blue-900 ">
               {tableData.CategoryFields.map((CategoryField, index) => (
                 <th
                   key={index}
-                  className="border border-gray-400 px-4 py-2 font-semibold text-white"
+                  className={`${CategoryField.width} w-min border border-gray-400 px-4 py-2 text-left font-semibold text-white`}
                 >
-                  {CategoryField}
+                  {CategoryField.name}
                 </th>
               ))}
-              <th className="border border-gray-400 px-4 py-2 font-semibold text-white">
+              <th className="border w-36 border-gray-400 px-4 py-2 font-semibold text-white">
                 Action
               </th>
             </tr>
@@ -89,7 +89,7 @@ const CategoryData = () => {
                     key={index}
                     className="border border-gray-400 px-4 py-1 text-gray-800"
                   >
-                    {row[CategoryField.toLowerCase()]}
+                    {row[CategoryField.name.toLowerCase()]}
                   </td>
                 ))}
                 <td className="flex justify-center gap-2">

@@ -1,6 +1,11 @@
 import React,{ useContext }  from "react";
 import User from "../../assets/user.jpg";
-import Image from "../../assets/Image.png";
+import Sales from "../../assets/Sales.png";
+import Purchase from "../../assets/Purchase.png";
+import Quantity from "../../assets/Quantity.png";
+import Receivable from "../../assets/receivable.png";
+import Payable from "../../assets/Payable.png";
+import Profit from "../../assets/Profit.png";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const DashBoard = () => {
@@ -54,11 +59,11 @@ const DashBoard = () => {
         {/* Card content */}
         <div className=" mt-3 pt-3 grid grid-cols-3 gap-14  place-content-evenly  ">
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
-            <div className=" flex-shrink-0 border-r border-gray-300">
+            <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
-                src={Image}
+                src={Sales}
                 alt="sales"
-                className="w-fit h-28 p-2 object-cover rounded-l-lg"
+                className="w-fit h-24 p-2 object-cover rounded-l-lg"
               />
             </div>
             <div className="p-2 w-2/3">
@@ -67,11 +72,11 @@ const DashBoard = () => {
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
-            <div className=" flex-shrink-0 border-r border-gray-300">
+            <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
-                src={User}
+                src={Purchase}
                 alt="Purchases"
-                className="w-fit h-28 p-2 object-cover rounded-l-lg"
+                className="w-fit h-24 p-2 object-cover rounded-l-lg"
               />
             </div>
             <div className="p-2 w-2/3">
@@ -82,11 +87,11 @@ const DashBoard = () => {
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
-            <div className=" flex-shrink-0 border-r border-gray-300">
+            <div className="w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
-                src={User}
-                alt="Purchases"
-                className="w-fit h-28 p-2 object-cover rounded-l-lg"
+                src={Quantity}
+                alt="quantity"
+                className="w-fit h-24 p-2 object-cover rounded-l-lg"
               />
             </div>
             <div className="p-2 w-2/3">
@@ -97,11 +102,11 @@ const DashBoard = () => {
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
-            <div className=" flex-shrink-0 border-r border-gray-300">
+            <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
-                src={User}
+                src={Receivable}
                 alt="Receivable"
-                className="w-fit h-28 p-2 object-cover rounded-l-lg"
+                className="w-fit h-24 p-2 object-cover rounded-l-lg"
               />
             </div>
             <div className="p-2 w-2/3">
@@ -112,11 +117,11 @@ const DashBoard = () => {
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
-            <div className=" flex-shrink-0 border-r border-gray-300">
+            <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
-                src={User}
+                src={Payable}
                 alt="Payable"
-                className="w-fit h-28 p-2 object-cover rounded-l-lg"
+                className="w-fit h-24 p-2 object-cover rounded-l-lg"
               />
             </div>
             <div className="p-2 w-2/3">
@@ -127,11 +132,11 @@ const DashBoard = () => {
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
-            <div className=" flex-shrink-0 border-r border-gray-300">
+            <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
-                src={User}
+                src={Profit}
                 alt="Net Profit"
-                className="w-fit h-28 p-2 object-cover rounded-l-lg"
+                className="w-fit h-24 p-2 object-cover rounded-l-lg"
               />
             </div>
             <div className="p-2 w-2/3">

@@ -63,9 +63,8 @@ const ItemData = () => {
               {tableData.ItemFields.map((ItemFields, index) => (
                 <th
                   key={index}
-                  className="border border-gray-400 px-4 py-2 font-semibold text-white"
-                >
-                  {ItemFields}
+                  className={`${ItemFields.width} border border-gray-400 px-4 py-2 text-left font-semibold text-white`}                >
+                  {ItemFields.name}
                 </th>
               ))}
               <th className="border border-gray-400 px-4 py-2 font-semibold text-white">
@@ -86,7 +85,7 @@ const ItemData = () => {
                     key={index}
                     className="border border-gray-400 px-4 py-1 text-gray-800"
                   >
-                    {row[ItemField.toLowerCase()]}
+                    {row[ItemField.name.toLowerCase()]}
                   </td>
                 ))}
                 <td className="flex justify-center gap-2">

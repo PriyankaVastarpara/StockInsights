@@ -63,9 +63,9 @@ const handleDelete = () => {
               {tableData.VendorFields.map((VendorField, index) => (
                 <th
                   key={index}
-                  className="border border-gray-400 px-4 py-2 font-semibold text-white"
+                  className={`${VendorField.width} border border-gray-400 px-4 py-2 text-left font-semibold text-white`}
                 >
-                  {VendorField}
+                  {VendorField.name}
                 </th>
               ))}
               <th className="border border-gray-400 px-4 py-2 font-semibold text-white">
@@ -86,7 +86,7 @@ const handleDelete = () => {
                     key={index}
                     className="border border-gray-400 px-4 py-1 text-gray-800"
                   >
-                    {row[VendorField.toLowerCase()]}
+                    {row[VendorField.name.toLowerCase()]}
                   </td>
                 ))}
                 <td className="flex justify-center gap-2">

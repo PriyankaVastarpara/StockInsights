@@ -1,6 +1,6 @@
 import { useState, createContext } from "react";
-import { HiOutlineShoppingBag ,HiOutlineViewGrid} from "react-icons/hi";
-import { AiOutlineDashboard,AiOutlineAppstore } from "react-icons/ai";
+import { HiOutlineShoppingBag, HiOutlineViewGrid } from "react-icons/hi";
+import { AiOutlineDashboard, AiOutlineAppstore } from "react-icons/ai";
 import { CgShoppingCart } from "react-icons/cg";
 import { BiUserCircle, BiUser } from "react-icons/bi";
 import { SlGraph } from "react-icons/sl";
@@ -157,7 +157,6 @@ export function SharedContextProvider({ children }) {
         { label: "City", type: "text", name: "city", required: true },
         { label: "Pin Code", type: "text", name: "pincode", required: true },
         { label: "Created On", type: "date", name: "date", required: true },
-
       ],
     },
     vendor: {
@@ -204,7 +203,6 @@ export function SharedContextProvider({ children }) {
         { label: "City", type: "text", name: "city", required: true },
         { label: "Pin Code", type: "text", name: "pincode", required: true },
         { label: "Created On", type: "date", name: "date", required: true },
-
       ],
     },
     item: {
@@ -369,31 +367,37 @@ export function SharedContextProvider({ children }) {
     },
   };
   const tableData = {
-    CategoryFields: ["SrNo", "Category", "Code","CreatedOn"],
+    CategoryFields: [
+      { name: "SrNo", width: "w-8" },
+      { name: "Category", width: "" },
+      { name: "Code", width: "" },
+      { name: "CreatedOn", width: "" },
+    ],
     categoryTableData: [
       {
         srno: 1,
         category: "Medicine",
         code: "CA-00121",
-        createdon:"21-07-2023"
+        createdon: "21-07-2023",
       },
       {
         srno: 2,
         category: "Syrup",
         code: "SA-12101",
-        createdon:"24-07-2023"
+        createdon: "24-07-2023",
       },
     ],
     ItemFields: [
-      "SrNo",
-      "Product",
-      "Code",
-      "Category",
-      "Qty",
-      "StockUnit",
-      "Price",
-      "Reorder",
-      "Amount",
+      { name: "SrNo", width: "w-6" },
+      { name: "Product", width: "w-4/12" },
+      { name: "Code", width: "w-8" },
+      { name: "Category", width: "" },
+      { name: "Qty", width: "" },
+      { name: "StockUnit", width: "" },
+      { name: "UnitPrice", width: "w-8" },
+      { name: "Amount", width: "w-8" },
+      { name: "Reorder", width: "w-8" },
+      { name: "ExpiryDate", width: "w-4/12" },
     ],
     itemTableData: [
       {
@@ -403,9 +407,10 @@ export function SharedContextProvider({ children }) {
         category: "Medicine",
         qty: 12,
         stockunit: "box",
-        price: 20,
-        reorder: 10,
+        unitprice: 20,
         amount: 240,
+        reorder: 10,
+        expirydate: "23-07-2023",
       },
       {
         srno: 2,
@@ -414,12 +419,13 @@ export function SharedContextProvider({ children }) {
         category: "Medicine",
         qty: 12,
         stockunit: "pcs",
-        price: 20,
-        reorder: 10,
+        unitprice: 20,
         amount: 240,
+        reorder: 10,
+        expirydate: "23-07-2023",
       },
     ],
-    CustomerFields: ["ID", "Name", "Code", "OrderNo", "Email", "City", "Phone"],
+    CustomerFields: ["ID", "Name", "Code", "OrderNo", "Email", "City", "Phone","CreatedOn"],
     customerTableData: [
       {
         id: 1,
@@ -429,6 +435,7 @@ export function SharedContextProvider({ children }) {
         email: "priyankna@gmail.com",
         city: "Rajkot",
         phone: "1234567890",
+        createdon:"27-07-2023"
       },
       {
         id: 2,
@@ -438,6 +445,7 @@ export function SharedContextProvider({ children }) {
         email: "kriyanshi@example.com",
         city: "Rajkot",
         phone: "1234567890",
+        createdon:"27-07-2023"
       },
       {
         id: 3,
@@ -447,23 +455,24 @@ export function SharedContextProvider({ children }) {
         email: "priyansi@example.com",
         city: "Rajkot",
         phone: "1234567890",
+        createdon:"27-07-2023"
       },
     ],
 
     VendorFields: [
-      "ID",
-      "Name",
-      "Code",
-      "Company",
-      "OrderNo",
-      "Email",
-      "City",
-      "Phone",
+      { name: "ID", width:"w-6"},
+      { name: "Code", width:""},
+      { name: "Name", width:""},
+      { name: "Company", width:""},
+      { name: "OrderNo", width:""},
+      { name: "Email", width:""},
+      { name: "City", width:""},
+      { name: "Phone", width:""},
     ],
     vendorTableData: [
       {
         id: 1,
-        name: "John Doe",
+        name: "Priyanka Vts",
         code: "v1",
         company: "aaa",
         orderno: "VN-201",
@@ -473,7 +482,7 @@ export function SharedContextProvider({ children }) {
       },
       {
         id: 2,
-        name: "Jane Smith",
+        name: "Aastha Jadeja",
         code: "v2",
         company: "aaa",
         orderno: "VN-202",
@@ -483,7 +492,7 @@ export function SharedContextProvider({ children }) {
       },
       {
         id: 3,
-        name: "Peter Doe ",
+        name: "Vidhi Viradiya ",
         code: "v3",
         company: "aaa",
         orderno: "VN-203",
@@ -610,6 +619,76 @@ export function SharedContextProvider({ children }) {
       "Total",
     ],
   };
+
+  const reports={
+    LowStockFields: [
+      { name: "SrNo", width: "w-6" },
+      { name: "Code", width: "" },
+      { name: "Product", width: "" },
+      { name: "Category", width: "" },
+      { name: "Supplier", width: "" },
+      { name: "StockUnit", width: "" },
+      { name: "UnitPrice", width: "" },
+      { name: "ReorderQty", width: "w-20" },
+      { name: "OnHand", width: "w-8" },
+    ],
+    LowStockData: [
+      {
+        srno: 1,
+        code: "PD-001",
+        product: "Paracetamol",
+        category: "Medicine",
+        supplier:"Supplier-1",
+        stockunit: "box",
+        unitprice: 5000,
+        reorderqty: 12,
+        onhand:8,
+      },
+      {
+        srno: 2,
+        code: "PD-002",
+        product: "Dolo",
+        category: "Medicine",
+        supplier:"Supplier-2",
+        stockunit: "box",
+        unitprice: 8000,
+        reorderqty: 18,
+        onhand:12,
+      },
+    ],
+    OutOfStockFields: [
+      { name: "SrNo", width: "w-6" },
+      { name: "Code", width: "" },
+      { name: "Product", width: "" },
+      { name: "Category", width: "" },
+      { name: "Supplier", width: "" },
+      { name: "StockUnit", width: "" },
+      { name: "UnitPrice", width: "" },
+      { name: "ReorderQuantity", width: "w-20" },
+    ],
+    OutOfStockData: [
+      {
+        srno: 1,
+        code: "PD-001",
+        product: "Paracetamol",
+        category: "Medicine",
+        supplier:"Supplier-1",
+        stockunit: "box",
+        unitprice: 5000,
+        reorderquantity: 12,
+      },
+      {
+        srno: 2,
+        code: "PD-002",
+        product: "Dolo",
+        category: "Medicine",
+        supplier:"Supplier-2",
+        stockunit: "box",
+        unitprice: 8000,
+        reorderquantity: 18,
+      },
+    ],
+  }
   const value = {
     sidebarMenus,
     dashboardData,
@@ -627,6 +706,7 @@ export function SharedContextProvider({ children }) {
     newPurchaseOrderData,
     setNewPurchaseOrderData,
     tableData,
+    reports,
   };
 
   return (
