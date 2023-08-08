@@ -1,11 +1,9 @@
 import React, { useState, useContext } from "react";
-import SubNavbar from "../../SubNavbar/SubNavbar";
-import SearchBar from "../../SearchBar/SearchBar";
 import SharedContext from "../../../contexts/SharedContext";
 
 const OutOfStock = () => {
-    const { reports} = useContext(SharedContext);
-    const [searchQuery, setSearchQuery] = useState("");
+  const { reports } = useContext(SharedContext);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredOutOfStockData, setFilteredOutOfStockData] = useState(
     reports.OutOfStockData
   );
@@ -22,19 +20,27 @@ const OutOfStock = () => {
   };
   return (
     <>
-    <SubNavbar
-        title="Out Of Stock Items"
-        link="/outofstock"
-        search={<SearchBar value={searchQuery} onChange={handleSearch} />}
-      />
-    <div className="overflow-x-auto mx-10 mt-3">
+      <div className="p-2 bg-blue-900 text-white text-center rounded font-sans font-semibold">
+        Out Of Stock Items Report
+      </div>
+      <div className="overflow-x-auto mx-10 mt-3">
+        <div className="my-4 flex justify-end  ">
+          <input
+            type="text"
+            className="border border-gray-300 rounded-md p-2 w-52  focus:outline-none focus:border-blue-900"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+        </div>
         <table className="w-full table-auto border-collapse border border-gray-400">
           <thead>
             <tr className="bg-gray-600 ">
               {reports.OutOfStockFields.map((OutOfStockField, index) => (
                 <th
                   key={index}
-                  className={`${OutOfStockField.width} border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100`}                >
+                  className={`${OutOfStockField.width} border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100 `}
+                >
                   {OutOfStockField.name}
                 </th>
               ))}
@@ -64,6 +70,5 @@ const OutOfStock = () => {
     </>
   );
 };
-
 
 export default OutOfStock;
