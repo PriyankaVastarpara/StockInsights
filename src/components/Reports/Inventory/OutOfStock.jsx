@@ -23,8 +23,8 @@ const OutOfStock = () => {
   return (
     <>
     <SubNavbar
-        title="Low Stock Items"
-        link="/lowstock"
+        title="Out Of Stock Items"
+        link="/outofstock"
         search={<SearchBar value={searchQuery} onChange={handleSearch} />}
       />
     <div className="overflow-x-auto mx-10 mt-3">
