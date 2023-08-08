@@ -18,8 +18,8 @@ const UpdateVendor = ({ onClose }) => {
     console.log(formValues);
   };
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 h-fit">
-      <div className="relative w-8/12 bg-white rounded-lg p-2 h-5/6 overflow-y-scroll">
+<div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30">
+      <div className="relative w-8/12 bg-white rounded-lg p-8  h-5/6 overflow-y-scroll">
         <button
           className="absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-800"
           onClick={onClose}

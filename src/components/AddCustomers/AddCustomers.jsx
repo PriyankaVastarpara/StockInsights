@@ -33,7 +33,7 @@ const AddCustomers = () => {
         >
           <div className="text-sm">
             {formData.customer.fields.map((field) => (
-              <div key={field.name} className="mb-4 flex">
+              <div key={field.name} className="mb-4 flex items-center">
                 <label
                   htmlFor={field.name}
                   className=" text-gray-700 font-semibold w-1/4 mb-2"

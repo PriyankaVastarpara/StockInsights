@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { RxCross2 } from "react-icons/rx";
+import {Link} from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 import Drag from "../Drag";
 
@@ -81,12 +82,12 @@ const UpdateCustomer = ({ onClose }) => {
               ))}
             </div>
             <div className="flex justify-start">
-              <button
+             <Link to="/customers"><button
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
               >
                 Update
-              </button>
+              </button></Link> 
               <button
                 type="button"
                 onClick={onClose}

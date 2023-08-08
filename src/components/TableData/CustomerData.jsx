@@ -5,6 +5,7 @@ import SharedContext from "../../contexts/SharedContext";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
 import UpdateCustomer from "../UpdateCustomer/UpdateCustomer";
+import DeletePopup from "../DeletePopup/DeletePopup";
 
 const CustomerData = () => {
   const { tableData } = useContext(SharedContext);
@@ -34,6 +35,20 @@ const CustomerData = () => {
 
   const handleCloseUpdateCustomer = () => {
     setIsUpdateCustomerOpen(false);
+  };
+  //Handle Delete
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowPopup(true);
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
+  const handleDelete = () => {
+    setShowPopup(false);
   };
   return (
     <>
@@ -77,9 +92,18 @@ const CustomerData = () => {
                     <BiSolidPencil icon="pencil-alt" size={18} />
                   </button>
                   {isUpdateCustomerOpen && <UpdateCustomer onClose={handleCloseUpdateCustomer} />}
-                  <button className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                  <button
+                    onClick={handleDeleteClick}
+                    className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
+                  >
                     <MdDelete icon="delete-alt" size={18} />
                   </button>
+                  {showPopup && (
+                    <DeletePopup
+                      onCancel={handleCancel}
+                      onDelete={handleDelete}
+                    />
+                  )}
                 </td>
               </tr>
             ))}

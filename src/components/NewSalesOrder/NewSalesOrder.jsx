@@ -1,10 +1,11 @@
-import React, { useState,useContext } from "react";
-import { BiRupee } from "react-icons/bi";
-import { MdOutlineDelete, MdEdit } from "react-icons/md";
+import React, { useState, useContext } from "react";
+import { BiRupee, BiSolidPencil } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const NewSalesOrder = () => {
-  const { formData, setNewSalesOrderData ,tableData} = useContext(SharedContext);
+  const { formData, setNewSalesOrderData, tableData } =
+    useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
   const [rows, setRows] = useState([{}]);
   const handleChange = (e) => {
@@ -28,66 +29,65 @@ const NewSalesOrder = () => {
   return (
     <>
       <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1 ">
-         New Sales Order
+        New Sales Order
       </h1>
       <div className="w-full h-full ">
-      <div className="grid grid-cols-3 gap-6 border bg-white rounded-md p-3 pl-9 my-2 text-sm shadow-md">
-      <form
-          className="flex flex-col col-span-2 gap-y-4"
-          onSubmit={handleSubmit}
-        >
-          <div className="text-sm">
-            {formData.newsalesorder.fields.map((field) => (
-              <div key={field.name} className="mb-4 flex">
-                <label
-                  htmlFor={field.name}
-                  className=" text-gray-700 font-semibold w-1/4 mb-2"
-                >
-                  {field.label}
-                </label>
-                {field.type === "textarea" ? (
-                  <textarea
-                    id={field.name}
-                    name={field.name}
-                    required={field.required}
-                    value={formValues[field.name] || ""}
-                    onChange={handleChange}
-                    className="w-full border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500 resize-none"
-                  />
-                ) :
-                 field.type === "select" ? (
-                  <select
-                    id={field.name}
-                    name={field.name}
-                    required={field.required}
-                    value={formValues[field.name] || ""}
-                    onChange={handleChange}
-                    className="w-full h-8 border rounded-md py-1 px-2 text-gray-700 focus:outline-none focus:border-gray-500"
+        <div className="grid grid-cols-3 gap-6 border bg-white rounded-md p-3 pl-9 my-2 text-sm shadow-md">
+          <form
+            className="flex flex-col col-span-2 gap-y-4"
+            onSubmit={handleSubmit}
+          >
+            <div className="text-sm">
+              {formData.newsalesorder.fields.map((field) => (
+                <div key={field.name} className="mb-4 flex items-center">
+                  <label
+                    htmlFor={field.name}
+                    className=" text-gray-700 font-semibold w-1/4 mb-2"
                   >
-                    {field.options.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    type={field.type}
-                    id={field.name}
-                    name={field.name}
-                    required={field.required}
-                    value={formValues[field.name] || ""}
-                    onChange={handleChange}
-                    className="w-full h-8 border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </form>
+                    {field.label}
+                  </label>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      id={field.name}
+                      name={field.name}
+                      required={field.required}
+                      value={formValues[field.name] || ""}
+                      onChange={handleChange}
+                      className="w-full border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500 resize-none"
+                    />
+                  ) : field.type === "select" ? (
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      required={field.required}
+                      value={formValues[field.name] || ""}
+                      onChange={handleChange}
+                      className="w-full h-8 border rounded-md py-1 px-2 text-gray-700 focus:outline-none focus:border-gray-500"
+                    >
+                      {field.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={field.type}
+                      id={field.name}
+                      name={field.name}
+                      required={field.required}
+                      value={formValues[field.name] || ""}
+                      onChange={handleChange}
+                      className="w-full h-8 border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </form>
         </div>
         <div className="overflow-x-auto  mt-3 mb-8">
-           {/* Table for products */}
+          {/* Table for products */}
           <table className="w-full table-auto border-collapse border bg-gray-100 border-gray-400">
             <thead>
               <tr className="bg-blue-900 ">
@@ -107,11 +107,13 @@ const NewSalesOrder = () => {
               {rows.map((item, index) => (
                 <tr key={index} className="bg-transparent hover:bg-gray-50">
                   <td className="text-center">{index + 1}</td>
-                  <td className="text-red-400 text-sm  flex justify-center gap-3">
-                    <MdOutlineDelete />
-                    <span className="text-blue-400 text-sm text-center">
-                      <MdEdit />
-                    </span>
+                  <td className="flex justify-center gap-2">
+                    <button className="text-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                      <BiSolidPencil icon="pencil-alt" size={18} />
+                    </button>
+                    <button className="text-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                      <MdDelete icon="delete-alt" size={18} />
+                    </button>
                   </td>
 
                   <td className="text-left">
@@ -243,12 +245,12 @@ const NewSalesOrder = () => {
           Clear
         </button>
         <Link to="/sales-orders">
-        <button
-          type="button"
-          className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-        >
-          Cancel
-        </button>
+          <button
+            type="button"
+            className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+          >
+            Cancel
+          </button>
         </Link>
         <button
           type="button"
@@ -257,7 +259,6 @@ const NewSalesOrder = () => {
           Print
         </button>
       </div>
-      
     </>
   );
 };

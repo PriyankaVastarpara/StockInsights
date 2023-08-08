@@ -23,6 +23,8 @@ import NewPurchaseOrder from "./components/NewPurchaseOrder/NewPurchaseOrder.jsx
 import PurchaseInvoice from "./components/PurchaseBill/PurchaseBill.jsx";
 import Reports from './components/Reports/Reports.jsx';
 import { Routes ,Route} from 'react-router-dom';
+import SalesByCustomer from './components/Reports/SalesReport/SalesByCustomer.jsx';
+import SalesByItem from './components/Reports/SalesReport/SalesByItem.jsx';
 const MyRoutes = () => {
   return (
   <>
@@ -30,7 +32,6 @@ const MyRoutes = () => {
         <Route path="/" element={<DashBoard/>}/>
         <Route path="/addcategory" element={<AddCategory/>}/>
         <Route path="/categories" element={<CategoryData/>}/>
-        <Route path="/updatecategory" element={<UpdateCategory/>}/>
         <Route path="/additem" element={<AddItems/>}/>
         <Route path="/products" element={<ItemData/>}/>
         <Route path="/addvendor" element={<AddVendors/>}/>
@@ -44,6 +45,8 @@ const MyRoutes = () => {
         <Route path="/sales-orders" element={<SalesOrderData/>}/>
         <Route path="/sales-invoices" element={<SalesInvoice/>}/>
         <Route path="/reports" element={<Reports/>}/>
+        <Route path="/sales-by-customer" element={<SalesByCustomer/>}/>
+        <Route path="/sales-by-item" element={<SalesByItem/>}/>
     </Routes>
   </>
   )

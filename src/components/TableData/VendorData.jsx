@@ -5,6 +5,7 @@ import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
 import UpdateVendor from "../UpdateVendor/UpdateVendor";
 import SharedContext from "../../contexts/SharedContext";
+import DeletePopup from "../DeletePopup/DeletePopup";
 
 const VendorData = () => {
   const { tableData } = useContext(SharedContext);
@@ -34,6 +35,20 @@ const VendorData = () => {
   const handleCloseUpdateVendor = () => {
     setIsUpdateVendorOpen(false);
   };
+  //Handle Delete
+const [showPopup, setShowPopup] = useState(false);
+
+const handleDeleteClick = () => {
+  setShowPopup(true);
+};
+
+const handleCancel = () => {
+  setShowPopup(false);
+};
+
+const handleDelete = () => {
+  setShowPopup(false);
+};
   return (
     <>
       <SubNavbar
@@ -84,9 +99,18 @@ const VendorData = () => {
                   {isUpdateVendorOpen && (
                     <UpdateVendor onClose={handleCloseUpdateVendor} />
                   )}
-                  <button className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                 <button
+                    onClick={handleDeleteClick}
+                    className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
+                  >
                     <MdDelete icon="delete-alt" size={18} />
                   </button>
+                  {showPopup && (
+                    <DeletePopup
+                      onCancel={handleCancel}
+                      onDelete={handleDelete}
+                    />
+                  )}
                 </td>
               </tr>
             ))}

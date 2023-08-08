@@ -1,6 +1,6 @@
 import { useState, createContext } from "react";
-import { HiOutlineShoppingBag } from "react-icons/hi";
-import { AiOutlineDashboard } from "react-icons/ai";
+import { HiOutlineShoppingBag ,HiOutlineViewGrid} from "react-icons/hi";
+import { AiOutlineDashboard,AiOutlineAppstore } from "react-icons/ai";
 import { CgShoppingCart } from "react-icons/cg";
 import { BiUserCircle, BiUser } from "react-icons/bi";
 import { SlGraph } from "react-icons/sl";
@@ -13,7 +13,7 @@ export function SharedContextProvider({ children }) {
   const [itemData, setItemData] = useState({});
   const [newSalesOrderData, setNewSalesOrderData] = useState({});
   const [newPurchaseOrderData, setNewPurchaseOrderData] = useState({});
-  
+
   const sidebarMenus = [
     {
       menuName: "Dashboard",
@@ -22,7 +22,7 @@ export function SharedContextProvider({ children }) {
     },
     {
       menuName: "Items",
-      icon: <CgShoppingCart className="text-xl" />,
+      icon: <AiOutlineAppstore className="text-xl" />,
       subMenus: [
         { name: "Categories", link: "/categories" },
         { name: "Products", link: "/products" },
@@ -64,16 +64,16 @@ export function SharedContextProvider({ children }) {
   const dashboardData = [
     {
       name: "Low Stock Items",
-      columns: ["Code", "Product","Category", "Qty"],
+      columns: ["Code", "Product", "Category", "Qty"],
       data: [
-        ["IO-01", "Product_1", "Category_1",12],
-        ["IO-02", "Product_2", "Category_2",8],
-        ["IO-03", "Product_3", "Category_3",5],
+        ["IO-01", "Product_1", "Category_1", 12],
+        ["IO-02", "Product_2", "Category_2", 8],
+        ["IO-03", "Product_3", "Category_3", 5],
       ],
     },
     {
       name: "Out Of Stock Items",
-      columns: ["Code", "Product","Category"],
+      columns: ["Code", "Product", "Category"],
       data: [
         ["OS-01", "Product_1", "Category_1"],
         ["OS-02", "Product_2", "Category_2"],
@@ -99,7 +99,7 @@ export function SharedContextProvider({ children }) {
       ],
     },
   ];
-  
+
   const formData = {
     category: {
       fields: [
@@ -111,6 +111,7 @@ export function SharedContextProvider({ children }) {
           name: "description",
           required: true,
         },
+        { label: "Created On", type: "date", name: "date", required: true },
       ],
     },
     customer: {
@@ -155,6 +156,8 @@ export function SharedContextProvider({ children }) {
         },
         { label: "City", type: "text", name: "city", required: true },
         { label: "Pin Code", type: "text", name: "pincode", required: true },
+        { label: "Created On", type: "date", name: "date", required: true },
+
       ],
     },
     vendor: {
@@ -200,6 +203,8 @@ export function SharedContextProvider({ children }) {
         },
         { label: "City", type: "text", name: "city", required: true },
         { label: "Pin Code", type: "text", name: "pincode", required: true },
+        { label: "Created On", type: "date", name: "date", required: true },
+
       ],
     },
     item: {
@@ -306,21 +311,21 @@ export function SharedContextProvider({ children }) {
           label: "Sales Order No",
           type: "text",
           name: "salesorderno",
-          id:"salesorderno",
+          id: "salesorderno",
           required: true,
         },
         {
           label: "Order Date",
           type: "date",
           name: "date",
-          id:"date",
+          id: "date",
           required: true,
         },
         {
           label: "Expected Shipment Date",
           type: "date",
           name: "shipmentdate",
-          id:"shipmentdate",
+          id: "shipmentdate",
           required: true,
         },
       ],
@@ -337,38 +342,46 @@ export function SharedContextProvider({ children }) {
             { label: "Vendor1", value: "Vendor1" },
             { label: "Vendor2", value: "Vendor2" },
             { label: "Vendor3", value: "Vendor3" },
-          ]
+          ],
         },
-        { label: "Deliver to", type: "textarea", name: "deliverto", id:"deliverto",required: true },
+        {
+          label: "Deliver to",
+          type: "textarea",
+          name: "deliverto",
+          id: "deliverto",
+          required: true,
+        },
         {
           label: "Purchase Order No",
           type: "text",
           name: "purchaseorderno",
-          id:"purchaseorderno",
+          id: "purchaseorderno",
           required: true,
         },
         {
           label: "Order Date",
           type: "date",
           name: "date",
-          id:"date",
+          id: "date",
           required: true,
         },
       ],
     },
   };
   const tableData = {
-    CategoryFields: ["SrNo", "Category", "Code"],
+    CategoryFields: ["SrNo", "Category", "Code","CreatedOn"],
     categoryTableData: [
       {
         srno: 1,
         category: "Medicine",
-        code: "M01",
+        code: "CA-00121",
+        createdon:"21-07-2023"
       },
       {
         srno: 2,
         category: "Syrup",
-        code: "S01",
+        code: "SA-12101",
+        createdon:"24-07-2023"
       },
     ],
     ItemFields: [
@@ -406,15 +419,7 @@ export function SharedContextProvider({ children }) {
         amount: 240,
       },
     ],
-    CustomerFields: [
-      "ID",
-      "Name",
-      "Code",
-      "OrderNo",
-      "Email",
-      "City",
-      "Phone",
-    ],
+    CustomerFields: ["ID", "Name", "Code", "OrderNo", "Email", "City", "Phone"],
     customerTableData: [
       {
         id: 1,
@@ -433,7 +438,6 @@ export function SharedContextProvider({ children }) {
         email: "kriyanshi@example.com",
         city: "Rajkot",
         phone: "1234567890",
-
       },
       {
         id: 3,
@@ -462,7 +466,7 @@ export function SharedContextProvider({ children }) {
         name: "John Doe",
         code: "v1",
         company: "aaa",
-        orderno:"VN-201",
+        orderno: "VN-201",
         email: "john@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -472,7 +476,7 @@ export function SharedContextProvider({ children }) {
         name: "Jane Smith",
         code: "v2",
         company: "aaa",
-        orderno:"VN-202",
+        orderno: "VN-202",
         email: "jane@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -482,7 +486,7 @@ export function SharedContextProvider({ children }) {
         name: "Peter Doe ",
         code: "v3",
         company: "aaa",
-        orderno:"VN-203",
+        orderno: "VN-203",
         email: "peter@example.com",
         city: "Rajkot",
         phone: "1234567890",
@@ -555,7 +559,7 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
     ],
-   
+
     SalesOrderFields: [
       "SrNo",
       "Customer",
@@ -605,9 +609,7 @@ export function SharedContextProvider({ children }) {
       "Discount",
       "Total",
     ],
-   
   };
-
   const value = {
     sidebarMenus,
     dashboardData,

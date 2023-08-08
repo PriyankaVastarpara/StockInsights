@@ -5,6 +5,7 @@ import { BiSolidPencil } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 // import { Link } from "react-router-dom";
 import UpdateCategory from "../UpdateCategory/UpdateCategory";
+import DeletePopup from "../DeletePopup/DeletePopup";
 import SharedContext from "../../contexts/SharedContext";
 
 const CategoryData = () => {
@@ -35,6 +36,21 @@ const CategoryData = () => {
 
   const handleCloseUpdateCategory = () => {
     setIsUpdateCategoryOpen(false);
+  };
+
+  //Handle Delete
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowPopup(true);
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
+  const handleDelete = () => {
+    setShowPopup(false);
   };
   return (
     <>
@@ -86,9 +102,18 @@ const CategoryData = () => {
                   {isUpdateCategoryOpen && (
                     <UpdateCategory onClose={handleCloseUpdateCategory} />
                   )}
-                  <button className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                  <button
+                    onClick={handleDeleteClick}
+                    className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
+                  >
                     <MdDelete icon="delete-alt" size={18} />
                   </button>
+                  {showPopup && (
+                    <DeletePopup
+                      onCancel={handleCancel}
+                      onDelete={handleDelete}
+                    />
+                  )}
                 </td>
               </tr>
             ))}

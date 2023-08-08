@@ -3,7 +3,9 @@ import { BiSolidPencil } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import SubNavbar from "../SubNavbar/SubNavbar";
+import UpdateSalesOrder from "../UpdateSalesOrder/UpdateSalesOrder";
 import SharedContext from "../../contexts/SharedContext";
+import DeletePopup from "../DeletePopup/DeletePopup";
 
 const SalesOrderData = () => {
   const { tableData } = useContext(SharedContext);
@@ -22,6 +24,31 @@ const SalesOrderData = () => {
 
     setFilteredSalesOrderData(filteredData);
   };
+   // Handle update purchase order page
+
+   const [isUpdateSalesOrderOpen, setIsUpdateSalesOrderOpen] = useState(false);
+
+   const handleOpenUpdateSalesOrder = () => {
+    setIsUpdateSalesOrderOpen(true);
+   };
+ 
+   const handleCloseUpdateSalesOrder = () => {
+    setIsUpdateSalesOrderOpen(false);
+   };
+//Handle Delete
+const [showPopup, setShowPopup] = useState(false);
+
+const handleDeleteClick = () => {
+  setShowPopup(true);
+};
+
+const handleCancel = () => {
+  setShowPopup(false);
+};
+
+const handleDelete = () => {
+  setShowPopup(false);
+};
   return (
     <>
     <SubNavbar title="Sales Orders" link="/newsale"  search={<SearchBar value={searchQuery} onChange={handleSearch} />}/>
@@ -59,12 +86,22 @@ const SalesOrderData = () => {
                 </td>
               ))}
                 <td className="flex justify-center gap-2">
-                  <button className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                <button onClick={handleOpenUpdateSalesOrder} className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
                     <BiSolidPencil icon="pencil-alt" size={18} />
                   </button>
-                  <button className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                  {isUpdateSalesOrderOpen && <UpdateSalesOrder onClose={handleCloseUpdateSalesOrder} />}
+                  <button
+                    onClick={handleDeleteClick}
+                    className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
+                  >
                     <MdDelete icon="delete-alt" size={18} />
                   </button>
+                  {showPopup && (
+                    <DeletePopup
+                      onCancel={handleCancel}
+                      onDelete={handleDelete}
+                    />
+                  )}
                 </td>
             </tr>
           ))}
