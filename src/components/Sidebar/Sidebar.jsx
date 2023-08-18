@@ -38,6 +38,7 @@ const Sidebar = () => {
             {menu.menuName == "Dashboard" ||
             menu.menuName == "Vendors" ||
             menu.menuName == "Customers" ||
+            menu.menuName == "Madhuri" ||
             menu.menuName == "Reports" ? (
               <Link
                 to={menu.link}

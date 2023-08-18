@@ -58,7 +58,7 @@ export function SharedContextProvider({ children }) {
       menuName: "Reports",
       link: "/reports",
       icon: <SlGraph className="text-xl" />,
-    },
+    },                          
   ];
 
   const dashboardData = [

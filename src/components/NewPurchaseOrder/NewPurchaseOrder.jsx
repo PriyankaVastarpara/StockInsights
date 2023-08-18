@@ -250,26 +250,20 @@ const NewPurchaseOrder = () => {
         >
           Save
         </button>
+        <Link to="/purchase-orders">
+        <button
+          type="button"
+          className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
+        >
+          Cancel
+        </button>
+        </Link>
         <button
           type="button"
           onClick={handleClear} // Call the clear function on button click
           className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
         >
           Clear
-        </button>
-        <Link to="/purchase-orders">
-          <button
-            type="button"
-            className="bg-gray-300  font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-          >
-            Cancel
-          </button>
-        </Link>
-        <button
-          type="button"
-          className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-        >
-          Print
         </button>
       </div>
     </>
