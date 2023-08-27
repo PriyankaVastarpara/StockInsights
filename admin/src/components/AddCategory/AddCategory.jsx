@@ -4,7 +4,7 @@ import SharedContext from "../../contexts/SharedContext";
 import { Link } from "react-router-dom";
 
 const AddCategory = () => {
-  const { formData, setCategoryData } = useContext(SharedContext);
+  const { formData } = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
 
   const handleChange = (e) => {

@@ -3,8 +3,9 @@ import { BiRupee } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import {Link} from "react-router-dom"
 import SharedContext from "../../contexts/SharedContext";
+import axios from "axios";
 
-const UpdatePurchaseBills = () => {
+const UpdatePurchaseBills = ({ billId,onClose }) => {
   const { tableData } = useContext(SharedContext);
   const [rows, setRows] = useState([{}]);
   const [formData, setFormData] = useState({

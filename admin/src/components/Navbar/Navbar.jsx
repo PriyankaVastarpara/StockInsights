@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import {Link} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import Logo from "../../assets/logo.png";
 import User from "../../assets/user.jpg";
 const Navbar = () => {
@@ -9,7 +9,9 @@ const Navbar = () => {
   const toggleOptions = () => {
     setShowOptions((prevState) => !prevState);
   };
+  const handleLogOut=()=>navigate("/login");
 
+  const navigate=useNavigate();
   return (
     <nav className="flex items-center justify-between px-4 py-2 bg-blue-950 text-white h-[60px] ">
       <div className="flex items-center ml-0">
@@ -28,7 +30,7 @@ const Navbar = () => {
           {showOptions && (
             <ul className="absolute right-1 w-36 mt-36 bg-blue-950 shadow-lg rounded-md text-center">
               <li className="px-4 py-2 border-b">Priyanka Vts</li>
-             <Link to=""> <li className="px-4 py-2 border-b">Log Out</li></Link>
+              <button onClick={handleLogOut} className="px-4 py-2 border-b">Log Out</button>
             </ul>
           )}
         </div>

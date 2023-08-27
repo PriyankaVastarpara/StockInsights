@@ -3,10 +3,10 @@ import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
 import { BiSolidPencil } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
-// import { Link } from "react-router-dom";
 import UpdateCategory from "../UpdateCategory/UpdateCategory";
 import DeletePopup from "../DeletePopup/DeletePopup";
 import SharedContext from "../../contexts/SharedContext";
+import { format } from "date-fns";
 import axios from "axios";
 
 const CategoryData = () => {
@@ -104,7 +104,7 @@ const CategoryData = () => {
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.CategoryName}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.Code}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.Description}</td>
-                  <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.CreatedOnDate}</td>
+                  <td className="border border-gray-400 px-4 py-1 text-gray-800">{format(new Date(row.CreatedOnDate), "dd-MM-yyyy")}</td>
                   <td className="flex justify-center gap-2">
                   <button onClick={()=>{
                     handleOpenUpdateCategory(row._id)                      

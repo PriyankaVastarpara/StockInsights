@@ -13,7 +13,7 @@ import VendorData from "./components/TableData/VendorData.jsx";
 import SalesInvoice from "./components/SalesInvoice/SalesInvoice.jsx";
 import SalesOrderData from "./components/TableData/SalesOrderData.jsx";
 import PurchaseOrderData from "./components/TableData/PurchaseOrderData.jsx";
-import PurchaseInvoice from "./components/PurchaseBill/PurchaseBill.jsx";
+import PurchaseBill from "./components/PurchaseBill/PurchaseBill.jsx";
 import UpdatePurchaseBills from './components/UpdatePurchaseBills/UpdatePurchaseBills.jsx';
 import Reports from './components/Reports/Reports.jsx';
 import LowStock from './components/Reports/Inventory/LowStock.jsx';
@@ -38,7 +38,7 @@ const MyRoutes = () => {
         <Route path="/addcustomer" element={<AddCustomers/>}/>
         <Route path="/customers" element={<CustomerData/>}/>
         <Route path="/purchase-orders" element={<PurchaseOrderData/>}/>
-        <Route path="/purchase-bills" element={<PurchaseInvoice/>}/>
+        <Route path="/purchase-bills" element={<PurchaseBill/>}/>
         <Route path="/print-bill" element={<PrintBill/>}/>
         <Route path="/sales-orders" element={<SalesOrderData/>}/>
         <Route path="/sales-invoices" element={<SalesInvoice/>}/>

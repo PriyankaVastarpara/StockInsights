@@ -6,6 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import UpdateItem from "../UpdateItem/UpdateItem";
 import SharedContext from "../../contexts/SharedContext";
 import DeletePopup from "../DeletePopup/DeletePopup";
+import { format } from "date-fns";
 import axios from "axios";
 
 const ItemData = () => {
@@ -111,7 +112,7 @@ const ItemData = () => {
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.UnitPrice}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.TotalAmount}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.ReorderPoint}</td>
-                  <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.ExpiryDate}</td>
+                  <td className="border border-gray-400 px-4 py-1 text-gray-800">{format(new Date(row.ExpiryDate), "dd-MM-yyyy")}</td>
               
                 <td className="flex justify-center gap-2">
                   <button

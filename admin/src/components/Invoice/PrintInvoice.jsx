@@ -10,10 +10,8 @@ const PrintInvoice = () => {
     (acc, item) => acc + item.quantity * item.unitPrice,
     0
   );
-  const taxRate = 0.1; // Example tax rate of 10%
-  const taxAmount = subtotal * taxRate;
-  const total = subtotal + taxAmount;
 
+  const total = subtotal;
   const salesOrderNo = "SO-00122";
   const orderDate = "02/08/2023";
   const shipmentDate = "03/08/2023";
@@ -71,21 +69,13 @@ const PrintInvoice = () => {
         <div className="mt-8">
           <div className="flex justify-end">
             <p className="pr-4">
-              <span className="font-semibold text-md mb-2">Sub Total : </span> ₹{" "}
+              <span className="font-semibold text-md mb-2">Sub Total : </span> ₹ 
               {subtotal.toFixed(2)}
             </p>
           </div>
           <div className="flex justify-end">
-            <p className="pr-4 ">
-              <span className="font-semibold text-md mb-2">
-                Tax ({(taxRate * 100).toFixed(0)}%) :{" "}
-              </span>{" "}
-              ₹ {taxAmount.toFixed(2)}
-            </p>
-          </div>
-          <div className="flex justify-end">
             <span className="font-bold text-md mb-2">
-              Total Amount : ₹ {total.toFixed(2)}{" "}
+              Total Amount : ₹ {total.toFixed(2)}
             </span>
           </div>
         </div>

@@ -6,6 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import UpdateVendor from "../UpdateVendor/UpdateVendor";
 import SharedContext from "../../contexts/SharedContext";
 import DeletePopup from "../DeletePopup/DeletePopup";
+import { format } from "date-fns";
 import axios from "axios";
 
 const VendorData = () => {
@@ -122,7 +123,7 @@ const VendorData = () => {
                   {row.Phone}
                 </td>
                 <td className="border border-gray-400 px-4 py-1 text-gray-800">
-                  {row.CreatedOnDate}
+                {format(new Date(row.CreatedOnDate), "dd-MM-yyyy")}
                 </td>
                 <td className="flex justify-center gap-2">
                   <button

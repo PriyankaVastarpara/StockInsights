@@ -1,21 +1,48 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BiRupee } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdErrorOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
+import axios from "axios";
 
 const SalesInvoice = () => {
-  const { tableData } = useContext(SharedContext);
-  const [rows, setRows] = useState([{}]);
+  const { customerData, itemData, tableData } = useContext(SharedContext);
+  const [quantityValidationError, setQuantityValidationError] = useState("");
+  const CustomerNames = customerData.map((item) => {
+    return { CustomerName: item.CustomerName };
+  });
 
+  const Products = itemData.map((item) => {
+    return {
+      product: item.ItemName,
+      id: item._id,
+    };
+  });
+
+  const initialItem = {
+    product: "",
+    id: "",
+    description: "",
+    qty: 0,
+    rate: 0,
+    discount: 0,
+    total: 0,
+  };
+  const [rows, setRows] = useState([initialItem]);
   const [formData, setFormData] = useState({
-    customer: "",
-    invoiceno: "",
-    salesorderno: "",
-    invoicedate: "",
+    CustomerName: "",
+    billNo: "",
+    orderNo: "",
+    invoiceDate: "",
     method: "",
     address: "",
-    duedate: "",
+    dueDate: "",
+    subTotal: 0,
+    discount: 0,
+    total: 0,
+    terms: "",
+    remarks: "",
+    items: rows.map(() => ({ ...initialItem })),
   });
 
   const handleChange = (event) => {
@@ -23,33 +50,159 @@ const SalesInvoice = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // You can perform form submission logic here
-    console.log("Form submitted:", formData);
-  };
-  const handleClear = () => {
-    setFormData({
-      customer: "",
-      invoiceno: "",
-      salesorderno: "",
-      invoicedate: "",
-      method: "",
-      address: "",
-      duedate: "",
+  const handleItemChange = async (e, rowIndex, field) => {
+    const { value } = e.target;
+
+    // Create a copy of the rows state array to work with
+    const updatedRows = [...rows];
+
+    // Access the specific item being updated
+    const updatedItem = { ...updatedRows[rowIndex] };
+
+    // Update the field of the item based on the input value
+    updatedItem[field] =
+      field === "product" || field === "description"
+        ? value
+        : parseFloat(value);
+    // if (field === "product") {
+    //   // Fetch item details including rate
+    //   const currentItem = await axios.get(
+    //     `http://localhost:3000/item/${value}`
+    //   );
+
+    //   updatedItem.product = value;
+    //   updatedItem.rate = currentItem.data.MRP;
+    // } this code is for displays rate of selected item
+
+    //check the available quantity
+    if (field === "qty") {
+      const currentItem = await axios.get(
+        `http://localhost:3000/item/${updatedItem.product}`
+      );
+      const availableQuantity = currentItem.data.Quantity;
+      if (availableQuantity == 0) {
+        alert("Sorry,This Item Is Out of Stock!!!");
+      } else if (parseFloat(value) > availableQuantity) {
+        setQuantityValidationError(
+          "Quantity entered exceeds available quantity."
+        );
+        return;
+      } else {
+        setQuantityValidationError(""); // Clear the error message
+      }
+    }
+    // Update total if applicable
+    if (field === "qty" || field === "rate" || field === "discount") {
+      const qty = parseFloat(updatedItem.qty || 0);
+      const rate = parseFloat(updatedItem.rate || 0);
+      const discount = parseFloat(updatedItem.discount || 0);
+      const total = qty * rate - discount;
+      updatedItem.total = total;
+    }
+
+    // Update the specific item in the copy of the rows state array
+    updatedRows[rowIndex] = updatedItem;
+
+    // Update the rows state with the modified array
+    setRows(updatedRows);
+    setFormData((prevInvoice) => {
+      const updatedItems = [...prevInvoice.items];
+      updatedItems[rowIndex] = updatedItem;
+      return { ...prevInvoice, items: updatedItems };
     });
+  };
+  useEffect(() => {
+    updateInvoiceTotals(); // Calculate totals whenever rows change
+  }, [rows]);
+
+  const updateInvoiceTotals = () => {
+    let subTotal = 0;
+    let discountTotal = 0;
+    let totalInvoice = 0;
+
+    rows.forEach((item) => {
+      subTotal += item.qty * item.rate;
+      discountTotal += item.discount;
+      totalInvoice += item.total;
+    });
+
+    setFormData((prev) => ({
+      ...prev,
+      subTotal,
+      discount: discountTotal,
+      total: totalInvoice,
+    }));
   };
 
   const addRow = () => {
-    setRows([...rows, {}]);
+    const updatedRows = [...rows, { ...initialItem }]; // Add a new item to the rows state
+    setRows(updatedRows);
+
+    setFormData((prevInvoice) => ({
+      ...prevInvoice,
+      items: [...prevInvoice.items, { ...initialItem }],
+    }));
   };
+
+  const handleDeleteItem = () => {
+    const updatedRows = [...rows];
+    updatedRows.pop();
+    setRows(updatedRows);
+    updateInvoiceTotals();
+  };
+
+  const handleSubmit = async () => {
+    console.log(formData);
+    try {
+      // Calculate the sold quantities and update the item quantities
+      rows.forEach(async (item) => {
+        const currentItem = await axios.get(
+          `http://localhost:3000/item/${item.product}`
+        );
+
+        const newQuantity = currentItem.data.Quantity - item.qty;
+        const response = await axios.put(
+          `http://localhost:3000/item/${item.product}`,
+          { Quantity: newQuantity } // Update the item quantity with the sold quantity
+        );
+        console.log("Item Quantity Updated:", response?.data);
+      });
+      const response = await axios.post(
+        "http://localhost:3000/invoice/create",
+        formData
+      );
+      console.log("Response:", response?.data);
+      alert("Invoice saved successfully.");
+    } catch (error) {
+      console.error("Error:", error.response?.data.error);
+    }
+    console.log(rows);
+  };
+
+  const handleClear = () => {
+    setFormData({
+      CustomerName: "",
+      billNo: "",
+      orderNo: "",
+      invoiceDate: "",
+      method: "",
+      address: "",
+      dueDate: "",
+      subTotal: 0,
+      discount: 0,
+      total: 0,
+      terms: "",
+      remarks: "",
+      items: rows.map(() => ({ ...initialItem })),
+    });
+  };
+
   return (
     <>
       <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1">
-        {" "}
         New Sales Invoice
       </h1>
-      <div className="w-full h-full">
+      <div className="w-full h-full text-sm">
         <form
           onSubmit={handleSubmit}
           className="w-full  mt-3 px-2 py-4 bg-gray-100 shadow-md rounded-md"
@@ -58,64 +211,70 @@ const SalesInvoice = () => {
             <div className="text-sm text-gray-700 font-semibold w-1/2 flex flex-col gap-y-3 ">
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="customer"
+                  htmlFor="CustomerName"
                   className="justify-center text-gray-700 font-medium w-5/12"
                 >
                   Customer
                 </label>
-                <input
-                  type="text"
-                  id="customer"
-                  name="customer"
-                  value={formData.customer}
+                <select
                   onChange={handleChange}
+                  name="CustomerName"
+                  id="CustomerName"
+                  value={formData.CustomerName}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
-                />
+                >
+                  <option value="">--select--</option>
+                  {CustomerNames.map((customer, index) => (
+                    <option key={index} value={customer.CustomerName}>
+                      {customer.CustomerName}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="invoiceno"
+                  htmlFor="billNo"
                   className="text-gray-700 font-medium w-5/12"
                 >
-                  Invoice No.
+                  Bill No.
                 </label>
                 <input
                   type="text"
-                  id="invoiceno"
-                  name="invoiceno"
-                  value={formData.invoiceno}
+                  id="billNo"
+                  name="billNo"
+                  value={formData.billNo}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                 />
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="salesorderno"
+                  htmlFor="orderNo"
                   className="text-gray-700 font-medium w-5/12"
                 >
-                  Sales Order No
+                  Purchase Order No
                 </label>
                 <input
                   type="text"
-                  id="salesorderno"
-                  name="salesorderno"
-                  value={formData.salesorderno}
+                  id="orderNo"
+                  name="orderNo"
+                  value={formData.orderNo}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                 />
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="invoicedate"
+                  htmlFor="invoiceDate"
                   className="text-gray-700 font-medium w-5/12"
                 >
                   Invoice Date
                 </label>
                 <input
                   type="date"
-                  id="invoicedate"
-                  name="invoicedate"
-                  value={formData.invoicedate}
+                  id="invoiceDate"
+                  name="invoiceDate"
+                  value={formData.invoiceDate}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your password"
@@ -138,6 +297,7 @@ const SalesInvoice = () => {
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your username"
                 >
+                  <option value="">--select--</option>
                   <option value="cash">Cash</option>
                   <option value="online">Online</option>
                 </select>
@@ -161,16 +321,16 @@ const SalesInvoice = () => {
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="duedate"
+                  htmlFor="dueDate"
                   className="text-gray-700 font-medium w-5/12"
                 >
                   Due Date
                 </label>
                 <input
                   type="date"
-                  id="duedate"
-                  name="duedate"
-                  value={formData.duedate}
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your password"
@@ -184,16 +344,14 @@ const SalesInvoice = () => {
           <table className="w-full table-auto border-collapse border bg-gray-100 border-gray-400">
             <thead>
               <tr className="bg-blue-900 ">
-                {tableData.SalesInvoiceFields.map(
-                  (SalesInvoiceField, index) => (
-                    <th
-                      key={index}
-                      className="border border-gray-400 px-4 py-2 font-semibold text-white"
-                    >
-                      {SalesInvoiceField}
-                    </th>
-                  )
-                )}
+                {tableData.SalesInvoiceFields.map((SalesOrderField, index) => (
+                  <th
+                    key={index}
+                    className="border border-gray-400 px-4 py-2 font-semibold text-white"
+                  >
+                    {SalesOrderField}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="text-right ">
@@ -201,64 +359,94 @@ const SalesInvoice = () => {
                 <tr key={index} className="bg-transparent hover:bg-gray-50">
                   <td className="text-center">{index + 1}</td>
                   <td className="flex justify-center gap-2">
-                    <button className="text-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                    <button
+                      onClick={() => handleDeleteItem()}
+                      className="text-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
+                    >
                       <MdDelete icon="delete-alt" size={18} />
                     </button>
                   </td>
 
                   <td className="text-left">
-                    <input
-                      type="text"
+                    <select
+                      onChange={(e) => handleItemChange(e, index, "product")}
                       name="product"
-                      id="product"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
-                    />
+                      id={`product-${index}`}
+                      value={item.product || ""}
+                      className="ps-2 border border-gray-300 ms-auto w-full"
+                    >
+                      <option value="">--select--</option>
+                      {Products.map((product, index) => (
+                        <option key={index} value={product.id}>
+                          {product.product}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td className="text-left">
                     <input
+                      autoComplete="false"
+                      value={item.description || ""}
+                      onChange={(e) =>
+                        handleItemChange(e, index, "description")
+                      }
                       type="text"
                       name="description"
-                      id="description"
-                      autoComplete="given-name"
+                      id={`description-${index}`}
                       className="border border-gray-300 ms-auto w-full"
                     />
                   </td>
-                  <td className="">
+                  <td>
                     <input
+                      autoComplete="false"
+                      onChange={(e) => handleItemChange(e, index, "qty")}
                       type="number"
                       name="qty"
                       id="qty"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
+                      className="border text-right pr-1 ps-2 border-gray-300 ms-auto w-full"
                     />
+                    {quantityValidationError && (
+                      <span className="flex text-red-500">
+                        <MdErrorOutline size={18} />
+                        {quantityValidationError}
+                      </span>
+                    )}
                   </td>
-                  <td className="">
+                  <td>
                     <input
+                      autoComplete="false"
+                      onChange={(e) => handleItemChange(e, index, "rate")}
                       type="number"
                       name="rate"
                       id="rate"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
+                      className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
                     />
+                    {/* <input
+                      autoComplete="false"
+                      onChange={(e) => handleItemChange(e, index, "rate")}
+                      type="number"
+                      name="rate"
+                      id={`rate-${index}`}
+                      value={item.rate || ""}
+                      className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
+                    /> */}
                   </td>
-                  <td className="">
+                  <td>
                     <input
+                      autoComplete="false"
+                      onChange={(e) => {
+                        handleItemChange(e, index, "discount");
+                      }}
                       type="number"
                       name="discount"
                       id="discount"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
+                      className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
                     />
                   </td>
-                  <td className="">
-                    <input
-                      type="number"
-                      name="total"
-                      id="item_total"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
-                    />
+                  <td>
+                    <div className="text-right pr-1 border bg-white border-gray-300 ms-auto w-full ps-2">
+                      {item.total || 0}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -281,6 +469,8 @@ const SalesInvoice = () => {
                 <textarea
                   name="remarks"
                   id="remarks"
+                  value={formData.remarks}
+                  onChange={handleChange}
                   cols="40"
                   rows="3"
                   className="w-full mt-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
@@ -294,34 +484,39 @@ const SalesInvoice = () => {
                 <textarea
                   name="terms"
                   id="terms"
+                  onChange={handleChange}
+                  value={formData.terms}
                   cols="40"
                   rows="3"
                   className="w-full mt-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                 />
               </div>
             </div>
+            <div></div>
           </form>
-          <div className=" h-fit grid grid-cols gap-3 place-content-end">
+          <div className=" h-40 grid grid-cols gap-3 place-content-end">
             <div className="grid grid-cols-2 gap-4  w-fit ">
               <div className="w-40 font-sans font-semibold">Sub Total</div>
               <span className="flex items-center">
                 <BiRupee size={18} />
-                0.00
+                {formData.subTotal.toFixed(2)}
               </span>
             </div>
             <div className="grid grid-cols-2 gap-4 w-fit">
               <div className="w-40 font-sans font-semibold">Total Discount</div>
               <span className="flex items-center">
                 <BiRupee size={18} />
-                0.00
+                {formData.discount.toFixed(2)}
               </span>
             </div>
-            <hr className="h-px bg-slate-100 m-2 w-2/3 border-0" />
+            <hr className="h-px bg-slate-100 mx-2 w-2/3 border-0" />
             <div className="grid grid-cols-2 gap-4 w-fit">
               <div className="w-40 font-sans font-bold">Total Amount</div>
               <span className="flex items-center">
                 <BiRupee size={18} />
-                <span className="text-center font-bold">0.00</span>
+                <span className="text-center font-bold">
+                  {formData.total.toFixed(2)}
+                </span>
               </span>
             </div>
           </div>
@@ -336,13 +531,13 @@ const SalesInvoice = () => {
         >
           Save
         </button>
-        <Link to="/sales-orders">
-        <button
-          type="button"
-          className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
-        >
-          Cancel
-        </button>
+        <Link to="sales-orders">
+          <button
+            type="button"
+            className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
+          >
+            Cancel
+          </button>
         </Link>
         <button
           type="button"

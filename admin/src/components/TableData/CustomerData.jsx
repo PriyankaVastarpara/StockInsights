@@ -6,6 +6,7 @@ import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
 import UpdateCustomer from "../UpdateCustomer/UpdateCustomer";
 import DeletePopup from "../DeletePopup/DeletePopup";
+import { format } from "date-fns";
 import axios from "axios";
 
 const CustomerData = () => {
@@ -102,7 +103,7 @@ const CustomerData = () => {
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.Email}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.City}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.Phone}</td>
-                  <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.CreatedOnDate}</td>
+                  <td className="border border-gray-400 px-4 py-1 text-gray-800">{format(new Date(row.CreatedOnDate), "dd-MM-yyyy")}</td>
                   <td className="flex justify-center gap-2">
                   <button 
                   onClick={()=>{

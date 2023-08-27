@@ -23,8 +23,7 @@ const AddCustomers = () => {
 
     const data = await response.json();
     console.log('Response:',data);
-    alert("User Saved Successfully");
-
+    alert("Customer saved successfully."); 
   };
 
   const handleClear = (e) => {

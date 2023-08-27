@@ -62,3 +62,29 @@ exports.deleteItemById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.updateQuantity= async (req, res) => {
+    try {
+      const itemId = req.params.id;
+      const newQuantity = req.body.Quantity;
+  
+      // Find the item in the database by itemId
+      const item = await Item.findById(itemId);
+  
+      if (!item) {
+        return res.status(404).json({ error: "Item not found" });
+      }
+  
+      // Update the item quantity
+      item.Quantity -= newQuantity;
+  
+      // Save the updated item
+      await item.save();
+  
+      res.json({ message: "Item quantity updated successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while updating the item quantity" });
+    }
+  };
+  

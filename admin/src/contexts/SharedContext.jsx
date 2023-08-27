@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { HiOutlineShoppingBag, HiOutlineViewGrid } from "react-icons/hi";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 import { AiOutlineDashboard, AiOutlineAppstore } from "react-icons/ai";
 import { CgShoppingCart } from "react-icons/cg";
 import { BiUserCircle, BiUser } from "react-icons/bi";
@@ -10,21 +10,22 @@ import { useEffect, useState } from "react";
 const SharedContext = createContext();
 export function SharedContextProvider({ children }) {
   const [categoryData, setCategoryData] = useState({});
-  const [newSalesOrderData, setNewSalesOrderData] = useState({});
-  const [newPurchaseOrderData, setNewPurchaseOrderData] = useState({});
-
   const [customerData, setCustomerData] = useState([]);
-    const [vendorData, setVendorData] = useState([]);
-    const [itemData, setItemData] = useState([]);
+  const [vendorData, setVendorData] = useState([]);
+  const [itemData, setItemData] = useState([]);
+  const [purchaseBillData, setPurchaseBillData] = useState([]);
+  const [invoiceData, setInvoiceData] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     getCategoryData();
     getCustomerData();
     getVendorData();
     getItemData();
+    getPurchaseBillData();
+    getInvoiceData();
   }, []);
 
-const getCategoryData = async () => {
+  const getCategoryData = async () => {
     const response = await axios.get("http://localhost:3000/category/getall");
     setCategoryData(response?.data);
   };
@@ -42,7 +43,15 @@ const getCategoryData = async () => {
     const response = await axios.get("http://localhost:3000/item/getall");
     setItemData(response?.data);
   };
-  
+  const getPurchaseBillData = async () => {
+    const response = await axios.get("http://localhost:3000/purchasebill/getall");
+    setPurchaseBillData(response?.data);
+  };
+  const getInvoiceData = async () => {
+    const response = await axios.get("http://localhost:3000/invoice/getall");
+    setInvoiceData(response?.data);
+  };
+ 
   const sidebarMenus = [
     {
       menuName: "Dashboard",
@@ -87,7 +96,7 @@ const getCategoryData = async () => {
       menuName: "Reports",
       link: "/reports",
       icon: <SlGraph className="text-xl" />,
-    },                          
+    },
   ];
 
   const dashboardData = [
@@ -132,19 +141,19 @@ const getCategoryData = async () => {
   const formData = {
     category: {
       fields: [
-        { label: "Category Name", type: "text", name: "CategoryName"},
+        { label: "Category Name", type: "text", name: "CategoryName" },
         { label: "Code", type: "text", name: "Code", required: true },
         {
           label: "Description",
           type: "textarea",
-          name: "Description"
+          name: "Description",
         },
         { label: "Created On", type: "date", name: "CreatedOnDate" },
       ],
     },
     customer: {
       fields: [
-        { label: "Customer Name", type: "text", name: "CustomerName"},
+        { label: "Customer Name", type: "text", name: "CustomerName" },
         { label: "Code", type: "text", name: "Code", required: true },
         {
           label: "Customer Email",
@@ -178,22 +187,27 @@ const getCategoryData = async () => {
         },
         { label: "City", type: "text", name: "City", required: true },
         { label: "Pin Code", type: "text", name: "Pincode", required: true },
-        { label: "Created On", type: "date", name: "CreatedOnDate", required: true },
+        {
+          label: "Created On",
+          type: "date",
+          name: "CreatedOnDate",
+          required: true,
+        },
       ],
     },
     vendor: {
       fields: [
-        { label: "Vendor Name", type: "text", name: "VendorName"},
-        { label: "Code", type: "text", name: "Code"},
+        { label: "Vendor Name", type: "text", name: "VendorName" },
+        { label: "Code", type: "text", name: "Code" },
         {
           label: "Company Name",
           type: "text",
           name: "CompanyName",
           required: true,
         },
-        { label: "Vendor Email", type: "email", name: "Email"},
-        { label: "Phone", type: "text", name: "Phone"},
-        { label: "Address", type: "textarea", name: "Address"},
+        { label: "Vendor Email", type: "email", name: "Email" },
+        { label: "Phone", type: "text", name: "Phone" },
+        { label: "Address", type: "textarea", name: "Address" },
         {
           label: "Country",
           type: "select",
@@ -214,15 +228,15 @@ const getCategoryData = async () => {
             { label: "MP", value: "MP" },
           ],
         },
-        { label: "City", type: "text", name: "City"},
-        { label: "Pin Code", type: "text", name: "Pincode"},
-        { label: "Created On", type: "date", name: "CreatedOnDate"},
+        { label: "City", type: "text", name: "City" },
+        { label: "Pin Code", type: "text", name: "Pincode" },
+        { label: "Created On", type: "date", name: "CreatedOnDate" },
       ],
     },
     item: {
       fields: [
-        { label: "Name", type: "text", name: "ItemName"},
-        { label: "Code", type: "text", name: "Code"},
+        { label: "Name", type: "text", name: "ItemName" },
+        { label: "Code", type: "text", name: "Code" },
         {
           label: "Category",
           type: "select",
@@ -242,7 +256,7 @@ const getCategoryData = async () => {
           type: "text",
           name: "stockunit",
         },
-        { label: "Quantity", type: "text", name: "quantity"},
+        { label: "Quantity", type: "text", name: "quantity" },
         {
           label: "Vendor",
           type: "select",
@@ -271,7 +285,7 @@ const getCategoryData = async () => {
           type: "text",
           name: "unitPrice",
         },
-        { label: "Discount", type: "text", name: "discount"},
+        { label: "Discount", type: "text", name: "discount" },
         {
           label: "Selling Price",
           type: "text",
@@ -294,52 +308,12 @@ const getCategoryData = async () => {
         },
       ],
     },
-   
   };
   const tableData = {
-    
-    PurchaseOrderFields: [
-      "SrNo",
-      "Vendor",
-      "OrderNo",
-      "Date",
-      "Qty",
-      "Rate",
-      "Amount",
-      "Discount",
-      "Total",
-      "Status",
-    ],
-    purchaseOrderTableData: [
-      {
-        srno: 1,
-        vendor: "Priyanka Vts",
-        orderno: "S-11",
-        date: "30/07/2023",
-        qty: 5,
-        rate: 100,
-        amount: 500,
-        discount: 100,
-        total: 400,
-        status: "pending",
-      },
-      {
-        srno: 2,
-        vendor: "Isha Dave",
-        orderno: "S-12",
-        date: "30/07/2023",
-        qty: 8,
-        rate: 100,
-        amount: 800,
-        discount: 200,
-        total: 600,
-        status: "completed",
-      },
-    ],
     PurchaseInvoiceFields: [
       "SrNo",
       "Action",
-      "Item",
+      "Product",
       "Description",
       "Quantity",
       "Rate",
@@ -347,18 +321,7 @@ const getCategoryData = async () => {
       "Total",
     ],
 
-    SalesOrderFields: [
-      "SrNo",
-      "Customer",
-      "OrderNo",
-      "Date",
-      "Qty",
-      "Rate",
-      "Amount",
-      "Discount",
-      "Total",
-      "Status",
-    ],
+    
 
     salesOrderTableData: [
       {
@@ -389,7 +352,7 @@ const getCategoryData = async () => {
     SalesInvoiceFields: [
       "SrNo",
       "Action",
-      "Item",
+      "Product",
       "Description",
       "Quantity",
       "Rate",
@@ -397,16 +360,33 @@ const getCategoryData = async () => {
       "Total",
     ],
   };
-  const CategoryHeader= [
+  const CategoryHeader = [
     { name: "SrNo", width: "w-8" },
     { name: "Category", width: "" },
     { name: "Code", width: "" },
     { name: "Description", width: "" },
     { name: "CreatedOn", width: "" },
   ];
-  const CustomerHeader = ["ID", "Name", "Code", "Email", "City", "Phone","CreatedOn"];
-  const VendorHeader= ["ID","Code","Name","Company","Email","City","Phone","CreatedOn"];
-  const ItemHeader= [
+  const CustomerHeader = [
+    "ID",
+    "Name",
+    "Code",
+    "Email",
+    "City",
+    "Phone",
+    "CreatedOn",
+  ];
+  const VendorHeader = [
+    "ID",
+    "Code",
+    "Name",
+    "Company",
+    "Email",
+    "City",
+    "Phone",
+    "CreatedOn",
+  ];
+  const ItemHeader = [
     { name: "SrNo", width: "w-6" },
     { name: "Product", width: "w-4/12" },
     { name: "Code", width: "w-8" },
@@ -417,8 +397,30 @@ const getCategoryData = async () => {
     { name: "Amount", width: "w-8" },
     { name: "Reorder", width: "w-8" },
     { name: "ExpiryDate", width: "w-4/12" },
-  ]
-  const reports={
+  ];
+  const  PurchaseOrderHeader=[
+    "SrNo",
+    "Vendor",
+    "OrderNo",
+    "billNo",
+    "Date",
+    "SubTotal",
+    "Discount",
+    "Total",
+    // "Status",
+  ];
+  const SalesOrderHeader=[
+    "SrNo",
+    "Customer",
+    "OrderNo",
+    "billNo",
+    "Date",
+    "SubTotal",
+    "Discount",
+    "Total",
+    // "Status",
+  ];
+  const reports = {
     LowStockFields: [
       { name: "SrNo", width: "w-6" },
       { name: "Code", width: "" },
@@ -436,22 +438,22 @@ const getCategoryData = async () => {
         code: "PD-001",
         product: "Paracetamol",
         category: "Medicine",
-        supplier:"Supplier-1",
+        supplier: "Supplier-1",
         stockunit: "box",
         unitprice: 5000,
         reorderqty: 12,
-        onhand:8,
+        onhand: 8,
       },
       {
         srno: 2,
         code: "PD-002",
         product: "Dolo",
         category: "Medicine",
-        supplier:"Supplier-2",
+        supplier: "Supplier-2",
         stockunit: "box",
         unitprice: 8000,
         reorderqty: 18,
-        onhand:12,
+        onhand: 12,
       },
     ],
     OutOfStockFields: [
@@ -470,7 +472,7 @@ const getCategoryData = async () => {
         code: "PD-001",
         product: "Paracetamol",
         category: "Medicine",
-        supplier:"Supplier-1",
+        supplier: "Supplier-1",
         stockunit: "box",
         unitprice: 5000,
         reorderquantity: 12,
@@ -480,32 +482,31 @@ const getCategoryData = async () => {
         code: "PD-002",
         product: "Dolo",
         category: "Medicine",
-        supplier:"Supplier-2",
+        supplier: "Supplier-2",
         stockunit: "box",
         unitprice: 8000,
         reorderquantity: 18,
       },
     ],
-  }
+  };
   const value = {
     sidebarMenus,
     dashboardData,
     formData,
     categoryData,
-    setCategoryData,
     customerData,
     vendorData,
     itemData,
-    newSalesOrderData,
-    setNewSalesOrderData,
-    newPurchaseOrderData,
-    setNewPurchaseOrderData,
+    purchaseBillData,
+    invoiceData,
     tableData,
     reports,
     CustomerHeader,
     VendorHeader,
     CategoryHeader,
-    ItemHeader
+    ItemHeader,
+    PurchaseOrderHeader,
+    SalesOrderHeader
   };
 
   return (

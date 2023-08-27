@@ -1,20 +1,46 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BiRupee } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
-import {Link} from "react-router-dom"
+import { MdDelete, MdErrorOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
+import axios from "axios";
 
-const PurchaseInvoice = () => {
-  const { tableData } = useContext(SharedContext);
-  const [rows, setRows] = useState([{}]);
+const PurchaseBill = () => {
+  const { vendorData, itemData, tableData } = useContext(SharedContext);
+  // const [quantityValidationError, setQuantityValidationError] = useState("");
+  const VendorNames = vendorData.map((item) => {
+    return { VendorName: item.VendorName };
+  });
+  const Products = itemData.map((item) => {
+    return {
+      product: item.ItemName,
+      id: item._id,
+    };
+  });
+  const initialItem = {
+    product: "",
+    id: "",
+    description: "",
+    qty: 0,
+    rate: 0,
+    discount: 0,
+    total: 0,
+  };
+  const [rows, setRows] = useState([initialItem]);
   const [formData, setFormData] = useState({
-    vendor: "",
-    billno: "",
-    purchaseorderno: "",
-    invoicedate: "",
+    VendorName: "",
+    billNo: "",
+    orderNo: "",
+    invoiceDate: "",
     method: "",
     address: "",
-    duedate: "",
+    dueDate: "",
+    subTotal: 0,
+    discount: 0,
+    total: 0,
+    terms: "",
+    remarks: "",
+    items: rows.map(() => ({ ...initialItem })),
   });
 
   const handleChange = (event) => {
@@ -22,26 +48,142 @@ const PurchaseInvoice = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // You can perform form submission logic here
-    console.log("Form submitted:", formData);
-  };
-  const handleClear = () => {
-    setFormData({
-      vendor: "",
-      billno: "",
-      purchaseorderno: "",
-      invoicedate: "",
-      method: "",
-      address: "",
-      duedate: "",
+  const handleItemChange = async (e, rowIndex, field) => {
+    const { value } = e.target;
+
+    // Create a copy of the rows state array to work with
+    const updatedRows = [...rows];
+
+    // Access the specific item being updated
+    const updatedItem = { ...updatedRows[rowIndex] };
+
+    // Update the field of the item based on the input value
+    updatedItem[field] =
+      field === "product" || field === "description"
+        ? value
+        : parseFloat(value);
+    //check the available quantity
+    // if (field === "qty") {
+    //   const currentItem = await axios.get(
+    //     `http://localhost:3000/item/${updatedItem.product}`
+    //   );
+    //   const availableQuantity = currentItem.data.Quantity;
+
+    //   if (parseFloat(value) > availableQuantity) {
+    //     setQuantityValidationError(
+    //       "Quantity entered exceeds available quantity."
+    //     );
+    //     return;
+    //   } else {
+    //     setQuantityValidationError(""); // Clear the error message
+    //   }
+    // }
+
+    // Update total if applicable
+    if (field === "qty" || field === "rate" || field === "discount") {
+      const qty = parseFloat(updatedItem.qty || 0);
+      const rate = parseFloat(updatedItem.rate || 0);
+      const discount = parseFloat(updatedItem.discount || 0);
+      const total = qty * rate - discount;
+      updatedItem.total = total;
+    }
+
+    // Update the specific item in the copy of the rows state array
+    updatedRows[rowIndex] = updatedItem;
+
+    // Update the rows state with the modified array
+    setRows(updatedRows);
+    setFormData((prevInvoice) => {
+      const updatedItems = [...prevInvoice.items];
+      updatedItems[rowIndex] = updatedItem;
+      return { ...prevInvoice, items: updatedItems };
     });
+  };
+  useEffect(() => {
+    updateInvoiceTotals(); // Calculate totals whenever rows change
+  }, [rows]);
+
+  const updateInvoiceTotals = () => {
+    let subTotal = 0;
+    let discountTotal = 0;
+    let totalInvoice = 0;
+
+    rows.forEach((item) => {
+      subTotal += item.qty * item.rate;
+      discountTotal += item.discount;
+      totalInvoice += item.total;
+    });
+
+    setFormData((prev) => ({
+      ...prev,
+      subTotal,
+      discount: discountTotal,
+      total: totalInvoice,
+    }));
   };
 
   const addRow = () => {
-    setRows([...rows, {}]);
+    const updatedRows = [...rows, { ...initialItem }]; // Add a new item to the rows state
+    setRows(updatedRows);
+
+    setFormData((prevInvoice) => ({
+      ...prevInvoice,
+      items: [...prevInvoice.items, { ...initialItem }],
+    }));
   };
+
+  const handleDeleteItem = () => {
+    const updatedRows = [...rows];
+    updatedRows.pop();
+    setRows(updatedRows);
+    updateInvoiceTotals();
+  };
+
+  const handleSubmit = async () => {
+    console.log(formData);
+    try {
+      rows.forEach(async (item) => {
+        const currentItem = await axios.get(
+          `http://localhost:3000/item/${item.product}`
+        );
+
+        const newQuantity = currentItem.data.Quantity + item.qty;
+        const response = await axios.put(
+          `http://localhost:3000/item/${item.product}`,
+          { Quantity: newQuantity } // Update the item quantity with the sold quantity
+        );
+        console.log("Item Quantity Updated:", response?.data);
+      });
+      const response = await axios.post(
+        "http://localhost:3000/purchasebill/create",
+        formData
+      );
+      console.log("Response:", response?.data);
+      alert("PurchaseBill saved successfully.");
+    } catch (error) {
+      console.error("Error:", error.response?.data.error);
+    }
+    console.log(rows);
+  };
+
+  const handleClear = () => {
+    setFormData({
+      VendorName: "",
+      billNo: "",
+      orderNo: "",
+      invoiceDate: "",
+      method: "",
+      address: "",
+      dueDate: "",
+      subTotal: 0,
+      discount: 0,
+      total: 0,
+      terms: "",
+      remarks: "",
+      items: rows.map(() => ({ ...initialItem })),
+    });
+  };
+
   return (
     <>
       <h1 className="text-xl font-sans font-semibold bg-blue-950 text-white px-3 py-1">
@@ -56,64 +198,71 @@ const PurchaseInvoice = () => {
             <div className="text-sm text-gray-700 font-semibold w-1/2 flex flex-col gap-y-3 ">
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="vendor"
+                  htmlFor="VendorName"
                   className="justify-center text-gray-700 font-medium w-5/12"
                 >
                   Vendor
                 </label>
-                <input
-                  type="text"
-                  id="vendor"
-                  name="vendor"
-                  value={formData.vendor}
+
+                <select
                   onChange={handleChange}
+                  name="VendorName"
+                  id="VendorName"
+                  value={formData.VendorName}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
-                />
+                >
+                  <option value="">--select--</option>
+                  {VendorNames.map((vendor, index) => (
+                    <option key={index} value={vendor.VendorName}>
+                      {vendor.VendorName}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="billno"
+                  htmlFor="billNo"
                   className="text-gray-700 font-medium w-5/12"
                 >
                   Bill No.
                 </label>
                 <input
                   type="text"
-                  id="billno"
-                  name="billno"
-                  value={formData.billno}
+                  id="billNo"
+                  name="billNo"
+                  value={formData.billNo}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                 />
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="purchaseorderno"
+                  htmlFor="orderNo"
                   className="text-gray-700 font-medium w-5/12"
                 >
                   Purchase Order No
                 </label>
                 <input
                   type="text"
-                  id="purchaseorderno"
-                  name="purchaseorderno"
-                  value={formData.purchaseorderno}
+                  id="orderNo"
+                  name="orderNo"
+                  value={formData.orderNo}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                 />
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="invoicedate"
+                  htmlFor="invoiceDate"
                   className="text-gray-700 font-medium w-5/12"
                 >
                   Invoice Date
                 </label>
                 <input
                   type="date"
-                  id="invoicedate"
-                  name="invoicedate"
-                  value={formData.invoicedate}
+                  id="invoiceDate"
+                  name="invoiceDate"
+                  value={formData.invoiceDate}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your password"
@@ -136,6 +285,7 @@ const PurchaseInvoice = () => {
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your username"
                 >
+                  <option value="">--select--</option>
                   <option value="cash">Cash</option>
                   <option value="online">Online</option>
                 </select>
@@ -159,16 +309,16 @@ const PurchaseInvoice = () => {
               </div>
               <div className="flex flex-row items-center">
                 <label
-                  htmlFor="duedate"
+                  htmlFor="dueDate"
                   className="text-gray-700 font-medium w-5/12"
                 >
                   Due Date
                 </label>
                 <input
                   type="date"
-                  id="duedate"
-                  name="duedate"
-                  value={formData.duedate}
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your password"
@@ -199,64 +349,82 @@ const PurchaseInvoice = () => {
                 <tr key={index} className="bg-transparent hover:bg-gray-50">
                   <td className="text-center">{index + 1}</td>
                   <td className="flex justify-center gap-2">
-                    <button className="text-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded">
+                    <button
+                      onClick={() => handleDeleteItem()}
+                      className="text-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
+                    >
                       <MdDelete icon="delete-alt" size={18} />
                     </button>
                   </td>
 
                   <td className="text-left">
-                    <input
-                      type="text"
+                    <select
+                      onChange={(e) => handleItemChange(e, index, "product")}
                       name="product"
-                      id="product"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
-                    />
+                      id={`product-${index}`}
+                      value={item.product || ""}
+                      className="ps-2 border border-gray-300 ms-auto w-full"
+                    >
+                      <option value="">--select--</option>
+                      {Products.map((product, index) => (
+                        <option key={index} value={product.id}>
+                          {product.product}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td className="text-left">
                     <input
+                      autoComplete="false"
+                      value={item.description || ""}
+                      onChange={(e) =>
+                        handleItemChange(e, index, "description")
+                      }
                       type="text"
                       name="description"
-                      id="description"
-                      autoComplete="given-name"
+                      id={`description-${index}`}
                       className="border border-gray-300 ms-auto w-full"
                     />
                   </td>
-                  <td className="">
+                  <td>
                     <input
+                      autoComplete="false"
+                      onChange={(e) => handleItemChange(e, index, "qty")}
                       type="number"
                       name="qty"
                       id="qty"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
+                      className="border text-right pr-1 ps-2 border-gray-300 ms-auto w-full"
                     />
+                    {/* {quantityValidationError && (
+                      <span className="flex text-red-500"><MdErrorOutline size={18}/>{quantityValidationError}</span>
+                    )} */}
                   </td>
-                  <td className="">
+                  <td>
                     <input
+                      autoComplete="false"
+                      onChange={(e) => handleItemChange(e, index, "rate")}
                       type="number"
                       name="rate"
                       id="rate"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
+                      className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
                     />
                   </td>
-                  <td className="">
+                  <td>
                     <input
+                      autoComplete="false"
+                      onChange={(e) => {
+                        handleItemChange(e, index, "discount");
+                      }}
                       type="number"
                       name="discount"
                       id="discount"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
+                      className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
                     />
                   </td>
-                  <td className="">
-                    <input
-                      type="number"
-                      name="total"
-                      id="item_total"
-                      autoComplete="given-name"
-                      className="border border-gray-300 ms-auto w-full"
-                    />
+                  <td>
+                    <div className="text-right pr-1 border bg-white border-gray-300 ms-auto w-full ps-2">
+                      {item.total || 0}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -279,6 +447,8 @@ const PurchaseInvoice = () => {
                 <textarea
                   name="remarks"
                   id="remarks"
+                  value={formData.remarks}
+                  onChange={handleChange}
                   cols="40"
                   rows="3"
                   className="w-full mt-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
@@ -292,6 +462,8 @@ const PurchaseInvoice = () => {
                 <textarea
                   name="terms"
                   id="terms"
+                  onChange={handleChange}
+                  value={formData.terms}
                   cols="40"
                   rows="3"
                   className="w-full mt-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
@@ -305,22 +477,24 @@ const PurchaseInvoice = () => {
               <div className="w-40 font-sans font-semibold">Sub Total</div>
               <span className="flex items-center">
                 <BiRupee size={18} />
-                0.00
+                {formData.subTotal.toFixed(2)}
               </span>
             </div>
             <div className="grid grid-cols-2 gap-4 w-fit">
               <div className="w-40 font-sans font-semibold">Total Discount</div>
               <span className="flex items-center">
                 <BiRupee size={18} />
-                0.00
+                {formData.discount.toFixed(2)}
               </span>
             </div>
-            <hr className="h-px bg-slate-100 m-2 w-2/3 border-0" />
+            <hr className="h-px bg-slate-100 mx-2 w-2/3 border-0" />
             <div className="grid grid-cols-2 gap-4 w-fit">
               <div className="w-40 font-sans font-bold">Total Amount</div>
               <span className="flex items-center">
                 <BiRupee size={18} />
-                <span className="text-center font-bold">0.00</span>
+                <span className="text-center font-bold">
+                  {formData.total.toFixed(2)}
+                </span>
               </span>
             </div>
           </div>
@@ -336,12 +510,12 @@ const PurchaseInvoice = () => {
           Save
         </button>
         <Link to="/purchase-orders">
-        <button
-          type="button"
-          className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
-        >
-          Cancel
-        </button>
+          <button
+            type="button"
+            className="bg-red-500  text-white font-normal text-md py-2 px-3 rounded-lg hover:bg-red-600 focus:outline-none border focus:border-gray-300"
+          >
+            Cancel
+          </button>
         </Link>
         <button
           type="button"
@@ -350,15 +524,17 @@ const PurchaseInvoice = () => {
         >
           Clear
         </button>
-        <Link to="/print-bill"><button
-          type="button"
-          className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
-        >
-          Print
-        </button></Link>
+        <Link to="/print-bill">
+          <button
+            type="button"
+            className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
+          >
+            Print
+          </button>
+        </Link>
       </div>
     </>
   );
 };
 
-export default PurchaseInvoice;
+export default PurchaseBill;

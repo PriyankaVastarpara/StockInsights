@@ -12,6 +12,10 @@ export default function App() {
     // Perform your login logic here, and then set isLoggedIn to true upon successful login
     setIsLoggedIn(true);
   };
+  const handleLogout = () => {
+    // Perform logout actions, such as clearing session
+    setIsLoggedIn(false);
+  };
   return (
     <>
     {/* <div>
@@ -24,7 +28,8 @@ export default function App() {
       {/* ) : (
         <Login onLogin={handleLogin} />
       )}
-    </div> */}
+    </div>  */}
     </>
   );
 }
+
