@@ -8,6 +8,8 @@ import axios from "axios";
 const SalesInvoice = () => {
   const { customerData, itemData, tableData } = useContext(SharedContext);
   const [quantityValidationError, setQuantityValidationError] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
   const CustomerNames = customerData.map((item) => {
     return { CustomerName: item.CustomerName };
   });
@@ -73,6 +75,15 @@ const SalesInvoice = () => {
     //   updatedItem.product = value;
     //   updatedItem.rate = currentItem.data.MRP;
     // } this code is for displays rate of selected item
+
+    if (field === "product" && selectedProducts.includes(value)) {
+      // Product already selected, show a warning and return
+      alert("Product already selected!");
+      return;
+    }
+    if (field === "product") {
+      setSelectedProducts((prevSelected) => [...prevSelected, value]);
+    }
 
     //check the available quantity
     if (field === "qty") {
