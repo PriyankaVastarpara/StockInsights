@@ -13,6 +13,7 @@ const AddCategory = () => {
   };
 
   const handleSubmit =async (e) => {
+    e.preventDefault(); 
     const response=await fetch('http://localhost:3000/category/create',{
       method:"POST",
       headers:{
@@ -23,8 +24,13 @@ const AddCategory = () => {
 
     const data = await response.json();
     console.log('Response:',data);
-    alert("category Saved Successfully");
-
+    if (response.status === 201) {
+      alert("Category Saved Successfully");
+    } else if (response.status === 400) {
+      alert(" This Category already exists !!");
+    } else {
+      alert("An error occurred while saving the Category.");
+    }
   };
 
   const handleClear = (e) => {

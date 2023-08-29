@@ -6,6 +6,7 @@ import SharedContext from "../../contexts/SharedContext";
 import axios from "axios";
 
 const PurchaseBill = () => {
+  const [selectedProducts, setSelectedProducts] = useState([]);
   const { vendorData, itemData, tableData } = useContext(SharedContext);
   // const [quantityValidationError, setQuantityValidationError] = useState("");
   const VendorNames = vendorData.map((item) => {
@@ -62,6 +63,15 @@ const PurchaseBill = () => {
       field === "product" || field === "description"
         ? value
         : parseFloat(value);
+
+        if (field === "product" && selectedProducts.includes(value)) {
+          // Product already selected, show a warning and return
+          alert("Product already selected!");
+          return;
+        }
+        if (field === "product") {
+          setSelectedProducts((prevSelected) => [...prevSelected, value]);
+        }
     //check the available quantity
     // if (field === "qty") {
     //   const currentItem = await axios.get(

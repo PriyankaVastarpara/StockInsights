@@ -3,7 +3,21 @@
 const Item = require('../models/item');
 
 exports.createItem = async (req, res) => {
+    // try {
+    //     const item = new Item(req.body);
+    //     await item.save();
+    //     res.status(201).json({ message: 'Item created successfully', item });
+    // } catch (error) {
+    //     res.status(500).json({ error: error.message });
+    // }
     try {
+        const { ItemName } = req.body;
+        // Check if the item already exists
+        const existingItem = await Item.findOne({ ItemName });
+        if (existingItem) {
+            return res.status(400).json({ message: 'Item already exists in the database' });
+        }
+        // If item does not exist, create a new item record
         const item = new Item(req.body);
         await item.save();
         res.status(201).json({ message: 'Item created successfully', item });

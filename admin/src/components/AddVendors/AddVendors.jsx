@@ -14,6 +14,7 @@ const AddVendors = () => {
   };
 
   const handleSubmit =async (e) => {
+    e.preventDefault(); // Prevent the default form submission
     const response=await fetch('http://localhost:3000/vendor/create',{
       method:"POST",
       headers:{
@@ -24,7 +25,13 @@ const AddVendors = () => {
 
     const data = await response.json();
     console.log('Response:',data);
-    alert("Vendor Saved Successfully");
+    if (response.status === 201) {
+      alert("Vendor Saved Successfully");
+    } else if (response.status === 400) {
+      alert(" This vendor already exists !!");
+    } else {
+      alert("An error occurred while saving the vendor.");
+    }
 
   };
 

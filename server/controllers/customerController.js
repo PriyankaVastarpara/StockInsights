@@ -4,6 +4,13 @@ const Customer = require('../models/customer');
 
 exports.createCustomer = async (req, res) => {
     try {
+        const { CustomerName } = req.body;
+        // Check if the customer already exists
+        const existingCustomer = await Customer.findOne({ CustomerName });
+        if (existingCustomer) {
+            return res.status(400).json({ message: 'Customer already exists in the database' });
+        }
+        // If customer does not exist, create a new customer record
         const customer = new Customer(req.body);
         await customer.save();
         res.status(201).json({ message: 'Customer created successfully', customer });

@@ -43,6 +43,7 @@ const AddItems = () => {
   };
 
   const handleSubmit =async (e) => {
+    e.preventDefault(); 
     const response=await fetch('http://localhost:3000/item/create',{
       method:"POST",
       headers:{
@@ -53,7 +54,13 @@ const AddItems = () => {
 
     const data = await response.json();
     console.log('Response:',data);
-    alert("Item Saved Successfully");
+   if (response.status === 201) {
+      alert("Item Saved Successfully");
+    } else if (response.status === 400) {
+      alert(" This item already exists !!");
+    } else {
+      alert("An error occurred while saving the Item.");
+    }
 
   };
 

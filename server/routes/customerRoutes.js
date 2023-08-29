@@ -4,7 +4,7 @@ const express = require('express');
 const customerController = require('../controllers/customerController');
 // const { createCustomer, updateCustomer } = require('../validators/customerValidator');
 
-const router = express.Router();
+const router = express.Router();    
 
 router.post('/create',customerController.createCustomer);
 router.get('/getall', customerController.getCustomers);

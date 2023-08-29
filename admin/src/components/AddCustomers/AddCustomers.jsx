@@ -6,18 +6,14 @@ import SharedContext from "../../contexts/SharedContext";
 const AddCustomers = () => {
   const { formData } = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
-  const [uploadedImage, setUploadedImage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleImageUpload = (imageUrl) => {
-    setUploadedImage(imageUrl);
-  };
-
   const handleSubmit = async (e) => {
+    e.preventDefault(); 
     const response = await fetch("http://localhost:3000/customer/create", {
       method: "POST",
       headers: {
@@ -28,7 +24,13 @@ const AddCustomers = () => {
 
     const data = await response.json();
     console.log("Response:", data);
-    alert("Customer saved successfully.");
+    if (response.status === 201) {
+      alert("Customer Saved Successfully");
+    } else if (response.status === 400) {
+      alert(" This Customer already exists !!");
+    } else {
+      alert("An error occurred while saving the Customer.");
+    }
   };
 
   const handleClear = (e) => {

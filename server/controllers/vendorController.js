@@ -4,6 +4,13 @@ const Vendor = require('../models/vendor');
 
 exports.createVendor = async (req, res) => {
     try {
+        const { VendorName } = req.body;
+        // Check if the vendor already exists
+        const existingVendor = await Vendor.findOne({ VendorName });
+        if (existingVendor) {
+            return res.status(400).json({ message: 'Vendor already exists in the database' });
+        }
+        // If vendor does not exist, create a new vendor record
         const vendor = new Vendor(req.body);
         await vendor.save();
         res.status(201).json({ message: 'Vendor created successfully', vendor });
@@ -42,7 +49,7 @@ exports.getByCity = async (req, res) => {
         res.json(vendors);
     } catch (error) {
         res.status(500).json({ error: error.message });
-    } 
+    }
 };
 
 exports.updateVendorById = async (req, res) => {
@@ -61,7 +68,7 @@ exports.updateVendorById = async (req, res) => {
 };
 
 exports.deleteVendorById = async (req, res) => {
-    
+
     try {
         const vendor = await Vendor.findByIdAndDelete(req.params.id);
         if (!vendor) {
