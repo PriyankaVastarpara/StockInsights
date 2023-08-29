@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import Drag from "../Drag";
 import { Link } from "react-router-dom";
+import SharedContext from "../../contexts/SharedContext";
 
 const AddItems = () => {
+  const { categoryData,vendorData } = useContext(SharedContext);
+  const VendorNames = vendorData.map((item) => {
+    return { VendorName: item.VendorName };
+  });
+  const CategoryNames = categoryData.map((item) => {
+    return { Category: item.CategoryName };
+  });
+
   const [item, setItem] = useState({
     ItemName: "",
     ItemCode: "",
     Category: "",
     ItemType: "",
     Description: "",
-    Vendor: "",
+    VendorName: "",
     StockUnit: "",
     Quantity: "",
     UnitPrice: "",
@@ -55,7 +64,7 @@ const AddItems = () => {
       Category: "",
       ItemType: "",
       Description: "",
-      Vendor: "",
+      VendorName: "",
       StockUnit: "",
       Quantity: "",
       UnitPrice: "",
@@ -138,15 +147,20 @@ const AddItems = () => {
 
           <div className="flex flex-row">
             <label className="text-gray-700 font-medium ">Category</label>
-            <input
-              onChange={handleChange}
-              value={item.Category}
-              type="text"
-              name="Category"
-              id="Category"
-              autoComplete="given-name"
-              className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-            />
+             <select
+                  onChange={handleChange}
+                  name="Category"
+                  id="Category"
+                  value={item.Category}
+                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
+                >
+                  <option value="">--select--</option>
+                  {CategoryNames.map((category, index) => (
+                    <option key={index} value={category.Category}>
+                      {category.Category}
+                    </option>
+                  ))}
+                </select>
           </div>
 
           <div className="flex flex-row">
@@ -158,6 +172,7 @@ const AddItems = () => {
               id="ItemType"
               className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
             >
+              <option value="">--select--</option>
               {itemTypes.map((itemType) => (
                 <option key={itemType.id} value={itemType.name}>
                   {itemType.name}
@@ -180,15 +195,20 @@ const AddItems = () => {
 
           <div className="flex flex-row">
             <label className="text-gray-700 font-medium">Vendor</label>
-            <input
-              onChange={handleChange}
-              value={item.Vendor}
-              type="text"
-              name="Vendor"
-              id="Vendor"
-              autoComplete="given-name"
-              className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-            />
+             <select
+                  onChange={handleChange}
+                  name="VendorName"
+                  id="VendorName"
+                  value={item.VendorName}
+                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
+                >
+                  <option value="">--select--</option>
+                  {VendorNames.map((vendor, index) => (
+                    <option key={index} value={vendor.VendorName}>
+                      {vendor.VendorName}
+                    </option>
+                  ))}
+                </select>
           </div>
           <div className="flex flex-row">
             <label className="text-gray-700 font-medium">Stock Unit</label>
@@ -199,6 +219,7 @@ const AddItems = () => {
               id="StockUnit"
               className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
             >
+              <option value="">--select--</option>
               {stockUnits.map((stockUnit) => (
                 <option key={stockUnit.id} value={stockUnit.name}>
                   {stockUnit.name}
@@ -352,11 +373,11 @@ const AddItems = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-2">
+        {/* <div className="flex flex-col gap-y-2">
           <div className="flex flex-row">
             <Drag />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">

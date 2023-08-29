@@ -86,11 +86,11 @@ const AddVendors = () => {
           ))}
         </div>
       </form>
-      <div className="flex flex-col gap-y-2">
+      {/* <div className="flex flex-col gap-y-2">
           <div className="flex flex-row">
             <Drag/>
           </div>
-        </div>
+        </div> */}
     </div>
     <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
         <button

@@ -1,5 +1,4 @@
 import React,{ useContext }  from "react";
-import User from "../../assets/user.jpg";
 import Sales from "../../assets/Sales.png";
 import Purchase from "../../assets/Purchase.png";
 import Quantity from "../../assets/Quantity.png";
@@ -9,7 +8,7 @@ import Profit from "../../assets/Profit.png";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const DashBoard = () => {
-  const { dashboardData } = useContext(SharedContext);
+  const { dashboardData ,purchaseBillData,invoiceData} = useContext(SharedContext);
   // Filter the array to get the  data
   const lowStockData = dashboardData.filter(
     (data) => data.name === "Low Stock Items"
@@ -36,6 +35,11 @@ const DashBoard = () => {
   if (!RecentPurchases) {
     return null; // Handle case when data is not found
   }
+
+  //calculate total purchases and sales
+    const totalPurchase = purchaseBillData.reduce((sum, invoice) => sum + invoice.total, 0);
+    const totalSale = invoiceData.reduce((sum, invoice) => sum + invoice.total, 0);
+
   return (
     <>
       <div>
@@ -58,6 +62,7 @@ const DashBoard = () => {
         </div>
         {/* Card content */}
         <div className=" mt-3 pt-3 grid grid-cols-3 gap-14  place-content-evenly  ">
+
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
             <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
@@ -68,7 +73,7 @@ const DashBoard = () => {
             </div>
             <div className="p-2 w-2/3">
               <h2 className="text-lg font-semibold mb-1 text-center">Sales</h2>
-              <p className="text-gray-600 text-xl">₹ 0.00</p>
+              <p className="text-gray-600 text-xl">₹ {totalSale}</p>
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
@@ -83,10 +88,10 @@ const DashBoard = () => {
               <h2 className="text-xl font-semibold mb-1 text-center">
                 Purchases
               </h2>
-              <p className="text-gray-600 text-xl">₹ 0.00</p>
+              <p className="text-gray-600 text-xl">₹ {totalPurchase}</p>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
+          {/* <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
             <div className="w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
                 src={Quantity}
@@ -100,8 +105,8 @@ const DashBoard = () => {
               </h2>
               <p className="text-gray-600 text-xl">₹ 0.00</p>
             </div>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
+          </div> */}
+          {/* <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
             <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
                 src={Receivable}
@@ -115,8 +120,8 @@ const DashBoard = () => {
               </h2>
               <p className="text-gray-600 text-xl">₹ 0.00</p>
             </div>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
+          </div> */}
+          {/* <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
             <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
                 src={Payable}
@@ -130,8 +135,8 @@ const DashBoard = () => {
               </h2>
               <p className="text-gray-600 text-xl">₹ 0.00</p>
             </div>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
+          </div> */}
+          {/* <div className="bg-white rounded-lg shadow-lg flex text-center items-center justify-center ">
             <div className=" w-1/3 flex-shrink-0 border-r border-gray-300">
               <img
                 src={Profit}
@@ -145,12 +150,12 @@ const DashBoard = () => {
               </h2>
               <p className="text-xl font-bold text-[#32de84]">₹ 0.00</p>
             </div>
-          </div>
+          </div>  */}
         </div>
-        {/* Tables started */}
-        <div className=" mt-10 grid grid-cols-2 gap-10  place-content-evenly">
+       
+        {/* <div className=" mt-10 grid grid-cols-2 gap-10  place-content-evenly"> */}
           {/* Low Stock Item Table */}
-          <div>
+          {/* <div>
             <h2 className="text-xl font-semibold mb-4">{lowStockData.name}</h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
@@ -180,9 +185,9 @@ const DashBoard = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div> */}
           {/* Out of Stock Items */}
-          <div>
+          {/* <div>
             <h2 className="text-xl font-semibold mb-4">
               {OutOfStockData.name}
             </h2>
@@ -214,9 +219,9 @@ const DashBoard = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div> */}
           {/* Recent Sales orders */}
-          <div>
+          {/* <div>
             <h2 className="text-xl font-semibold mb-4">{RecentSales.name}</h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
@@ -246,9 +251,9 @@ const DashBoard = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div> */}
           {/* Recent Purchase orders */}
-          <div>
+          {/* <div>
             <h2 className="text-xl font-semibold mb-4">
               {RecentPurchases.name}
             </h2>
@@ -280,8 +285,8 @@ const DashBoard = () => {
                 ))}
               </tbody>
             </table>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
     </>
   );

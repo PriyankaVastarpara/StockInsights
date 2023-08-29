@@ -23,7 +23,7 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Vendor: {
+  VendorName: {
     type: String,
     required: true,
   },

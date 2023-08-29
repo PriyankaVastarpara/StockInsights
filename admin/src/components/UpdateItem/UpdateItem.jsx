@@ -1,17 +1,26 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect,useContext} from "react";
 import { RxCross2 } from "react-icons/rx";
 import Drag from "../Drag";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import SharedContext from "../../contexts/SharedContext";
+
 
 const UpdateItem = ({ itemId,onClose }) => {
+  const { categoryData,vendorData } = useContext(SharedContext);
+  const VendorNames = vendorData.map((item) => {
+    return { VendorName: item.VendorName };
+  });
+  const CategoryNames = categoryData.map((item) => {
+    return { Category: item.CategoryName };
+  });
   const [item, setItem] = useState({
     ItemName: "",
     ItemCode: "",
     Category: "",
     ItemType: "",
     Description: "",
-    Vendor: "",
+    VendorName: "",
     StockUnit: "",
     Quantity: "",
     UnitPrice: "",
@@ -135,15 +144,20 @@ const UpdateItem = ({ itemId,onClose }) => {
 
             <div className="flex flex-row">
               <label className="text-gray-700 font-medium ">Category</label>
-              <input
-                onChange={handleInputChange}
-                value={item.Category}
-                type="text"
-                name="Category"
-                id="Category"
-                autoComplete="given-name"
-                className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-              />
+              <select
+                  onChange={handleInputChange}
+                  name="Category"
+                  id="Category"
+                  value={item.Category}
+                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
+                >
+                  <option value="">--select--</option>
+                  {CategoryNames.map((category, index) => (
+                    <option key={index} value={category.Category}>
+                      {category.Category}
+                    </option>
+                  ))}
+                </select>
             </div>
 
             <div className="flex flex-row">
@@ -177,15 +191,20 @@ const UpdateItem = ({ itemId,onClose }) => {
 
             <div className="flex flex-row">
               <label className="text-gray-700 font-medium">Vendor</label>
-              <input
-                onChange={handleInputChange}
-                value={item.Vendor}
-                type="text"
-                name="Vendor"
-                id="Vendor"
-                autoComplete="given-name"
-                className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-              />
+              <select
+                  onChange={handleInputChange}
+                  name="VendorName"
+                  id="VendorName"
+                  value={item.VendorName}
+                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
+                >
+                  <option value="">--select--</option>
+                  {VendorNames.map((vendor, index) => (
+                    <option key={index} value={vendor.VendorName}>
+                      {vendor.VendorName}
+                    </option>
+                  ))}
+                </select>
             </div>
             <div className="flex flex-row">
               <label className="text-gray-700 font-medium">Stock Unit</label>
@@ -352,11 +371,11 @@ const UpdateItem = ({ itemId,onClose }) => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-y-2">
+          {/* <div className="flex flex-col gap-y-2">
             <div className="flex flex-row">
               <Drag />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-start">
         <Link to="/products"><button

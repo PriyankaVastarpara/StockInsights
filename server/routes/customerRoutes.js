@@ -12,6 +12,7 @@ router.get('/:id', customerController.getCustomerById);
 router.put('/:id', customerController.updateCustomerById);
 router.delete('/:id', customerController.deleteCustomerById);
 router.get('/city/:city', customerController.getByCity);
+router.get('/city/:city', customerController.getByCity);
 //router.post('/city', customerController.getByCity)
 
 module.exports = router;

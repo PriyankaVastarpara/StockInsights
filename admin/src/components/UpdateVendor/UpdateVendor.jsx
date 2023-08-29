@@ -126,11 +126,11 @@ useEffect(() => {
               </button>
             </div>
           </form>
-          <div className="flex flex-col gap-y-2">
+          {/* <div className="flex flex-col gap-y-2">
             <div className="flex flex-row">
               <Drag />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

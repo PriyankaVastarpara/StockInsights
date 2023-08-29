@@ -6,29 +6,33 @@ import SharedContext from "../../contexts/SharedContext";
 const AddCustomers = () => {
   const { formData } = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
+  const [uploadedImage, setUploadedImage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit =async (e) => {
-    const response=await fetch('http://localhost:3000/customer/create',{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
+  const handleImageUpload = (imageUrl) => {
+    setUploadedImage(imageUrl);
+  };
+
+  const handleSubmit = async (e) => {
+    const response = await fetch("http://localhost:3000/customer/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify(formValues),
+      body: JSON.stringify(formValues),
     });
 
     const data = await response.json();
-    console.log('Response:',data);
-    alert("Customer saved successfully."); 
+    console.log("Response:", data);
+    alert("Customer saved successfully.");
   };
 
   const handleClear = (e) => {
-      //Handle success or any other action here
-    
+    //Handle success or any other action here
   };
   return (
     <>
@@ -89,11 +93,16 @@ const AddCustomers = () => {
             ))}
           </div>
         </form>
-        <div className="flex flex-col gap-y-2">
+        {/* <div className="flex flex-col gap-y-2">
           <div className="flex flex-row">
             <Drag />
           </div>
-        </div>
+        </div> */}
+        {/* <div className="flex flex-col gap-y-2">
+          <div className="flex flex-row">
+            <Drag onImageUpload={handleImageUpload} />
+          </div>
+        </div> */}
       </div>
       <div className="mx-2 flex flex-row gap-x-3 justify-start my-5">
         <button
