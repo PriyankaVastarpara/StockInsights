@@ -263,7 +263,7 @@ const SalesInvoice = () => {
                   htmlFor="orderNo"
                   className="text-gray-700 font-medium w-5/12"
                 >
-                  Purchase Order No
+                  Sales Order No
                 </label>
                 <input
                   type="text"

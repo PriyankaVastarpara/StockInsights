@@ -169,6 +169,7 @@ const UpdateItem = ({ itemId,onClose }) => {
                 id="ItemType"
                 className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
               >
+                 <option value="">--select--</option>
                 {itemTypes.map((itemType) => (
                   <option key={itemType.id} value={itemType.name}>
                     {itemType.name}
@@ -215,6 +216,7 @@ const UpdateItem = ({ itemId,onClose }) => {
                 id="StockUnit"
                 className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
               >
+                 <option value="">--select--</option>
                 {stockUnits.map((stockUnit) => (
                   <option key={stockUnit.id} value={stockUnit.name}>
                     {stockUnit.name}
