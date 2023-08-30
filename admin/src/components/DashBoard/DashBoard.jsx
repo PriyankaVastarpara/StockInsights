@@ -16,13 +16,10 @@ const DashBoard = () => {
     outOfStockItems,
   } = useContext(SharedContext);
   
-
-  const RecentSales = dashboardData.filter(
-    (data) => data.name === "Recent Sales Orders"
-  )[0];
-  const RecentPurchases = dashboardData.filter(
-    (data) => data.name === "Recent Purchase Orders"
-  )[0];
+  //for fetch recent 5 records 
+  const recentSalesOrders = invoiceData.slice(-5).reverse();
+  const recentPurchaseOrders = purchaseBillData.slice(-5).reverse();
+  
 
   if (!lowStockItems) {
     return null; // Handle case when data is not found
@@ -30,10 +27,10 @@ const DashBoard = () => {
   if (!outOfStockItems) {
     return null; // Handle case when data is not found
   }
-  if (!RecentSales) {
+  if (!recentSalesOrders) {
     return null; // Handle case when data is not found
   }
-  if (!RecentPurchases) {
+  if (!recentPurchaseOrders) {
     return null; // Handle case when data is not found
   }
 
@@ -248,71 +245,91 @@ const DashBoard = () => {
             </table>
           </div>
           {/* Recent Sales orders */}
-          {/* <div>
-            <h2 className="text-xl font-semibold mb-4">{RecentSales.name}</h2>
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Recent Sales Orders</h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
                 <tr className="bg-blue-950 text-white text-sm leading-normal">
-                  {RecentSales.columns.map((column, index) => (
-                    <th key={index} className="py-3 px-6 text-left">
-                      {column}
-                    </th>
-                  ))}
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                    SrNo
+                  </th>
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                   InvoiceNo
+                  </th>
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                   Customer
+                  </th>
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                    Amount
+                  </th>
                 </tr>
               </thead>
-              <tbody className="text-gray-600 text-sm font-medium">
-                {RecentSales.data.map((row, rowIndex) => (
+              <tbody>
+                {recentSalesOrders.map((item, index) => (
                   <tr
-                    key={rowIndex}
-                    className={rowIndex % 2 === 0 ? "bg-gray-100" : ""}
+                    key={item._id}
+                    className={index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"}
                   >
-                    {row.map((cell, cellIndex) => (
-                      <td
-                        key={cellIndex}
-                        className="py-3 px-6 text-left whitespace-nowrap"
-                      >
-                        {cell}
-                      </td>
-                    ))}
+                    <td className="py-2 px-2 text-left whitespace-nowrap ">
+                      {index + 1}
+                    </td>
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                      {item.billNo}
+                    </td>
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                      {item.CustomerName}
+                    </td>
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                      {item.total}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div> */}
+          </div>
           {/* Recent Purchase orders */}
-          {/* <div>
-            <h2 className="text-xl font-semibold mb-4">
-              {RecentPurchases.name}
-            </h2>
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Recent Purchase Orders</h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
                 <tr className="bg-blue-950 text-white text-sm leading-normal">
-                  {RecentPurchases.columns.map((column, index) => (
-                    <th key={index} className="py-3 px-6 text-left">
-                      {column}
-                    </th>
-                  ))}
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                    SrNo
+                  </th>
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                   BillNo
+                  </th>
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                   Vendor
+                  </th>
+                  <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
+                    Amount
+                  </th>
                 </tr>
               </thead>
-              <tbody className="text-gray-600 text-sm font-medium">
-                {RecentPurchases.data.map((row, rowIndex) => (
+              <tbody>
+                {recentPurchaseOrders.map((item, index) => (
                   <tr
-                    key={rowIndex}
-                    className={rowIndex % 2 === 0 ? "bg-gray-100" : ""}
+                    key={item._id}
+                    className={index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"}
                   >
-                    {row.map((cell, cellIndex) => (
-                      <td
-                        key={cellIndex}
-                        className="py-3 px-6 text-left whitespace-nowrap"
-                      >
-                        {cell}
-                      </td>
-                    ))}
+                    <td className="py-2 px-2 text-left whitespace-nowrap ">
+                      {index + 1}
+                    </td>
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                      {item.billNo}
+                    </td>
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                      {item.VendorName}
+                    </td>
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                      {item.total}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

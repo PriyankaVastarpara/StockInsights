@@ -104,27 +104,6 @@ export function SharedContextProvider({ children }) {
     },
   ];
 
-  const dashboardData = [
-    {
-      name: "Recent Sales Orders",
-      columns: ["Invoice No", "Customer Name", "Amount", "Status"],
-      data: [
-        ["IO-01", "Priyanka vts", "₹ 80,000", "Paid"],
-        ["IO-02", "Kriyanshi Kamani", "₹ 70,000", "Paid"],
-        ["IO-03", "Priyansi Jadeja", "₹ 75,000", "UnPaid"],
-      ],
-    },
-    {
-      name: "Recent Purchase Orders",
-      columns: ["Bill No", "Vendor Name", "Amount", "Status"],
-      data: [
-        ["BAO-01", "Priyanka vts", "₹ 80,000", "Paid"],
-        ["BAO-02", "Kriyanshi Kamani", "₹ 70,000", "Paid"],
-        ["BAO-03", "Priyansi Jadeja", "₹ 75,000", "UnPaid"],
-      ],
-    },
-  ];
-
   const formData = {
     category: {
       fields: [
@@ -409,7 +388,6 @@ export function SharedContextProvider({ children }) {
   ];
   const value = {
     sidebarMenus,
-    dashboardData,
     formData,
     categoryData,
     customerData,

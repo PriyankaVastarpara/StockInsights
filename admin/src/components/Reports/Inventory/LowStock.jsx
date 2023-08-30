@@ -28,7 +28,7 @@ const LowStock = () => {
       </div>
         <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>
-          <tr className="bg-gray-600">
+          <tr className="bg-blue-900">
             <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">SrNo</th>
             <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">Code</th>
             <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">Product</th>
@@ -43,7 +43,7 @@ const LowStock = () => {
         <tbody>
           {filteredItems.map((item ,index)=> (
             <tr key={item._id} className={`${
-              index % 2 === 0 ? "bg-gray-50" : "bg-gray-200"
+              index % 2 === 0 ? "" : "bg-gray-200"
             } border border-gray-400`}> 
               <td className="border border-gray-400 px-4 py-1 text-gray-800">{index+1}</td>
               <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.ItemCode}</td>

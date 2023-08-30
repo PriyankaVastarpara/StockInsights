@@ -38,11 +38,10 @@ const Sidebar = () => {
             {menu.menuName == "Dashboard" ||
             menu.menuName == "Vendors" ||
             menu.menuName == "Customers" ||
-            menu.menuName == "Madhuri" ||
             menu.menuName == "Reports" ? (
               <Link
                 to={menu.link}
-                className="flex items-center w-full focus:outline-none hover:bg-[#207dac] text-gray-600 border-l-4 border-transparent hover:border-white pr-6 py-1 flex-row"
+                className="flex items-center w-full focus:outline-none hover:bg-sky-700 text-gray-600  hover:px-1 pr-6 py-1 rounded flex-row"
               >
                 <span className=" text-white inline-flex justify-center items-center">
                   {menu.icon}
@@ -59,7 +58,7 @@ const Sidebar = () => {
               <>
                 <button
                   onClick={() => toggleSubMenu(index)}
-                  className="flex items-center w-full focus:outline-none hover:bg-[#207dac] text-gray-600 border-l-4 border-transparent hover:border-white pr-6 py-1 flex-row"
+                  className="flex items-center w-full focus:outline-none hover:bg-sky-700 text-gray-600 hover: px-1 pr-6 py-1 rounded flex-row"
                 >
                   <span className=" inline-flex text-white justify-center items-center">
                     {menu.icon}
@@ -78,7 +77,7 @@ const Sidebar = () => {
                     <Link
                       to={subMenu.link}
                       key={subIndex}
-                      className={`flex flex-col text-white text-sm pl-8 pr-2 hover:bg-[#267399] w-full py-1 ${
+                      className={`flex flex-col text-white text-sm pl-8 pr-2 hoverbg-sky-700 w-full py-1 ${
                         !open && "hidden"
                       }`}
                     >
