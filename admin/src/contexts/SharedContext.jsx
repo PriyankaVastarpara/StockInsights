@@ -13,8 +13,13 @@ export function SharedContextProvider({ children }) {
   const [customerData, setCustomerData] = useState([]);
   const [vendorData, setVendorData] = useState([]);
   const [itemData, setItemData] = useState([]);
-  const [purchaseBillData, setPurchaseBillData] = useState([]);
+  const [purchaseBillData, setPurchaseBillData] = useState([]); 
   const [invoiceData, setInvoiceData] = useState([]);
+  //this will store the items which has 0 quantity
+  const outOfStockItems = itemData.filter(item => item.Quantity === 0);
+
+   //this will store items which has low stock
+   const lowStockItems = itemData.filter(item => item.Quantity < item.ReorderPoint && item.Quantity !=0);
 
   useEffect(() => {
     getCategoryData();
@@ -100,24 +105,6 @@ export function SharedContextProvider({ children }) {
   ];
 
   const dashboardData = [
-    {
-      name: "Low Stock Items",
-      columns: ["Code", "Product", "Category", "Qty"],
-      data: [
-        ["IO-01", "Product_1", "Category_1", 12],
-        ["IO-02", "Product_2", "Category_2", 8],
-        ["IO-03", "Product_3", "Category_3", 5],
-      ],
-    },
-    {
-      name: "Out Of Stock Items",
-      columns: ["Code", "Product", "Category"],
-      data: [
-        ["OS-01", "Product_1", "Category_1"],
-        ["OS-02", "Product_2", "Category_2"],
-        ["OS-03", "Product_3", "Category_3"],
-      ],
-    },
     {
       name: "Recent Sales Orders",
       columns: ["Invoice No", "Customer Name", "Amount", "Status"],
@@ -420,75 +407,6 @@ export function SharedContextProvider({ children }) {
     "Total",
     // "Status",
   ];
-  const reports = {
-    LowStockFields: [
-      { name: "SrNo", width: "w-6" },
-      { name: "Code", width: "" },
-      { name: "Product", width: "" },
-      { name: "Category", width: "" },
-      { name: "Supplier", width: "" },
-      { name: "StockUnit", width: "" },
-      { name: "UnitPrice", width: "" },
-      { name: "ReorderQty", width: "w-20" },
-      { name: "OnHand", width: "w-8" },
-    ],
-    LowStockData: [
-      {
-        srno: 1,
-        code: "PD-001",
-        product: "Paracetamol",
-        category: "Medicine",
-        supplier: "Supplier-1",
-        stockunit: "box",
-        unitprice: 5000,
-        reorderqty: 12,
-        onhand: 8,
-      },
-      {
-        srno: 2,
-        code: "PD-002",
-        product: "Dolo",
-        category: "Medicine",
-        supplier: "Supplier-2",
-        stockunit: "box",
-        unitprice: 8000,
-        reorderqty: 18,
-        onhand: 12,
-      },
-    ],
-    OutOfStockFields: [
-      { name: "SrNo", width: "w-6" },
-      { name: "Code", width: "" },
-      { name: "Product", width: "" },
-      { name: "Category", width: "" },
-      { name: "Supplier", width: "" },
-      { name: "StockUnit", width: "" },
-      { name: "UnitPrice", width: "" },
-      { name: "ReorderQuantity", width: "w-20" },
-    ],
-    OutOfStockData: [
-      {
-        srno: 1,
-        code: "PD-001",
-        product: "Paracetamol",
-        category: "Medicine",
-        supplier: "Supplier-1",
-        stockunit: "box",
-        unitprice: 5000,
-        reorderquantity: 12,
-      },
-      {
-        srno: 2,
-        code: "PD-002",
-        product: "Dolo",
-        category: "Medicine",
-        supplier: "Supplier-2",
-        stockunit: "box",
-        unitprice: 8000,
-        reorderquantity: 18,
-      },
-    ],
-  };
   const value = {
     sidebarMenus,
     dashboardData,
@@ -500,13 +418,14 @@ export function SharedContextProvider({ children }) {
     purchaseBillData,
     invoiceData,
     tableData,
-    reports,
     CustomerHeader,
     VendorHeader,
     CategoryHeader,
     ItemHeader,
     PurchaseOrderHeader,
-    SalesOrderHeader
+    SalesOrderHeader,
+    outOfStockItems,
+    lowStockItems
   };
 
   return (

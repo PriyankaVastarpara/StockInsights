@@ -2,71 +2,62 @@ import React, { useState, useContext } from "react";
 import SharedContext from "../../../contexts/SharedContext";
 
 const LowStock = () => {
-  const { reports } = useContext(SharedContext);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredLowStockData, setFilteredLowStockData] = useState(
-    reports.LowStockData
+  const { lowStockItems} = useContext(SharedContext);
+  const [searchTerm, setSearchTerm] = useState("");
+ 
+   // Filter items based on search term
+   const filteredItems = lowStockItems.filter(item =>
+    item.ItemName.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleSearch = (event) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    const filteredData = reports.LowStockData.filter((item) =>
-      item.product.toLowerCase().includes(query)
-    );
-
-    setFilteredLowStockData(filteredData);
-  };
   return (
     <>
       <div className="p-2 bg-blue-900 text-white rounded font-sans font-semibold text-center">
         Low Stock Items Report
       </div>
 
-      <div className="overflow-x-auto mx-10 mt-3">
-        <div className="my-4 flex justify-end  ">
-          <input
-            type="text"
-            className="border border-gray-300 rounded-md p-2 w-52 focus:outline-none focus:border-blue-900"
-            placeholder="Search by name..."
-            value={searchQuery}
-            onChange={handleSearch}
-          />
-        </div>
+      <div className="overflow-x-auto mx-10 mt-2">
+        <div className="my-2 flex justify-end  ">
+       {/* Search bar */}
+       <input
+        type="text"
+        placeholder="Search by product name"
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+        className="p-2 m-2 border border-gray-400 rounded"
+      />
+      </div>
         <table className="w-full table-auto border-collapse border border-gray-400">
-          <thead>
-            <tr className="bg-gray-600  ">
-              {reports.LowStockFields.map((LowStockField, index) => (
-                <th
-                  key={index}
-                  className={`${LowStockField.width} border border-gray-400 px-2 py-2 text-left font-semibold text-white`}
-                >
-                  {LowStockField.name}
-                </th>
-              ))}
+        <thead>
+          <tr className="bg-gray-600">
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">SrNo</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">Code</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">Product</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">Category</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">Vendor</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">StockUnit</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">MRP</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">OnHand</th>
+            <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">ReorderQty</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredItems.map((item ,index)=> (
+            <tr key={item._id} className={`${
+              index % 2 === 0 ? "bg-gray-50" : "bg-gray-200"
+            } border border-gray-400`}> 
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{index+1}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.ItemCode}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.ItemName}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.Category}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.VendorName}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.StockUnit}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.MRP}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.Quantity}</td>
+              <td className="border border-gray-400 px-4 py-1 text-gray-800">{item.ReorderPoint}</td>
             </tr>
-          </thead>
-          <tbody>
-            {filteredLowStockData.map((row, rowIndex) => (
-              <tr
-                key={row.srno}
-                className={`${
-                  rowIndex % 2 === 0 ? "bg-gray-50" : "bg-gray-200"
-                } border border-gray-400`}
-              >
-                {reports.LowStockFields.map((LowStockField, index) => (
-                  <td
-                    key={index}
-                    className="border border-gray-400 px-4 py-1 text-gray-800"
-                  >
-                    {row[LowStockField.name.toLowerCase()]}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
       </div>
     </>
   );
