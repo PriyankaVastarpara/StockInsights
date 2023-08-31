@@ -41,7 +41,7 @@ const Sidebar = () => {
             menu.menuName == "Reports" ? (
               <Link
                 to={menu.link}
-                className="flex items-center w-full focus:outline-none hover:bg-sky-700 text-gray-600  hover:px-1 pr-6 py-1 rounded flex-row"
+                className="flex items-center w-full focus:outline-none hover:bg-sky-700 text-gray-600  hover: px-1 pr-6 py-1 rounded flex-row"
               >
                 <span className=" text-white inline-flex justify-center items-center">
                   {menu.icon}
@@ -77,7 +77,7 @@ const Sidebar = () => {
                     <Link
                       to={subMenu.link}
                       key={subIndex}
-                      className={`flex flex-col text-white text-sm pl-8 pr-2 hoverbg-sky-700 w-full py-1 ${
+                      className={`flex flex-col text-white text-sm pl-8 pr-2 rounded hover:bg-sky-700 w-full py-1 ${
                         !open && "hidden"
                       }`}
                     >

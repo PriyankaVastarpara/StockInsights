@@ -8,18 +8,12 @@ import Profit from "../../assets/Profit.png";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 const DashBoard = () => {
-  const {
-    dashboardData,
-    purchaseBillData,
-    invoiceData,
-    lowStockItems,
-    outOfStockItems,
-  } = useContext(SharedContext);
-  
-  //for fetch recent 5 records 
+  const { purchaseBillData, invoiceData, lowStockItems, outOfStockItems } =
+    useContext(SharedContext);
+
+  //for fetch recent 5 records
   const recentSalesOrders = invoiceData.slice(-5).reverse();
   const recentPurchaseOrders = purchaseBillData.slice(-5).reverse();
-  
 
   if (!lowStockItems) {
     return null; // Handle case when data is not found
@@ -182,7 +176,9 @@ const DashBoard = () => {
                 {lowStockItems.map((item, index) => (
                   <tr
                     key={item._id}
-                    className={index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"}
+                    className={
+                      index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"
+                    }
                   >
                     <td className="py-2 px-2 text-left whitespace-nowrap ">
                       {index + 1}
@@ -225,7 +221,9 @@ const DashBoard = () => {
                 {outOfStockItems.map((item, index) => (
                   <tr
                     key={item._id}
-                    className={index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"}
+                    className={
+                      index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"
+                    }
                   >
                     <td className="py-2 px-2 text-left whitespace-nowrap ">
                       {index + 1}
@@ -254,10 +252,10 @@ const DashBoard = () => {
                     SrNo
                   </th>
                   <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
-                   InvoiceNo
+                    InvoiceNo
                   </th>
                   <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
-                   Customer
+                    Customer
                   </th>
                   <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
                     Amount
@@ -268,7 +266,9 @@ const DashBoard = () => {
                 {recentSalesOrders.map((item, index) => (
                   <tr
                     key={item._id}
-                    className={index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"}
+                    className={
+                      index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"
+                    }
                   >
                     <td className="py-2 px-2 text-left whitespace-nowrap ">
                       {index + 1}
@@ -289,7 +289,9 @@ const DashBoard = () => {
           </div>
           {/* Recent Purchase orders */}
           <div>
-            <h2 className="text-xl font-semibold mb-4">Recent Purchase Orders</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Recent Purchase Orders
+            </h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
                 <tr className="bg-blue-950 text-white text-sm leading-normal">
@@ -297,10 +299,10 @@ const DashBoard = () => {
                     SrNo
                   </th>
                   <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
-                   BillNo
+                    BillNo
                   </th>
                   <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
-                   Vendor
+                    Vendor
                   </th>
                   <th className="border border-gray-400 px-2 py-1 text-left font-semibold text-gray-100">
                     Amount
@@ -311,7 +313,9 @@ const DashBoard = () => {
                 {recentPurchaseOrders.map((item, index) => (
                   <tr
                     key={item._id}
-                    className={index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"}
+                    className={
+                      index % 2 === 0 ? "bg-gray-100 text-left" : "text-left"
+                    }
                   >
                     <td className="py-2 px-2 text-left whitespace-nowrap ">
                       {index + 1}
@@ -330,6 +334,7 @@ const DashBoard = () => {
               </tbody>
             </table>
           </div>
+         
         </div>
       </div>
     </>

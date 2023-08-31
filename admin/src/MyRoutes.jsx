@@ -18,8 +18,7 @@ import UpdatePurchaseBills from './components/UpdatePurchaseBills/UpdatePurchase
 import Reports from './components/Reports/Reports.jsx';
 import LowStock from './components/Reports/Inventory/LowStock.jsx';
 import OutOfStock from './components/Reports/Inventory/OutOfStock.jsx';
-import SalesByCustomer from './components/Reports/SalesReport/SalesByCustomer.jsx';
-import SalesByItem from './components/Reports/SalesReport/SalesByItem.jsx';
+import ExpiredItems from './components/Reports/Inventory/ExpiredItems.jsx';
 import PrintInvoice from './components/Invoice/PrintInvoice.jsx';
 import PrintBill from './components/Invoice/PrintBill.jsx';
 import UpdateSalesInvoices from './components/UpdateSalesInvoices/UpdateSalesInvoices.jsx';
@@ -46,8 +45,7 @@ const MyRoutes = () => {
         <Route path="/reports" element={<Reports/>}/>
         <Route path="/lowstock" element={<LowStock/>}/>
         <Route path="/outofstock" element={<OutOfStock/>}/>
-        <Route path="/sales-by-customer" element={<SalesByCustomer/>}/>
-        <Route path="/sales-by-item" element={<SalesByItem/>}/>
+        <Route path="/expireditems" element={<ExpiredItems/>}/>
         <Route path="/update-purchase-bills" element={<UpdatePurchaseBills/>}/>
         <Route path="/update-sales-invoices" element={<UpdateSalesInvoices/>}/>
     </Routes>

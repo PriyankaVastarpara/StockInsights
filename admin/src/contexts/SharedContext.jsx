@@ -19,7 +19,14 @@ export function SharedContextProvider({ children }) {
   const outOfStockItems = itemData.filter(item => item.Quantity === 0);
 
    //this will store items which has low stock
-   const lowStockItems = itemData.filter(item => item.Quantity < item.ReorderPoint && item.Quantity !=0);
+   const lowStockItems = itemData.filter(item => item.Quantity < item.ReorderPoint && item.Quantity > 0);
+
+   // Get the current date
+   const currentDate = new Date();
+
+   // Filter expired items
+   const expiredItems = itemData.filter(item => new Date(item.
+    ExpiryDate) < currentDate && item.Quantity > 0);
 
   useEffect(() => {
     getCategoryData();
@@ -403,7 +410,8 @@ export function SharedContextProvider({ children }) {
     PurchaseOrderHeader,
     SalesOrderHeader,
     outOfStockItems,
-    lowStockItems
+    lowStockItems,
+    expiredItems
   };
 
   return (
