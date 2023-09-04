@@ -14,14 +14,12 @@ import SalesInvoice from "./components/SalesInvoice/SalesInvoice.jsx";
 import SalesOrderData from "./components/TableData/SalesOrderData.jsx";
 import PurchaseOrderData from "./components/TableData/PurchaseOrderData.jsx";
 import PurchaseBill from "./components/PurchaseBill/PurchaseBill.jsx";
-import UpdatePurchaseBills from './components/UpdatePurchaseBills/UpdatePurchaseBills.jsx';
 import Reports from './components/Reports/Reports.jsx';
 import LowStock from './components/Reports/Inventory/LowStock.jsx';
 import OutOfStock from './components/Reports/Inventory/OutOfStock.jsx';
 import ExpiredItems from './components/Reports/Inventory/ExpiredItems.jsx';
 import PrintInvoice from './components/Invoice/PrintInvoice.jsx';
 import PrintBill from './components/Invoice/PrintBill.jsx';
-import UpdateSalesInvoices from './components/UpdateSalesInvoices/UpdateSalesInvoices.jsx';
 const MyRoutes = () => {
   return (
   <>
@@ -46,8 +44,6 @@ const MyRoutes = () => {
         <Route path="/lowstock" element={<LowStock/>}/>
         <Route path="/outofstock" element={<OutOfStock/>}/>
         <Route path="/expireditems" element={<ExpiredItems/>}/>
-        <Route path="/update-purchase-bills" element={<UpdatePurchaseBills/>}/>
-        <Route path="/update-sales-invoices" element={<UpdateSalesInvoices/>}/>
     </Routes>
   </>
   )

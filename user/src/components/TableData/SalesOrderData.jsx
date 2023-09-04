@@ -4,7 +4,6 @@ import { MdDelete } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SharedContext from "../../contexts/SharedContext";
-import DeletePopup from "../DeletePopup/DeletePopup";
 import { format } from "date-fns";
 import { Link,useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -15,7 +14,6 @@ const SalesOrderData = () => {
   const [filteredTableBody, setFilteredTableBody] = useState(invoiceData);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
   
    //display and create bill
    const fetchData = () => {
@@ -102,12 +100,12 @@ const SalesOrderData = () => {
                   >
                     <MdDelete icon="delete-alt" size={18} />
                   </button>
-                  {showPopup && (
+                  {/* {showPopup && (
                     <DeletePopup
                       onCancel={handleCancel}
                       onDelete={handleDelete}
                     />
-                  )}
+                  )} */}
                 </td>
             </tr>
           ))}
