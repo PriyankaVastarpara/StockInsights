@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BiRupee } from "react-icons/bi";
-import { MdDelete, MdErrorOutline } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 import axios from "axios";
@@ -534,7 +534,7 @@ const PurchaseBill = () => {
         >
           Clear
         </button>
-        <Link to="/print-bill">
+        <Link to={`/print-bill/${encodeURIComponent(JSON.stringify(formData))}`}>
           <button
             type="button"
             className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"

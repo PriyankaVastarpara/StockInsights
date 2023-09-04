@@ -38,10 +38,10 @@ const MyRoutes = () => {
         <Route path="/customers" element={<CustomerData/>}/>
         <Route path="/purchase-orders" element={<PurchaseOrderData/>}/>
         <Route path="/purchase-bills" element={<PurchaseBill/>}/>
-        <Route path="/print-bill" element={<PrintBill/>}/>
+        <Route path="/print-bill/:formData" element={<PrintBill/>}/>
         <Route path="/sales-orders" element={<SalesOrderData/>}/>
         <Route path="/sales-invoices" element={<SalesInvoice/>}/>
-        <Route path="/print-invoice" element={<PrintInvoice/>}/>
+        <Route path="/print-invoice/:formData" element={<PrintInvoice/>}/>
         <Route path="/reports" element={<Reports/>}/>
         <Route path="/lowstock" element={<LowStock/>}/>
         <Route path="/outofstock" element={<OutOfStock/>}/>

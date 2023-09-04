@@ -1,69 +1,68 @@
-import React from "react";
+import React,{useContext} from "react";
+import { useParams } from "react-router-dom";
+import SharedContext from "../../contexts/SharedContext";
+
+
 
 const PrintBill = () => {
-  const items = [
-    { id: 1, name: "Product A", quantity: 2, unitPrice: 10.0 },
-    { id: 2, name: "Product B", quantity: 3, unitPrice: 15.0 },
-  ];
-
-  const subtotal = items.reduce(
-    (acc, item) => acc + item.quantity * item.unitPrice,
-    0
-  );
-
-  const total = subtotal;
-
-  const billNo = "PO-01122";
-  const orderno = 27;
-  const billDate = "03/08/2023";
-  const dueDate = "05/08/2023";
-  const billFrom = "Priyanka Vastarpara";
+  const { formData } = useParams();
+  //parsedFormData contains the object from the URL parameter
+  const parsedFormData = JSON.parse(decodeURIComponent(formData));
+  const { itemData } = useContext(SharedContext);
+// Function to get product name by product ID
+const getProductName = (productId) => {
+  const product = itemData.find((item) => item._id === productId);
+  return product ? product.ItemName : "Unknown Product";
+};
 
   return (
-    <div className=" mt-8 mx-auto py-4 px-8 max-w-2xl border border-gray-300">
+    <div className=" mt-8 mx-auto py-4 px-8 max-w-3xl border border-gray-300">
+    
+        {console.log(parsedFormData)}
       <header className="mb-4">
         <div className="flex justify-between mb-2">
           <div className="text-left">
             <p className="text-sm">Bill From:</p>
-            <h2 className="text-lg font-semibold">{billFrom}</h2>
+            <h2 className="text-lg font-semibold">{parsedFormData.VendorName}</h2>
           </div>
           <div className="text-right">
             <div className="mb-8">
               <h1 className="text-3xl font-bold font-sans tracking-wide">
-                {" "}
-                BILL
+                PURCHASE ORDER
               </h1>
-              <p className="text-lg font-medium">Bill# {billNo}</p>
-              <p className="text-sm font-medium mt-3"> Balance Due</p>
-              <p className="text-md font-bold"> Rs. {total.toFixed(2)} </p>
+              <p className="text-lg font-medium">Bill# {parsedFormData.billNo}</p>
             </div>
-
-            <p className="text-md mb-2">Order number: {orderno}</p>
-            <p className="text-md mb-2">Bill Date: {billDate}</p>
-            <p className="text-md mb-2">Due Date: {dueDate}</p>
+            <p className="text-md mb-2">Order No: {parsedFormData.orderNo}</p>
+            <p className="text-md mb-2">Bill Date: {parsedFormData.invoiceDate}</p>
+            <p className="text-md mb-2">
+              Due Date: {parsedFormData.dueDate}
+            </p>
           </div>
         </div>
       </header>
       <main>
         <table className="mt-6 w-full border-collapse">
           <thead>
-            <tr className="bg-gray-300">
+            <tr className="bg-gray-200">
               <th className="py-2 px-4">#</th>
               <th className="py-2 px-4">Item</th>
               <th className="py-2 px-4">Quantity</th>
               <th className="py-2 px-4">Unit Price</th>
+              <th className="py-2 px-4">Discount</th>
               <th className="py-2 px-4">Total</th>
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-              <tr key={item.id} className="border-t text-center">
-                <td className="py-2 px-4">{item.id}</td>
-                <td className="py-2 px-4">{item.name}</td>
-                <td className="py-2 px-4">{item.quantity}</td>
-                <td className="py-2 px-4">₹ {item.unitPrice.toFixed(2)}</td>
+            {parsedFormData.items.map((item,index) => (
+              <tr key={index} className="border-t text-center">
+                <td className="py-2 px-4">{index+1}</td>
+                {/* <td className="py-2 px-4">{item.product}</td> */}
+                <td className="py-2 px-4">{getProductName(item.product)}</td>
+                <td className="py-2 px-4">{item.qty}</td>
+                <td className="py-2 px-4">₹ {item.rate.toFixed(2)}</td>
+                <td className="py-2 px-4">₹ {item.discount.toFixed(2)}</td>
                 <td className="py-2 px-4">
-                  ₹ {(item.quantity * item.unitPrice).toFixed(2)}
+                  ₹ {(item.total).toFixed(2)}
                 </td>
               </tr>
             ))}
@@ -72,18 +71,19 @@ const PrintBill = () => {
         <div className="mt-8">
           <div className="flex justify-end">
             <p className="pr-4">
-              <span className="font-medium text-md mb-2">Sub Total : </span>Rs.{" "}
-              {subtotal.toFixed(2)}
+              <span className="font-semibold text-md mb-2">Sub Total : </span> ₹ 
+              {parsedFormData.subTotal.toFixed(2)}
             </p>
           </div>
           <div className="flex justify-end">
-            <span className="font-semibold text-md mb-2">
-              Total :Rs. {total.toFixed(2)}{" "}
-            </span>
+            <p className="pr-4">
+              <span className="font-semibold text-md mb-2">Total Discount : </span> ₹ 
+              {parsedFormData.discount.toFixed(2)}
+            </p>
           </div>
           <div className="flex justify-end">
-            <span className="font-bold text-md mb-2 p-2 bg-gray-200">
-              Balance Due :Rs.{total.toFixed(2)}{" "}
+            <span className="font-bold text-md mb-2">
+              Total Amount : ₹ {parsedFormData.total.toFixed(2)}
             </span>
           </div>
         </div>

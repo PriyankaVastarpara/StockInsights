@@ -557,7 +557,7 @@ const SalesInvoice = () => {
         >
           Clear
         </button>
-        <Link to="/print-invoice">
+        <Link to={`/print-invoice/${encodeURIComponent(JSON.stringify(formData))}`}>
           <button
             type="button"
             className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"
