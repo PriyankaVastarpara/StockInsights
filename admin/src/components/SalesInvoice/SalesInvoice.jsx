@@ -66,15 +66,17 @@ const SalesInvoice = () => {
       field === "product" || field === "description"
         ? value
         : parseFloat(value);
-    // if (field === "product") {
-    //   // Fetch item details including rate
-    //   const currentItem = await axios.get(
-    //     `http://localhost:3000/item/${value}`
-    //   );
 
-    //   updatedItem.product = value;
-    //   updatedItem.rate = currentItem.data.MRP;
-    // } this code is for displays rate of selected item
+     // this code is for displays rate of selected item
+    if (field === "product") {
+      const currentItem = await axios.get(
+        `http://localhost:3000/item/${value}`
+      );
+
+      updatedItem.product = value;
+      updatedItem.rate = currentItem.data.MRP;
+    } 
+   
 
     if (field === "product" && selectedProducts.includes(value)) {
       // Product already selected, show a warning and return
@@ -429,18 +431,10 @@ const SalesInvoice = () => {
                       onChange={(e) => handleItemChange(e, index, "rate")}
                       type="number"
                       name="rate"
-                      id="rate"
-                      className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
-                    />
-                    {/* <input
-                      autoComplete="false"
-                      onChange={(e) => handleItemChange(e, index, "rate")}
-                      type="number"
-                      name="rate"
                       id={`rate-${index}`}
                       value={item.rate || ""}
                       className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
-                    /> */}
+                    />
                   </td>
                   <td>
                     <input
