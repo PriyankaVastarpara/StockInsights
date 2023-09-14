@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
 import Drag from "../Drag";
 import SharedContext from "../../contexts/SharedContext";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
   const { formData } = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
 
+  const navigate=useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -31,10 +32,11 @@ const AddCategory = () => {
     } else {
       alert("An error occurred while saving the Category.");
     }
+    navigate('/categories')
   };
 
   const handleClear = (e) => {
-      //Handle success or any other action here
+    setFormValues({});
   };
 
   return (

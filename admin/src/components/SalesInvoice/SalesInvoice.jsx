@@ -302,18 +302,17 @@ const SalesInvoice = () => {
                 >
                   Payment Method
                 </label>
-                <select
+                <input
                   id="method"
                   name="method"
-                  value={formData.method}
+                  type="text"
+                  value={formData.method="cash"}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your username"
                 >
-                  <option value="">--select--</option>
-                  <option value="cash">Cash</option>
-                  <option value="online">Online</option>
-                </select>
+                  
+                </input>
               </div>
               <div className="flex flex-row items-center">
                 <label
@@ -346,7 +345,6 @@ const SalesInvoice = () => {
                   value={formData.dueDate}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
-                  placeholder="Enter your password"
                 />
               </div>
             </div>

@@ -242,9 +242,9 @@ const DashBoard = () => {
               </tbody>
             </table>
           </div>
-          {/* Recent Sales orders */}
+          {/* last 5 Sales orders */}
           <div>
-            <h2 className="text-xl font-semibold mb-4">Recent Sales Orders</h2>
+            <h2 className="text-xl font-semibold mb-4">Last 5 Sales Orders</h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
                 <tr className="bg-blue-950 text-white text-sm leading-normal">
@@ -290,7 +290,7 @@ const DashBoard = () => {
           {/* Recent Purchase orders */}
           <div>
             <h2 className="text-xl font-semibold mb-4">
-              Recent Purchase Orders
+              Last 5 Purchase Orders
             </h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>

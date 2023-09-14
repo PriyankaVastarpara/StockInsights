@@ -70,14 +70,14 @@ const PurchaseBill = () => {
       );
 
       updatedItem.product = value;
-      updatedItem.rate = currentItem.data.MRP;
+      updatedItem.rate = currentItem.data.UnitPrice;
     } 
 
         if (field === "product" && selectedProducts.includes(value)) {
           // Product already selected, show a warning and return
           alert("Product already selected!");
           return;
-        }
+        } 
         if (field === "product") {
           setSelectedProducts((prevSelected) => [...prevSelected, value]);
         }
@@ -281,18 +281,15 @@ const PurchaseBill = () => {
                 >
                   Payment Method
                 </label>
-                <select
+                <input
                   id="method"
                   name="method"
-                  value={formData.method}
+                  type="text"
+                  value={formData.method="cash"}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
-                  placeholder="Enter your username"
                 >
-                  <option value="">--select--</option>
-                  <option value="cash">Cash</option>
-                  <option value="online">Online</option>
-                </select>
+                </input>
               </div>
               <div className="flex flex-row items-center">
                 <label
@@ -325,7 +322,6 @@ const PurchaseBill = () => {
                   value={formData.dueDate}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
-                  placeholder="Enter your password"
                 />
               </div>
             </div>
@@ -504,9 +500,7 @@ const PurchaseBill = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="mx-2 flex flex-row gap-x-3 justify-start my-2">
+        <div className="mx-2 flex flex-row gap-x-3 justify-start my-2">
         <button
           type="submit"
           className="bg-blue-500  text-white text-md py-2 px-4 rounded-md hover:bg-blue-600  border focus:border-blue-300"
@@ -538,6 +532,9 @@ const PurchaseBill = () => {
           </button>
         </Link>
       </div>
+      </div>
+
+      
     </>
   );
 };

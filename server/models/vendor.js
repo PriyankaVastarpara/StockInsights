@@ -45,6 +45,7 @@ const vendorSchema = new mongoose.Schema({
   },
   CreatedOnDate: {
     type: Date,
+    default: Date.now,
   },
 });
 

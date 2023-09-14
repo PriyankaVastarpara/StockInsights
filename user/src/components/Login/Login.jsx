@@ -77,7 +77,7 @@ const Login = ({ onLogin }) => {
               </div>
               <div className="flex items-center justify-center">
                 <button
-                  className="uppercase px-24 md:px-[118px] lg:px-[140px] py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded focus:outline-none focus:shadow-outline"
+                  className="uppercase text-center   md:px-[118px] lg:px-[140px] py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded focus:outline-none focus:shadow-outline"
                   type="button"
                   onClick={handleSubmit}
                 >

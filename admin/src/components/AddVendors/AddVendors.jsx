@@ -1,13 +1,13 @@
 
 import React, { useContext, useState } from "react";
 import Drag from "../Drag";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
 const AddVendors = () => {
   const { formData} = useContext(SharedContext);
   const [formValues, setFormValues] = useState({});
-
+  const navigate=useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -32,7 +32,7 @@ const AddVendors = () => {
     } else {
       alert("An error occurred while saving the vendor.");
     }
-
+    navigate('/vendors');
   };
 
   //Handle cancel button
@@ -64,22 +64,7 @@ const AddVendors = () => {
                   onChange={handleChange}
                   className="w-full border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500 resize-none"
                 />
-              ) : field.type === 'select' ? (
-                <select
-                  id={field.name}
-                  name={field.name}
-                  value={formValues[field.name] || ''}
-                  onChange={handleChange}
-                  className="w-full h-8 border rounded-md py-1 px-2 text-gray-700 focus:outline-none focus:border-gray-500"
-                >
-                  <option value="">--Select--</option>
-                  {field.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              ): (
+              ) : (
                 <input
                   type={field.type}
                   id={field.name}

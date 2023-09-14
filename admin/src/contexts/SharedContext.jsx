@@ -115,7 +115,7 @@ export function SharedContextProvider({ children }) {
     category: {
       fields: [
         { label: "Category Name", type: "text", name: "CategoryName" },
-        { label: "Code", type: "text", name: "Code", required: true },
+        { label: "Code", type: "text", name: "Code"},
         {
           label: "Description",
           type: "textarea",
@@ -127,44 +127,23 @@ export function SharedContextProvider({ children }) {
     customer: {
       fields: [
         { label: "Customer Name", type: "text", name: "CustomerName" },
-        { label: "Code", type: "text", name: "Code", required: true },
+        { label: "Code", type: "text", name: "Code" },
         {
           label: "Customer Email",
           type: "Email",
           name: "Email",
           required: true,
         },
-        { label: "Phone", type: "text", name: "Phone", required: true },
-        { label: "Address", type: "textarea", name: "Address", required: true },
-        {
-          label: "Country",
-          type: "select",
-          name: "Country",
-          required: true,
-          options: [
-            { label: "India", value: "India" },
-            { label: "US", value: "US" },
-            { label: "UK", value: "UK" },
-          ],
-        },
-        {
-          label: "State",
-          type: "select",
-          name: "State",
-          required: true,
-          options: [
-            { label: "Gujarat", value: "Gujarat" },
-            { label: "MH", value: "MH" },
-            { label: "MP", value: "MP" },
-          ],
-        },
-        { label: "City", type: "text", name: "City", required: true },
-        { label: "Pin Code", type: "text", name: "Pincode", required: true },
+        { label: "Phone", type: "text", name: "Phone" },
+        { label: "Address", type: "textarea", name: "Address" },
+        {label: "Country",type:"text",name:"Country"},
+        {label: "State",type:"text",name:"State"},
+        { label: "City", type: "text", name: "City" },
+        { label: "Pin Code", type: "text", name: "Pincode" },
         {
           label: "Created On",
           type: "date",
           name: "CreatedOnDate",
-          required: true,
         },
       ],
     },
@@ -181,26 +160,8 @@ export function SharedContextProvider({ children }) {
         { label: "Vendor Email", type: "email", name: "Email" },
         { label: "Phone", type: "text", name: "Phone" },
         { label: "Address", type: "textarea", name: "Address" },
-        {
-          label: "Country",
-          type: "select",
-          name: "Country",
-          options: [
-            { label: "India", value: "India" },
-            { label: "US", value: "US" },
-            { label: "UK", value: "UK" },
-          ],
-        },
-        {
-          label: "State",
-          type: "select",
-          name: "State",
-          options: [
-            { label: "Gujarat", value: "Gujarat" },
-            { label: "MH", value: "MH" },
-            { label: "MP", value: "MP" },
-          ],
-        },
+        {label: "Country",type:"text",name:"Country"},
+        {label: "State",type:"text",name:"State"},
         { label: "City", type: "text", name: "City" },
         { label: "Pin Code", type: "text", name: "Pincode" },
         { label: "Created On", type: "date", name: "CreatedOnDate" },
@@ -214,10 +175,6 @@ export function SharedContextProvider({ children }) {
           label: "Category",
           type: "select",
           name: "Category",
-          options: [
-            { label: "Medicine", value: "Medicine" },
-            { label: "Syrup", value: "Syrup" },
-          ],
         },
         {
           label: "Description",
@@ -234,19 +191,11 @@ export function SharedContextProvider({ children }) {
           label: "Vendor",
           type: "select",
           name: "Vendor",
-          options: [
-            { label: "Vendor 1", value: "vendor1" },
-            { label: "Vendor 2", value: "vendor2" },
-          ],
         },
         {
           label: "Manufacturer",
           type: "select",
           name: "manufacturer",
-          options: [
-            { label: "Manufacturer 1", value: "manufacturer1" },
-            { label: "Manufacturer 2", value: "manufacturer2" },
-          ],
         },
         {
           label: "Purchase Price",

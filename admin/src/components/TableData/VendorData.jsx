@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BiSolidPencil } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { MdDelete,MdRemoveRedEye } from "react-icons/md";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
 import UpdateVendor from "../UpdateVendor/UpdateVendor";
@@ -8,6 +8,7 @@ import SharedContext from "../../contexts/SharedContext";
 import DeletePopup from "../DeletePopup/DeletePopup";
 import { format } from "date-fns";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const VendorData = () => {
   const { vendorData, VendorHeader } = useContext(SharedContext);
@@ -152,6 +153,11 @@ const VendorData = () => {
                       onDelete={handleDelete}
                     />
                   )}
+                   <Link to={`/view-vendor/${row._id}`}>
+                   <button  className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                      <MdRemoveRedEye icon="view-alt" size={18}/>
+                    </button>
+                    </Link>
                 </td>
               </tr>
             ))}

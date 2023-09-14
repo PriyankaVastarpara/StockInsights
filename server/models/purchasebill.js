@@ -27,7 +27,7 @@ const purchasebillSchema = new mongoose.Schema({
   },
   dueDate: {
     type: Date,
-    required: true,
+    // required: true,
   },
   items: [
     {

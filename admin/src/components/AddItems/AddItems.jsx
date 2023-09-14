@@ -1,6 +1,6 @@
 import React, { useState ,useContext} from "react";
 import Drag from "../Drag";
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
 const AddItems = () => {
@@ -12,6 +12,7 @@ const AddItems = () => {
     return { Category: item.CategoryName };
   });
 
+ const navigate=useNavigate();
   const [item, setItem] = useState({
     ItemName: "",
     ItemCode: "",
@@ -61,7 +62,7 @@ const AddItems = () => {
     } else {
       alert("An error occurred while saving the Item.");
     }
-
+    navigate('/products');
   };
 
   const handleClear = () => {
@@ -368,11 +369,12 @@ const AddItems = () => {
                 </label>
                 <input
                   onChange={handleChange}
-                  value={item.TotalAmount}
+                  value={item.TotalAmount=(item.Quantity*item.PurchasePrice)-item.Discount}
                   type="number"
                   name="TotalAmount"
                   id="TotalAmount"
                   autoComplete="given-name"
+                  placeholder={item.TotalAmount}
                   className="border ms-auto pl-1 w-6/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
                 />
               </div>

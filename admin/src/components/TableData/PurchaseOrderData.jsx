@@ -1,6 +1,5 @@
 import React,{useState,useEffect,useContext } from "react";
-import { BiSolidPencil } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { MdDelete,MdRemoveRedEye} from "react-icons/md";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
 import SharedContext from "../../contexts/SharedContext";
@@ -34,15 +33,7 @@ const PurchaseOrderData = () => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
   };
-  //for update
-  const handleOpenUpdatePurchaseBill  = (itemId) => {
-    setIsUpdatePurchaseOrderOpen(true);
-    setSelectedId(itemId)
-  };
-
-  const handleCloseUpdatePurchaseBill  = () => {
-    setIsUpdatePurchaseOrderOpen(false);
-  };
+ 
 //Handle Delete
   // const handleDeleteClick = () => {
   //   setShowPopup(true);
@@ -103,13 +94,7 @@ const PurchaseOrderData = () => {
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.discount}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.total}</td>
                 <td className="flex justify-center gap-2">
-                <Link to="/update-purchase-bills">
-                <button  onClick={()=>{
-                    handleOpenUpdatePurchaseBill(row._id)                      
-                  }} className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
-                    <BiSolidPencil icon="pencil-alt" size={18} />
-                  </button>
-                  </Link>
+               
                   <button
                      onClick={() => handleDeleteClick(row._id)}
                     className="items-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
@@ -122,6 +107,11 @@ const PurchaseOrderData = () => {
                       onDelete={handleDelete}
                     />
                   )}
+                   <Link to={`/view-purchaseOrder/${row._id}`}>
+                   <button  className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                      <MdRemoveRedEye icon="view-alt" size={18}/>
+                    </button>
+                    </Link>
                 </td>
             </tr>
           ))}

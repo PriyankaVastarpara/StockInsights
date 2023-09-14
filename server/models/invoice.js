@@ -35,9 +35,9 @@ const invoiceSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      id: {
-        type: String,
-      },
+      // id: {
+      //   type: String,
+      // },
       description: {
         type: String,
         required: true,

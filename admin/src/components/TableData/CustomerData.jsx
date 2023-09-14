@@ -1,6 +1,6 @@
 import React, { useState,useEffect, useContext } from "react";
 import { BiSolidPencil } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { MdDelete,MdRemoveRedEye } from "react-icons/md";
 import SharedContext from "../../contexts/SharedContext";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SearchBar from "../SearchBar/SearchBar";
@@ -8,6 +8,7 @@ import UpdateCustomer from "../UpdateCustomer/UpdateCustomer";
 import DeletePopup from "../DeletePopup/DeletePopup";
 import { format } from "date-fns";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const CustomerData = () => {
   const { customerData , CustomerHeader} = useContext(SharedContext);
@@ -105,6 +106,7 @@ const CustomerData = () => {
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{row.Phone}</td>
                   <td className="border border-gray-400 px-4 py-1 text-gray-800">{format(new Date(row.CreatedOnDate), "dd-MM-yyyy")}</td>
                   <td className="flex justify-center gap-2">
+                   
                   <button 
                   onClick={()=>{
                     handleOpenUpdateCustomer(row._id)                      
@@ -123,7 +125,13 @@ const CustomerData = () => {
                       onCancel={handleCancel}
                       onDelete={handleDelete}
                     />
+                    
                   )}
+                   <Link to={`/view-customer/${row._id}`}>
+                   <button  className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                      <MdRemoveRedEye icon="view-alt" size={18}/>
+                    </button>
+                    </Link>
                 </td>
               </tr>
             ))}

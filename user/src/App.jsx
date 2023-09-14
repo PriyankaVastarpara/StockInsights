@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import StockInsights from "./StockInsights";
 import { BrowserRouter } from "react-router-dom";
 import { SharedContextProvider } from "./contexts/SharedContext.jsx";
+import Registration from "./components/Registration/Registration";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,6 +14,7 @@ export default function App() {
   };
   return (
     <>
+    {/* <Registration/> */}
     {/* <div>
       {isLoggedIn ? ( */}
        <SharedContextProvider>

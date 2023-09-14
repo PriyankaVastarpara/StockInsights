@@ -1,12 +1,11 @@
 import React,{useState,useEffect, useContext } from "react";
-import { BiSolidPencil } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { MdDelete,MdRemoveRedEye} from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import SubNavbar from "../SubNavbar/SubNavbar";
 import SharedContext from "../../contexts/SharedContext";
 import DeletePopup from "../DeletePopup/DeletePopup";
 import { format } from "date-fns";
-import { Link,useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from "axios";
 
 const SalesOrderData = () => {
@@ -14,8 +13,6 @@ const SalesOrderData = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTableBody, setFilteredTableBody] = useState(invoiceData);
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-
   
    //display and create bill
    const fetchData = () => {
@@ -108,6 +105,11 @@ const SalesOrderData = () => {
                       onDelete={handleDelete}
                     />
                   )}
+                   <Link to={`/view-salesOrder/${row._id}`}>
+                   <button  className="items-center text-blue-500 hover:bg-blue-200  font-bold py-1 px-1 rounded">
+                      <MdRemoveRedEye icon="view-alt" size={18}/>
+                    </button>
+                    </Link>
                 </td>
             </tr>
           ))}

@@ -57,11 +57,9 @@ const itemSchema = new mongoose.Schema({
   },
   MinimumPrice: {
     type: Number,
-    required: true,
   },
   SellingPrice: {
-    type: Number,
-    required: true,
+    type: Number,   
   },
   Discount: {
     type: Number,
