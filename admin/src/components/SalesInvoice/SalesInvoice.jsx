@@ -77,12 +77,15 @@ const SalesInvoice = () => {
       updatedItem.rate = currentItem.data.MRP;
     } 
    
-
-    if (field === "product" && selectedProducts.includes(value)) {
-      // Product already selected, show a warning and return
-      alert("Product already selected!");
-      return;
+    if (field === "product") {
+      if (selectedProducts.includes(value) && selectedProducts.indexOf(value) !== -1) {
+        // Product already selected in a different row, show a warning and return
+        alert("Product already selected!");
+        return;
+      }
+      setSelectedProducts((prevSelected) => [...prevSelected, value]);
     }
+    
     if (field === "product") {
       setSelectedProducts((prevSelected) => [...prevSelected, value]);
     }
@@ -148,7 +151,7 @@ const SalesInvoice = () => {
   };
 
   const addRow = () => {
-    const updatedRows = [...rows, { ...initialItem }]; // Add a new item to the rows state
+    const updatedRows = [...rows, { ...initialItem, id: `item-${rows.length}`,  }]; // Add a new item to the rows state
     setRows(updatedRows);
 
     setFormData((prevInvoice) => ({
@@ -157,9 +160,16 @@ const SalesInvoice = () => {
     }));
   };
 
-  const handleDeleteItem = () => {
+  const handleDeleteItem = (index) => {
     const updatedRows = [...rows];
-    updatedRows.pop();
+    const deletedProduct = updatedRows[index].product;
+    updatedRows.splice(index, 1);
+  
+    // Update the selectedProducts state to remove the deleted product
+    setSelectedProducts((prevSelected) =>
+      prevSelected.filter((product) => product !== deletedProduct)
+    );
+  
     setRows(updatedRows);
     updateInvoiceTotals();
   };
@@ -371,7 +381,7 @@ const SalesInvoice = () => {
                   <td className="text-center">{index + 1}</td>
                   <td className="flex justify-center gap-2">
                     <button
-                      onClick={() => handleDeleteItem()}
+                      onClick={() => handleDeleteItem(index)}
                       className="text-center text-red-500 hover:bg-red-200   font-bold py-1 px-1 rounded"
                     >
                       <MdDelete icon="delete-alt" size={18} />
