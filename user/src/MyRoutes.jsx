@@ -6,6 +6,7 @@ import AddCustomers from "./components/AddCustomers/AddCustomers.jsx";
 import CustomerData from "./components/TableData/CustomerData.jsx";
 import SalesInvoice from "./components/SalesInvoice/SalesInvoice.jsx";
 import SalesOrderData from "./components/TableData/SalesOrderData.jsx";
+import Registration from "./components/Registration/Registration.jsx";
 
 import PrintInvoice from "./components/Invoice/PrintInvoice.jsx";
 const MyRoutes = () => {
@@ -14,6 +15,7 @@ const MyRoutes = () => {
       <Routes>
         <Route path="/" element={<DashBoard />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Registration />} />
         <Route path="/addcustomer" element={<AddCustomers />} />
         <Route path="/customers" element={<CustomerData />} />
         <Route path="/sales-orders" element={<SalesOrderData />} />
