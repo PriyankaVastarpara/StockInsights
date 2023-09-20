@@ -1,34 +1,85 @@
-import React,{useState}  from "react";
+// import React,{useState}  from "react";
+// import "./main.css";
+// import Login from "./components/Login/Login";
+// import StockInsights from "./StockInsights";
+// import { BrowserRouter } from "react-router-dom";
+// import { SharedContextProvider } from "./contexts/SharedContext.jsx";
+
+// export default function App() {
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+//   const handleLogin = () => {
+//     // Perform your login logic here, and then set isLoggedIn to true upon successful login
+//     setIsLoggedIn(true);
+//   };
+//   const handleLogout = () => {
+//     // Perform logout actions, such as clearing session
+//     setIsLoggedIn(false);
+//   };
+//   return (
+//     <>
+//     {/* <div>
+//       {isLoggedIn ? ( */}
+//        <SharedContextProvider>
+//        <BrowserRouter>
+//          <StockInsights />
+//        </BrowserRouter>
+//      </SharedContextProvider>
+//       {/* ) : (
+//         <Login onLogin={handleLogin} />
+//       )}
+//     </div>  */}
+//     </>
+//   );
+// }
+
+
+import React,{useState,useEffect}  from "react";
 import "./main.css";
 import Login from "./components/Login/Login";
 import StockInsights from "./StockInsights";
 import { BrowserRouter } from "react-router-dom";
 import { SharedContextProvider } from "./contexts/SharedContext.jsx";
+// import Registration from "./components/Registration/Registration";
+import "react-toastify/dist/ReactToastify.css";
+import { useCookies } from "react-cookie";
 
 export default function App() {
+  const [step, setStep] = useState("registration");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
 
-  const handleLogin = () => {
-    // Perform your login logic here, and then set isLoggedIn to true upon successful login
+    // Check if the cookie exists on initial render
+    useEffect(() => {
+      if (cookies.jwt) {
+        setIsLoggedIn(true);
+        setStep("stockinsights");
+      } else {
+        setStep("login");
+      }
+    }, [cookies]);
+
+  const handleLoginSuccess = () => {
+    setStep("stockinsights");
     setIsLoggedIn(true);
   };
-  const handleLogout = () => {
-    // Perform logout actions, such as clearing session
-    setIsLoggedIn(false);
-  };
+ 
+ 
   return (
     <>
-    {/* <div>
-      {isLoggedIn ? ( */}
+    
        <SharedContextProvider>
        <BrowserRouter>
-         <StockInsights />
-       </BrowserRouter>
+      
+        {step === "login" && (
+          <Login onLoginSuccess={handleLoginSuccess} />
+        )}
+        {step === "stockinsights" && isLoggedIn && (
+          <StockInsights/>
+        )}
+       </BrowserRouter> 
      </SharedContextProvider>
-      {/* ) : (
-        <Login onLogin={handleLogin} />
-      )}
-    </div>  */}
+     
     </>
   );
 }

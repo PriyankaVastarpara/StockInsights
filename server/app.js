@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes=require("./routes/AuthRoutes");
+const adminRoutes=require("./routes/AdminRoutes");
 const app=express();
 const cookieParser=require("cookie-parser");
  
@@ -38,6 +39,7 @@ app.use('/invoice', invoiceRoutes);
 
 app.use(cookieParser());
 app.use("/",authRoutes);
+app.use("/",adminRoutes);
 
 app.listen(PORT,()=>{
     console.log('Server is running on port ',PORT);

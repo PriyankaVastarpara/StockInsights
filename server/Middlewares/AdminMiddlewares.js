@@ -1,4 +1,4 @@
-const User = require("../models/UserModel");
+const User = require("../models/AdminModel");
 const jwt = require("jsonwebtoken");
 
 module.exports.checkUser = (req, res, next) => {
