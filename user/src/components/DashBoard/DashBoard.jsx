@@ -44,7 +44,7 @@ const DashBoard = () => {
         <div className=" mt-10 grid grid-cols-2 gap-10  place-content-evenly">
           {/* Recent Sales orders */}
           <div>
-            <h2 className="text-xl font-semibold mb-4">Recent Sales Orders</h2>
+            <h2 className="text-xl font-semibold mb-4">Last 5 Sales Orders</h2>
             <table className="w-full bg-white shadow-md rounded">
               <thead>
                 <tr className="bg-blue-950 text-white text-sm leading-normal">

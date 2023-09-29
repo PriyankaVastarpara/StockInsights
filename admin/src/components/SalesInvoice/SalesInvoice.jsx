@@ -7,7 +7,7 @@ import axios from "axios";
 
 const SalesInvoice = () => {
   const { customerData, itemData, tableData } = useContext(SharedContext);
-  const [quantityValidationError, setQuantityValidationError] = useState("");
+  const [quantityValidationErrors, setQuantityValidationErrors] = useState({});
   const [selectedProducts, setSelectedProducts] = useState([]);
 
   const CustomerNames = customerData.map((item) => {
@@ -23,7 +23,7 @@ const SalesInvoice = () => {
 
   const initialItem = {
     product: "",
-    id: "",
+    // id: "",
     description: "",
     qty: 0,
     rate: 0,
@@ -67,7 +67,7 @@ const SalesInvoice = () => {
         ? value
         : parseFloat(value);
 
-     // this code is for displays rate of selected item
+    // this code is for displays rate of selected item
     if (field === "product") {
       const currentItem = await axios.get(
         `http://localhost:3000/item/${value}`
@@ -75,36 +75,60 @@ const SalesInvoice = () => {
 
       updatedItem.product = value;
       updatedItem.rate = currentItem.data.MRP;
-    } 
-   
+    }
+
     if (field === "product") {
-      if (selectedProducts.includes(value) && selectedProducts.indexOf(value) !== -1) {
+      if (
+        selectedProducts.includes(value) &&
+        selectedProducts.indexOf(value) !== -1
+      ) {
         // Product already selected in a different row, show a warning and return
         alert("Product already selected!");
         return;
       }
       setSelectedProducts((prevSelected) => [...prevSelected, value]);
     }
-    
+
     if (field === "product") {
       setSelectedProducts((prevSelected) => [...prevSelected, value]);
     }
 
     //check the available quantity
+    // if (field === "qty") {
+    //   const currentItem = await axios.get(
+    //     `http://localhost:3000/item/${updatedItem.product}`
+    //   );
+    //   const availableQuantity = currentItem.data.Quantity;
+    //   if (availableQuantity == 0) {
+    //     alert("Sorry,This Item Is Out of Stock!!!");
+    //   } else if (parseFloat(value) > availableQuantity) {
+    //     setQuantityValidationError(
+    //       "Quantity entered exceeds available quantity."
+    //     );
+    //     return;
+    //   } else {
+    //     setQuantityValidationError(""); // Clear the error message
+    //   }
+    // }
     if (field === "qty") {
       const currentItem = await axios.get(
         `http://localhost:3000/item/${updatedItem.product}`
       );
       const availableQuantity = currentItem.data.Quantity;
-      if (availableQuantity == 0) {
-        alert("Sorry,This Item Is Out of Stock!!!");
+      if (availableQuantity === 0) {
+        alert("Sorry, This Item Is Out of Stock!!!");
       } else if (parseFloat(value) > availableQuantity) {
-        setQuantityValidationError(
-          "Quantity entered exceeds available quantity."
-        );
+        setQuantityValidationErrors((prevErrors) => ({
+          ...prevErrors,
+          [rowIndex]: "Quantity entered exceeds available quantity.",
+        }));
         return;
       } else {
-        setQuantityValidationError(""); // Clear the error message
+        // Clear the error message for this item
+        setQuantityValidationErrors((prevErrors) => {
+          delete prevErrors[rowIndex];
+          return { ...prevErrors };
+        });
       }
     }
     // Update total if applicable
@@ -151,7 +175,10 @@ const SalesInvoice = () => {
   };
 
   const addRow = () => {
-    const updatedRows = [...rows, { ...initialItem, id: `item-${rows.length}`,  }]; // Add a new item to the rows state
+    const updatedRows = [
+      ...rows,
+      { ...initialItem, id: `item-${rows.length}` },
+    ]; // Add a new item to the rows state
     setRows(updatedRows);
 
     setFormData((prevInvoice) => ({
@@ -160,17 +187,48 @@ const SalesInvoice = () => {
     }));
   };
 
+  // const handleDeleteItem = (index) => {
+  //   const updatedRows = [...rows];
+  //   const deletedProduct = updatedRows[index].product;
+  //   updatedRows.splice(index, 1);
+
+  //   // Update the selectedProducts state to remove the deleted product
+  //   setSelectedProducts((prevSelected) =>
+  //     prevSelected.filter((product) => product !== deletedProduct)
+  //   );
+
+  //   setRows(updatedRows);
+  //   updateInvoiceTotals();
+  // };
+
   const handleDeleteItem = (index) => {
-    const updatedRows = [...rows];
-    const deletedProduct = updatedRows[index].product;
-    updatedRows.splice(index, 1);
-  
-    // Update the selectedProducts state to remove the deleted product
+    const deletedProduct = rows[index].product;
+
+    // Remove the deleted product from the selectedProducts state
     setSelectedProducts((prevSelected) =>
       prevSelected.filter((product) => product !== deletedProduct)
     );
-  
+
+    // Remove the quantity validation error for the deleted item
+    setQuantityValidationErrors((prevErrors) => {
+      const updatedErrors = { ...prevErrors };
+      delete updatedErrors[index];
+      return updatedErrors;
+    });
+
+    // Remove the item from rows and formData.items
+    const updatedRows = [...rows];
+    updatedRows.splice(index, 1);
+
     setRows(updatedRows);
+
+    // Update the formData state to remove the deleted item
+    setFormData((prevInvoice) => {
+      const updatedItems = [...prevInvoice.items];
+      updatedItems.splice(index, 1);
+      return { ...prevInvoice, items: updatedItems };
+    });
+
     updateInvoiceTotals();
   };
 
@@ -316,13 +374,11 @@ const SalesInvoice = () => {
                   id="method"
                   name="method"
                   type="text"
-                  value={formData.method="cash"}
+                  value={(formData.method = "cash")}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
                   placeholder="Enter your username"
-                >
-                  
-                </input>
+                ></input>
               </div>
               <div className="flex flex-row items-center">
                 <label
@@ -424,12 +480,13 @@ const SalesInvoice = () => {
                       type="number"
                       name="qty"
                       id="qty"
+                      value={item.qty || ""}
                       className="border text-right pr-1 ps-2 border-gray-300 ms-auto w-full"
                     />
-                    {quantityValidationError && (
+                    {quantityValidationErrors[index] && (
                       <span className="flex text-red-500">
                         <MdErrorOutline size={18} />
-                        {quantityValidationError}
+                        {quantityValidationErrors[index]}
                       </span>
                     )}
                   </td>
@@ -453,6 +510,7 @@ const SalesInvoice = () => {
                       type="number"
                       name="discount"
                       id="discount"
+                      value={item.discount || 0}
                       className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
                     />
                   </td>
@@ -559,7 +617,9 @@ const SalesInvoice = () => {
         >
           Clear
         </button>
-        <Link to={`/print-invoice/${encodeURIComponent(JSON.stringify(formData))}`}>
+        <Link
+          to={`/print-invoice/${encodeURIComponent(JSON.stringify(formData))}`}
+        >
           <button
             type="button"
             className="bg-gray-300 mx-2 font-normal text-md py-2 px-3 rounded-lg hover:bg-gray-400 focus:outline-none border focus:border-gray-300"

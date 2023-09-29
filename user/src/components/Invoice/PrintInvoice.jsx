@@ -17,8 +17,6 @@ const getProductName = (productId) => {
 
   return (
     <div className=" mt-8 mx-auto py-4 px-8 max-w-3xl border border-gray-300">
-    
-        {console.log(parsedFormData)}
       <header className="mb-4">
         <div className="flex justify-between mb-2">
           <div className="text-left">
