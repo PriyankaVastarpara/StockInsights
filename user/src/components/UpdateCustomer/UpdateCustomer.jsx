@@ -32,7 +32,7 @@ const handleInputChange = (e) => {
 
 const handleUpdateClick = async () => {
   
-  if (window.confirm("Are you sure you want to update this Vendor?")) {
+  if (window.confirm("Are you sure you want to update this Customer?")) {
     try {
       await axios.put(`http://localhost:3000/customer/${customerId}`,formValues); 
       onClose();
@@ -80,23 +80,7 @@ const handleSubmit = (e) => {
                       onChange={handleInputChange}
                       className="w-full border rounded-md py-2 px-2 text-gray-700 focus:outline-none  focus:border-gray-500 resize-none"
                     />
-                  ) : field.type === "select" ? (
-                    <select
-                      id={field.name}
-                      name={field.name}
-                      required={field.required}
-                      value={formValues[field.name] || ""}
-                      onChange={handleInputChange}
-                      className="w-full h-8 border rounded-md py-1 px-2 text-gray-700 focus:outline-none focus:border-gray-500"
-                    >
-                      <option value="">--Select--</option>
-                      {field.options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
+                  ): (
                     <input
                       type={field.type}
                       id={field.name}

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import LogoIcon from "../../assets/LogoIcon.png";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
-const Registration = ({ onRegisterSuccess,onLoginRedirect }) => {
-  const navigate=useNavigate();
+const Registration = ({ onRegisterSuccess, onLoginRedirect }) => {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
-    // Name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
-    // PhoneNo: ""
   });
 
   const generateError = (err) =>
@@ -25,16 +25,15 @@ const Registration = ({ onRegisterSuccess,onLoginRedirect }) => {
         {
           ...values,
         },
-        { withCredentials: true, }
+        { withCredentials: true }
       );
-     
+
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          // navigate("/");
           onRegisterSuccess();
         }
       }
@@ -61,25 +60,51 @@ const Registration = ({ onRegisterSuccess,onLoginRedirect }) => {
             </div>
             <div className="border mt-6 p-6">
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-                Registration Account
+                Sign Up
               </h2>
-              {/* <div className="mb-4">
+
+              <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-semibold mb-2"
-                  htmlFor="name"
+                  htmlFor="firstName"
                 >
-                  Name
+                  First Name
                 </label>
                 <input
-                  className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border border-blue-600"
-                  id="Name"
-                  name="Name"
+                  className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border border-blue-600"
+                  id="firstName"
+                  name="firstName"
                   type="text"
-                  placeholder="Name"
-                  value={formData.Name}
-                  onChange={handleInputChange}
+                  value={values.firstName}
+                  required
+                  placeholder="first name"
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
                 />
-              </div> */}
+              </div>
+
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                  htmlFor="lastName"
+                >
+                  Last Name
+                </label>
+                <input
+                  className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border border-blue-600"
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  value={values.lastName}
+                  placeholder="last name"
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
+                />
+              </div>
+
               <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-semibold mb-2"
@@ -93,7 +118,6 @@ const Registration = ({ onRegisterSuccess,onLoginRedirect }) => {
                   name="email"
                   type="email"
                   placeholder="email"
-                  // value={formData.email}
                   onChange={(e) =>
                     setValues({ ...values, [e.target.name]: e.target.value })
                   }
@@ -113,43 +137,25 @@ const Registration = ({ onRegisterSuccess,onLoginRedirect }) => {
                   name="password"
                   type="password"
                   placeholder="password"
-                  // value={formData.password}
                   onChange={(e) =>
                     setValues({ ...values, [e.target.name]: e.target.value })
                   }
                 />
               </div>
-
-              {/* <div className="mb-6">
-                <label
-                  className="block text-gray-700 text-sm font-semibold mb-2"
-                  htmlFor="confirmPassword"
-                >
-                 Phone No.
-                </label>
-                <input
-                  className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border border-blue-600"
-                  id="PhoneNo"
-                  name="PhoneNo"
-                  type="number"
-                  placeholder="Phone No"
-                  value={formData.PhoneNo}
-                  onChange={handleInputChange}
-                />
-              </div> */}
               <div className="flex items-center justify-center">
-        
                 <button
                   className=" text-center md:px-[118px] lg:px-[140px] py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
-                 Register
+                  Signup
                 </button>
-              
               </div>
-              <span>
-                Already have an account?<Link to="/login" onClick={onLoginRedirect}>Login</Link>
-              </span>
+              <div className="m-2 text-sm text-center">
+                Already have an account?
+                <Link to="/login" onClick={onLoginRedirect} className="text-blue-600 ml-1 text-base">
+                   Login
+                </Link>
+              </div>
             </div>
           </form>
         </div>

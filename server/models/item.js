@@ -10,6 +10,7 @@ const itemSchema = new mongoose.Schema({
   ItemCode: {
     type: String,
     required:true,
+    unique:true
   },
   Category: {
     type: String,
@@ -20,10 +21,6 @@ const itemSchema = new mongoose.Schema({
     required: true,
   },
   Description: {
-    type: String,
-    required: true,
-  },
-  VendorName: {
     type: String,
     required: true,
   },

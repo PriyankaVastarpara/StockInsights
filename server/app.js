@@ -9,7 +9,7 @@ const cookieParser=require("cookie-parser");
  
 app.use(cors(
     {
-        origin:["http://localhost:5173"],
+        origin:["http://localhost:5173","http://localhost:5174"],
         method:["GET","POST"],
         credentials:true,
     }
@@ -37,9 +37,9 @@ app.use('/category', categoryRoutes);
 app.use('/purchasebill', purchasebillRoutes);
 app.use('/invoice', invoiceRoutes);
 
-app.use(cookieParser());
 app.use("/",authRoutes);
 app.use("/",adminRoutes);
+app.use(cookieParser());
 
 app.listen(PORT,()=>{
     console.log('Server is running on port ',PORT);

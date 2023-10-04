@@ -32,7 +32,7 @@ const handleInputChange = (e) => {
 
 const handleUpdateClick = async () => {
   
-  if (window.confirm("Are you sure you want to update this Vendor?")) {
+  if (window.confirm("Are you sure you want to update this customer?")) {
     try {
       await axios.put(`http://localhost:3000/customer/${customerId}`,formValues); 
       onClose();

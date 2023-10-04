@@ -10,6 +10,7 @@ const vendorSchema = new mongoose.Schema({
   Code: {
     type: String,
     required: true,
+    unique:true
   },
   CompanyName: {
     type: String,

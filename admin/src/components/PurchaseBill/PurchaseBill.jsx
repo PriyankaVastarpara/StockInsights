@@ -8,7 +8,6 @@ import axios from "axios";
 const PurchaseBill = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { vendorData, itemData, tableData } = useContext(SharedContext);
-  // const [quantityValidationError, setQuantityValidationError] = useState("");
   const VendorNames = vendorData.map((item) => {
     return { VendorName: item.VendorName };
   });
@@ -139,19 +138,54 @@ const PurchaseBill = () => {
     }));
   };
 
+  // const handleDeleteItem = (index) => {
+  //   const updatedRows = [...rows];
+  //   const deletedProduct = updatedRows[index].product;
+  //   updatedRows.splice(index, 1);
+  
+  //   // Update the selectedProducts state to remove the deleted product
+  //   setSelectedProducts((prevSelected) =>
+  //     prevSelected.filter((product) => product !== deletedProduct)
+  //   );
+  
+  //   setRows(updatedRows);
+  //   updateInvoiceTotals();
+  // };
+
+  // const handleDeleteItem = (index) => {
+  //   const updatedRows = rows.filter((item, i) => i !== index);
+  
+  //   // Update the selectedProducts state to remove the deleted product
+  //   const deletedProduct = rows[index].product;
+  //   setSelectedProducts((prevSelected) =>
+  //     prevSelected.filter((product) => product !== deletedProduct)
+  //   );
+  
+  //   setRows(updatedRows);
+  //   updateInvoiceTotals();
+  // };
   const handleDeleteItem = (index) => {
-    const updatedRows = [...rows];
-    const deletedProduct = updatedRows[index].product;
-    updatedRows.splice(index, 1);
+    const updatedRows = rows.filter((item, i) => i !== index);
   
     // Update the selectedProducts state to remove the deleted product
+    const deletedProduct = rows[index].product;
     setSelectedProducts((prevSelected) =>
       prevSelected.filter((product) => product !== deletedProduct)
     );
   
+    // Calculate totals after removing the item
+    updateInvoiceTotals(updatedRows);
+  
     setRows(updatedRows);
-    updateInvoiceTotals();
+  
+    // Remove the deleted item from formData
+    setFormData((prevInvoice) => {
+      const updatedItems = [...prevInvoice.items];
+      updatedItems.splice(index, 1);
+      return { ...prevInvoice, items: updatedItems };
+    });
   };
+  
 
   const handleSubmit = async () => {
     console.log(formData);
@@ -403,11 +437,10 @@ const PurchaseBill = () => {
                       type="number"
                       name="qty"
                       id="qty"
+                      value={item.qty || ""}
                       className="border text-right pr-1 ps-2 border-gray-300 ms-auto w-full"
                     />
-                    {/* {quantityValidationError && (
-                      <span className="flex text-red-500"><MdErrorOutline size={18}/>{quantityValidationError}</span>
-                    )} */}
+                  
                   </td>
                   <td>
                   <input

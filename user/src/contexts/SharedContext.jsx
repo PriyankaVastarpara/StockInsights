@@ -70,28 +70,8 @@ export function SharedContextProvider({ children }) {
         },
         { label: "Phone", type: "text", name: "Phone", required: true },
         { label: "Address", type: "textarea", name: "Address", required: true },
-        {
-          label: "Country",
-          type: "select",
-          name: "Country",
-          required: true,
-          options: [
-            { label: "India", value: "India" },
-            { label: "US", value: "US" },
-            { label: "UK", value: "UK" },
-          ],
-        },
-        {
-          label: "State",
-          type: "select",
-          name: "State",
-          required: true,
-          options: [
-            { label: "Gujarat", value: "Gujarat" },
-            { label: "MH", value: "MH" },
-            { label: "MP", value: "MP" },
-          ],
-        },
+        { label: "Country", type: "text", name: "Country", required: true },
+        { label: "State", type: "text", name: "State", required: true },
         { label: "City", type: "text", name: "City", required: true },
         { label: "Pin Code", type: "text", name: "Pincode", required: true },
         {

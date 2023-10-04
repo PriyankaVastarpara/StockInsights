@@ -62,9 +62,15 @@ const SalesInvoice = () => {
     const updatedItem = { ...updatedRows[rowIndex] };
 
     // Update the field of the item based on the input value
+    // updatedItem[field] =
+    //   field === "product" || field === "description"
+    //     ? value
+    //     : parseFloat(value);
     updatedItem[field] =
       field === "product" || field === "description"
         ? value
+        : field === "qty" // Use parseInt to ensure it's treated as an integer
+        ? parseInt(value, 10)
         : parseFloat(value);
 
     // this code is for displays rate of selected item
@@ -94,22 +100,6 @@ const SalesInvoice = () => {
     }
 
     //check the available quantity
-    // if (field === "qty") {
-    //   const currentItem = await axios.get(
-    //     `http://localhost:3000/item/${updatedItem.product}`
-    //   );
-    //   const availableQuantity = currentItem.data.Quantity;
-    //   if (availableQuantity == 0) {
-    //     alert("Sorry,This Item Is Out of Stock!!!");
-    //   } else if (parseFloat(value) > availableQuantity) {
-    //     setQuantityValidationError(
-    //       "Quantity entered exceeds available quantity."
-    //     );
-    //     return;
-    //   } else {
-    //     setQuantityValidationError(""); // Clear the error message
-    //   }
-    // }
     if (field === "qty") {
       const currentItem = await axios.get(
         `http://localhost:3000/item/${updatedItem.product}`
@@ -117,6 +107,10 @@ const SalesInvoice = () => {
       const availableQuantity = currentItem.data.Quantity;
       if (availableQuantity === 0) {
         alert("Sorry, This Item Is Out of Stock!!!");
+        updatedItem.product = "";
+        updatedItem.qty = 0;
+        updatedItem.rate = 0;
+        updatedItem.total = 0;
       } else if (parseFloat(value) > availableQuantity) {
         setQuantityValidationErrors((prevErrors) => ({
           ...prevErrors,
@@ -510,7 +504,7 @@ const SalesInvoice = () => {
                       type="number"
                       name="discount"
                       id="discount"
-                      value={item.discount || 0}
+                      value={item.discount || ""}
                       className="border text-right pr-1 border-gray-300 ms-auto w-full ps-2"
                     />
                   </td>

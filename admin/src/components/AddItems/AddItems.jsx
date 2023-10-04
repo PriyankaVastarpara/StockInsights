@@ -1,25 +1,21 @@
-import React, { useState ,useContext} from "react";
+import React, { useState, useContext } from "react";
 import Drag from "../Drag";
-import { Link,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
 const AddItems = () => {
-  const { categoryData,vendorData } = useContext(SharedContext);
-  const VendorNames = vendorData.map((item) => {
-    return { VendorName: item.VendorName };
-  });
+  const { categoryData } = useContext(SharedContext);
   const CategoryNames = categoryData.map((item) => {
     return { Category: item.CategoryName };
   });
 
- const navigate=useNavigate();
+  const navigate = useNavigate();
   const [item, setItem] = useState({
     ItemName: "",
     ItemCode: "",
     Category: "",
     ItemType: "",
     Description: "",
-    VendorName: "",
     StockUnit: "",
     Quantity: "",
     UnitPrice: "",
@@ -43,26 +39,26 @@ const AddItems = () => {
     });
   };
 
-  const handleSubmit =async (e) => {
-    e.preventDefault(); 
-    const response=await fetch('http://localhost:3000/item/create',{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:3000/item/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify(item),
+      body: JSON.stringify(item),
     });
 
     const data = await response.json();
-    console.log('Response:',data);
-   if (response.status === 201) {
+    console.log("Response:", data);
+    if (response.status === 201) {
       alert("Item Saved Successfully");
     } else if (response.status === 400) {
       alert(" This item already exists !!");
     } else {
       alert("An error occurred while saving the Item.");
     }
-    navigate('/products');
+    navigate("/products");
   };
 
   const handleClear = () => {
@@ -72,7 +68,6 @@ const AddItems = () => {
       Category: "",
       ItemType: "",
       Description: "",
-      VendorName: "",
       StockUnit: "",
       Quantity: "",
       UnitPrice: "",
@@ -155,20 +150,20 @@ const AddItems = () => {
 
           <div className="flex flex-row">
             <label className="text-gray-700 font-medium ">Category</label>
-             <select
-                  onChange={handleChange}
-                  name="Category"
-                  id="Category"
-                  value={item.Category}
-                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-                >
-                  <option value="">--select--</option>
-                  {CategoryNames.map((category, index) => (
-                    <option key={index} value={category.Category}>
-                      {category.Category}
-                    </option>
-                  ))}
-                </select>
+            <select
+              onChange={handleChange}
+              name="Category"
+              id="Category"
+              value={item.Category}
+              className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
+            >
+              <option value="">--select--</option>
+              {CategoryNames.map((category, index) => (
+                <option key={index} value={category.Category}>
+                  {category.Category}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="flex flex-row">
@@ -199,24 +194,6 @@ const AddItems = () => {
               autoComplete="given-name"
               className="border ms-auto pl-1 w-10/12 resize-none  h-16 focus:outline-none  focus:border-gray-500 rounded-md"
             />
-          </div>
-
-          <div className="flex flex-row">
-            <label className="text-gray-700 font-medium">Vendor</label>
-             <select
-                  onChange={handleChange}
-                  name="VendorName"
-                  id="VendorName"
-                  value={item.VendorName}
-                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-                >
-                  <option value="">--select--</option>
-                  {VendorNames.map((vendor, index) => (
-                    <option key={index} value={vendor.VendorName}>
-                      {vendor.VendorName}
-                    </option>
-                  ))}
-                </select>
           </div>
           <div className="flex flex-row">
             <label className="text-gray-700 font-medium">Stock Unit</label>
@@ -369,7 +346,10 @@ const AddItems = () => {
                 </label>
                 <input
                   onChange={handleChange}
-                  value={item.TotalAmount=(item.Quantity*item.PurchasePrice)-item.Discount}
+                  value={
+                    (item.TotalAmount =
+                      item.Quantity * item.PurchasePrice - item.Discount)
+                  }
                   type="number"
                   name="TotalAmount"
                   id="TotalAmount"

@@ -112,9 +112,15 @@ const Login = ({ onLoginSuccess,onRegisterRedirect}) => {
                  Login
                 </button>
               </div>
-              <span>
+              {/* <span>
                 Don't have an account?<Link to="/register" onClick={onRegisterRedirect}>Register</Link>
-              </span>
+              </span> */}
+              <div className="m-2 text-sm text-center">
+              Don't have an account?
+                <Link to="/register" onClick={onRegisterRedirect} className="text-blue-600 ml-1 text-base">
+                Signup
+                </Link>
+              </div>
             </div>
           </form>
           <ToastContainer />

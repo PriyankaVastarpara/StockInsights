@@ -9,30 +9,32 @@ const createToken = (id) => {
     });
 }
 
-
 const handleErrors = (err) => {
-    let errors = { email: "", password: "" };
-
+    let errors = { firstName: "", lastName: "", email: "", password: "" };
+  
     if (err.message === "Incorrect Email") errors.email = "This email is not registered";
-
-    if (err.message === "Incorrect Password") errors.email = "Password is incorrect";
-
+  
+    if (err.message === "Incorrect Password") errors.password = "Password is incorrect";
+  
     if (err.code === 11000) {
-        errors.email = "Email is already registered";
-        return errors;
+      errors.email = "Email is already registered";
+      return errors;
     }
-    if (err.message.includes("User validation failed")) {
-        Object.values(err.errors).forEach(({ properties }) => {
-            errors[properties.path] = properties.message;
-        })
+  
+    if (err.message.includes("Users validation failed")) {
+      Object.values(err.errors).forEach(({ properties }) => {
+        errors[properties.path] = properties.message;
+      });
     }
+  
     return errors;
-};
+  };
+  
 
 module.exports.register = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
-        const user = await UserModel.create({ email, password });
+        const {  firstName, lastName,email, password } = req.body;
+        const user = await UserModel.create({  firstName, lastName,email, password });
         res.status(201).json({ user: user._id, created: true });
     }
     catch (err) {

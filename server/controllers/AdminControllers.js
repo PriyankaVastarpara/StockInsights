@@ -13,7 +13,7 @@ const createToken = (id) => {
 const handleErrors = (err) => {
     let errors = { email: "", password: "" };
 
-    if (err.message === "Incorrect Email") errors.email = "This email is not registered";
+    if (err.message === "Incorrect Email") errors.email = "This email is not valid";
 
     if (err.message === "Incorrect Password") errors.email = "Password is incorrect";
 
@@ -28,19 +28,6 @@ const handleErrors = (err) => {
     }
     return errors;
 };
-
-// module.exports.register = async (req, res, next) => {
-//     try {
-//         const { email, password } = req.body;
-//         const user = await AdminModel.create({ email, password });
-//         res.status(201).json({ user: user._id, created: true });
-//     }
-//     catch (err) {
-//         console.log(err);
-//         const errors = handleErrors(err);
-//         res.json({ errors, created: false });
-//     }
-// };
 
 module.exports.login = async (req, res, next) => {
     try {
@@ -60,3 +47,5 @@ module.exports.login = async (req, res, next) => {
         res.json({ errors, created: false });
     }
 };
+
+

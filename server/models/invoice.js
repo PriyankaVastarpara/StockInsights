@@ -9,10 +9,12 @@ const invoiceSchema = new mongoose.Schema({
   billNo: {
     type: String,
     required: true,
+    unique:true
   },
   orderNo: {
     type: String,
     required: true,
+    unique:true
   },
   invoiceDate: {
     type: Date,

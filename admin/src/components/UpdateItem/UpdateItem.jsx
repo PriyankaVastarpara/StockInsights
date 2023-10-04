@@ -8,9 +8,7 @@ import SharedContext from "../../contexts/SharedContext";
 
 const UpdateItem = ({ itemId,onClose }) => {
   const { categoryData,vendorData } = useContext(SharedContext);
-  const VendorNames = vendorData.map((item) => {
-    return { VendorName: item.VendorName };
-  });
+
   const CategoryNames = categoryData.map((item) => {
     return { Category: item.CategoryName };
   });
@@ -20,7 +18,6 @@ const UpdateItem = ({ itemId,onClose }) => {
     Category: "",
     ItemType: "",
     Description: "",
-    VendorName: "",
     StockUnit: "",
     Quantity: "",
     UnitPrice: "",
@@ -190,23 +187,7 @@ const UpdateItem = ({ itemId,onClose }) => {
               />
             </div>
 
-            <div className="flex flex-row">
-              <label className="text-gray-700 font-medium">Vendor</label>
-              <select
-                  onChange={handleInputChange}
-                  name="VendorName"
-                  id="VendorName"
-                  value={item.VendorName}
-                  className="border ms-auto pl-1 w-10/12  h-7  focus:outline-none  focus:border-gray-500 rounded-md"
-                >
-                  <option value="">--select--</option>
-                  {VendorNames.map((vendor, index) => (
-                    <option key={index} value={vendor.VendorName}>
-                      {vendor.VendorName}
-                    </option>
-                  ))}
-                </select>
-            </div>
+           
             <div className="flex flex-row">
               <label className="text-gray-700 font-medium">Stock Unit</label>
               <select

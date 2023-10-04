@@ -19,10 +19,15 @@ const Login = ({ onLoginSuccess}) => {
     });
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!values.email || !values.password) {
+      // Check if email and password are provided
+      generateError("Please fill in all fields.");
+      return;
+  }
   
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/login",
+        "http://localhost:3000/login1",
         {
           ...values,
         },
