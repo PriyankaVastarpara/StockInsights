@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React,{useContext,useEffect} from "react";
 import { useParams } from "react-router-dom";
 import SharedContext from "../../contexts/SharedContext";
 
@@ -9,6 +9,12 @@ const PrintInvoice = () => {
   //parsedFormData contains the object from the URL parameter
   const parsedFormData = JSON.parse(decodeURIComponent(formData));
   const { itemData } = useContext(SharedContext);
+  
+  useEffect(() => {
+    // Automatically open the print dialog when this component is displayed
+    window.print();
+  }, []);
+
 // Function to get product name by product ID
 const getProductName = (productId) => {
   const product = itemData.find((item) => item._id === productId);
@@ -16,7 +22,7 @@ const getProductName = (productId) => {
 };
 
   return (
-    <div className=" mt-8 mx-auto py-4 px-8 max-w-3xl border border-gray-300">
+    <div id="printable-content" className=" mt-8 mx-auto py-4 px-8 max-w-3xl border border-gray-300">
       <header className="mb-4">
         <div className="flex justify-between mb-2">
           <div className="text-left">
